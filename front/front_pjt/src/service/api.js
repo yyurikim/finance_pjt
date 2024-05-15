@@ -1,27 +1,27 @@
 const api = {
-    harbor: {
+    bank: {
       all(callback) {
-        const harbors = [
+        const banks = [
           {
             seq: 398,
-            place: "제주항 국제 여객 터미널",
-            lat: 33.52456237850086,
-            lng: 126.54371888191963,
+            place: "신한은행 광안리지점",
+            lat: 35.1486599431627,
+            lng: 129.111059858553,
           },
           {
             seq: 399,
-            place: "통영항",
-            lat: 34.83952733985843,
-            lng: 128.42015935198992,
+            place: "NH농협은행 부산남천동지점",
+            lat: 35.1461084133495,
+            lng: 129.111029046407,
           },
           {
             seq: 400,
-            place: "부산 국제 크루즈 터미널",
-            lat: 35.07980714092641,
-            lng: 129.0798233676466,
+            place: "우리은행 남천동지점",
+            lat: 35.145602200056054,
+            lng: 129.11117066365028,
           },
         ];
-        callback({ success: true, harbors });
+        callback({ success: true, banks });
       },
     },
   };

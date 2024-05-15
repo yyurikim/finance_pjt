@@ -84,12 +84,11 @@
       this.mapOption.level = level;
       console.log("zoom", this.mapOption.level);
     },
-    showOnMap(harbor) {
-      this.activeHarbor = harbor;
-    //   console.log(harbor);
+    showOnMap(bank) {
+      this.activeBank = bank;
       this.mapOption.center = {
-        lat: harbor.lat,
-        lng: harbor.lng,
+        lat: bank.lat,
+        lng: bank.lng,
       };
     },
     showPlace(place) {
@@ -150,28 +149,28 @@ button {
       }
     }
   }
-  .harbors {
-    .harbor {
-      padding: 10px;
-      border: 1px solid transparent;
-      &:hover {
-        background-color: aliceblue;
-        border-color: #6a9dff;
-        cursor: pointer;
-      }
-      &:active {
-        background-color: rgb(166, 197, 224);
-        border-color: #4471c5;
-      }
-      &.active {
-        background-color: rgb(253, 229, 150);
-        border-color: rgb(211, 173, 3);
-      }
-      h4 {
-        margin: 0;
-      }
-    }
-  }
+  // .banks {
+  //   .bank {
+  //     padding: 10px;
+  //     border: 1px solid transparent;
+  //     &:hover {
+  //       background-color: aliceblue;
+  //       border-color: #6a9dff;
+  //       cursor: pointer;
+  //     }
+  //     &:active {
+  //       background-color: rgb(166, 197, 224);
+  //       border-color: #4471c5;
+  //     }
+  //     &.active {
+  //       background-color: rgb(253, 229, 150);
+  //       border-color: rgb(211, 173, 3);
+  //     }
+  //     h4 {
+  //       margin: 0;
+  //     }
+  //   }
+  // }
   .kmap {
     flex: 1 1 auto;
     .overlay-popup {
