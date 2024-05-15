@@ -50,7 +50,7 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
-import Map2 from '@/components/Map2.vue'
+import Map2 from '@/components/map/Map2.vue'
 import axios from 'axios'
 
 const selectBank = ref('전체보기')
