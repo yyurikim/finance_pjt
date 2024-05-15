@@ -1,5 +1,12 @@
 <template>
-  <div ref="mapContainer" style="width:100%; height: 400px;"></div>
+  <div>
+    <div ref="mapContainer" style="width:50%; height: 400px;"></div>
+    
+    <div>
+      <h3>검색 기능</h3>
+      
+    </div>
+  </div>
 </template>
 
 <script setup>
