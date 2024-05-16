@@ -7,26 +7,26 @@
         <RouterLink to="/login" class="login-link">로그인</RouterLink>
     </p>
     </div>
-    <form class="form">
-    <div class="form-group">
-        <label for="username">이름</label>
-        <input id="username" placeholder="이름을 입력해주세요." />
-        <p>최소 2자부터 최대 10자까지 입력하세요.</p>
-    </div>
-    <div class="form-group">
-        <label for="email">이메일</label>
-        <input id="email" placeholder="ex) maengkkong@gmail.com" />
-    </div>
-    <div class="form-group">
-        <label for="password">비밀번호</label>
-        <input id="password" type="password" placeholder="비밀번호를 입력해주세요." />
-        <p>최소 8자부터 최대 16자까지 입력하세요.</p>
-    </div>
-    <div class="form-group">
-        <label for="password-confirm">비밀번호 확인</label>
-        <input id="password-confirm" type="password" placeholder="비밀번호를 다시 입력해주세요." />
-        <p>최소 8자부터 최대 16자까지 입력하세요.</p>
-    </div>
+    <form class="form" @submit.prevent="signUp">
+        <div class="form-group">
+            <label for="username">아이디</label>
+            <input type="text" v-model.trim="username" id="username" placeholder="이름을 입력해주세요.">
+            <p>최소 2자부터 최대 10자까지 입력하세요.</p>
+        </div>
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <input id="email" v-model.trim="email" type="email" placeholder="ex) maengkkong@gmail.com">
+        </div>
+        <div class="form-group">
+            <label for="password1">비밀번호</label>
+            <input id="password1" v-model.trim="password1" type="password" placeholder="비밀번호를 입력해주세요.">
+            <p>최소 8자부터 최대 16자까지 입력하세요.</p>
+        </div>
+        <div class="form-group">
+            <label for="password2">비밀번호 확인</label>
+            <input id="password2" v-model.trim="password2" type="password" placeholder="비밀번호를 다시 입력해주세요.">
+            <p>최소 8자부터 최대 16자까지 입력하세요.</p>
+        </div>
     <!-- <div class="button-group">
         <button type="button">카카오계정으로 로그인</button>
         <button type="button">카카오계정으로 로그인</button>
@@ -38,6 +38,31 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
+
+import { ref } from 'vue'
+import { useCounterStore } from '@/stores/counter'
+
+const username = ref(null)
+const email = ref(null)
+const password1 = ref(null)
+const password2 = ref(null)
+const store = useCounterStore()
+
+const signUp = function(){
+if (password1.value !== password2.value) {
+    alert("비밀번호가 일치하지 않습니다.");
+    return;
+  }
+  const payload = {
+    username: username.value,
+    email : email.value,
+    password1 : password1.value,
+    password2 : password2.value
+  }
+  console.log(payload)
+  store.signUp(payload)
+}
+
 </script>
 
 <style scoped>
