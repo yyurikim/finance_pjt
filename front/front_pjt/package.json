@@ -10,16 +10,17 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "@mdi/js": "^7.4.47",
     "axios": "^1.6.8",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
-    "vue3-kakao-maps": "^2.3.4"
+    "vue3-kakao-maps": "^2.3.4",
+    "vuetify": "^3.6.0-beta.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
-    "vite": "^5.2.8",
-    "vite-plugin-vuetify": "^2.0.3",
-    "vuetify": "^3.6.0-beta.0.0"
+    "sass": "^1.77.1",
+    "vite": "^5.2.8"
   }
 }
