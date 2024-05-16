@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('exrates/', include('exrates.urls')),
+    path('community/', include('communities.urls')),
     path('api/v1/accounts/', include('accounts.urls')),
     path('accounts/', include('dj_rest_auth.urls')), # 추가한 앱 url 생성해 사용
     path('accounts/signup/', include('dj_rest_auth.registration.urls')),
