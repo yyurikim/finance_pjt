@@ -8,6 +8,8 @@ import SignupView from '@/views/user/SignupView.vue'
 import LoginView from '@/views/user/LoginView.vue'
 import ChangePwdView from '@/views/user/ChangePwdView.vue'
 import ExrateView from '@/views/ExrateView.vue'
+import PostListView from '@/views/community/PostListView.vue'
+import PostCreateView from '@/views/community/PostCreateView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +53,16 @@ const router = createRouter({
       path: '/exchange_rate',
       name: 'exchange_rate',
       component : ExrateView
+    },
+    {
+      path: '/community',
+      name: 'community',
+      component : PostListView
+    },
+    {
+      path: '/post_create',
+      name: 'post_create',
+      component : PostCreateView
     }
   ]
 })
