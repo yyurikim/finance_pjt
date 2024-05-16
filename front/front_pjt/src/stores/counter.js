@@ -87,9 +87,11 @@ export const useCounterStore = defineStore('counter', () => {
             }
           })
           .then((response) => {
-            token.value = null
-            userId.value = null
+            token.value = null;
+            userId.value = null;
+            localStorage.removeItem('token'); // 로컬 스토리지에서 토큰도 제거합니다.
             window.alert("회원탈퇴 되었습니다.")
+            router.push({ name: 'login' });
           })
           .catch((err) => {
             console.log(err)
