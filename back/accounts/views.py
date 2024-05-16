@@ -14,11 +14,11 @@ from rest_framework.permissions import IsAuthenticated
 # class CreateUserView(generics.CreateAPIView):
 #     serializer_class = UserSerializer
 
+User = get_user_model()
+
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def delete_user(request):
     user = request.user
-    detail = User.objects.get(user=user)
-    detail.delete()
     user.delete()
     return Response(status=status.HTTP_200_OK)
