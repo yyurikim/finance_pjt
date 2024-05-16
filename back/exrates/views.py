@@ -20,6 +20,12 @@ def get_exchange_rates(request):
       SEARCH_DATE -= datetime.timedelta(days=1)
       EXR_API_URL = f'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={settings.EXR_API_KEY}&searchdate={SEARCH_DATE}&data=AP01'
       response = requests.get(EXR_API_URL).json()
+  
+  for rate in response:
+      # 쉼표 제거 후 float 변환
+      rate['deal_bas_r'] = float(rate['deal_bas_r'].replace(',', ''))
+      rate['ttb'] = float(rate['ttb'].replace(',', ''))
+      rate['tts'] = float(rate['tts'].replace(',', ''))
 
   context = {
     'exchange_rates': response,
