@@ -70,8 +70,32 @@ export const useCounterStore = defineStore('counter', () => {
       })
       .catch((error) => {
         console.log('회원가입 실패:', error.response.data)
-        window.alert("비밀번호가 너무 단순합니다.")
+        window.alert("회원가입에 실패했습니다: " + error.response.data)
       })
+  }
+
+  const changePassword = (payload) => {
+    const { currentPassword, newPassword } = payload
+    axios({
+      method:'post',
+      url: `${API_URL}/accounts/password/change/`,
+      data: {
+        current_password: currentPassword,
+        new_password1: newPassword,
+        new_password2: newPassword,
+      },
+      headers: {
+        Authorization: `Token ${token.value}`
+      }
+    })
+    .then((response) => {
+      alert('비밀번호가 성공적으로 변경되었습니다.')
+      router.push({name:'home'})
+    })
+    .catch((error) => {
+      console.error('비밀번호 변경 실패:', error.response.data)
+      alert('비밀번호 변경에 실패했습니다: ' + error.response.data.detail)
+    })
   }
 
   const deleteUser = function() {
@@ -91,7 +115,7 @@ export const useCounterStore = defineStore('counter', () => {
             userId.value = null;
             localStorage.removeItem('token'); // 로컬 스토리지에서 토큰도 제거합니다.
             window.alert("회원탈퇴 되었습니다.")
-            router.push({ name: 'login' });
+            router.push({ name: 'signup' });
           })
           .catch((err) => {
             console.log(err)
@@ -101,5 +125,5 @@ export const useCounterStore = defineStore('counter', () => {
     }
   }
 
-  return { API_URL, signUp, logIn, token, isLogin, userId, logOut, deleteUser }
+  return { API_URL, signUp, logIn, token, isLogin, userId, logOut, deleteUser, changePassword }
 })
