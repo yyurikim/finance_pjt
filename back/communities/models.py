@@ -6,6 +6,7 @@ class Post(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField()
     category = models.CharField(max_length=20)
+    image = models.ImageField(blank=True, upload_to='community/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
