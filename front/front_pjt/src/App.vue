@@ -9,7 +9,8 @@
         <RouterLink :to="{name:'exchange_rate'}">ExchangeRate</RouterLink> |
         <RouterLink :to="{name:'signup'}">Signup</RouterLink> |
         <RouterLink :to="{name:'login'}">Login</RouterLink> |
-        <RouterLink :to="{name:'changepwd'}">Changepwd</RouterLink>
+        <RouterLink :to="{name:'changepwd'}">Changepwd</RouterLink> |
+        <RouterLink :to="{name:'bank'}">bank</RouterLink>
       </nav>
     </header>
     <RouterView/>
