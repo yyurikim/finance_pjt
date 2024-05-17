@@ -1,83 +1,93 @@
 <template>
-    <div class="post-form">
-      <h1>게시글 작성</h1>
-      <form @submit.prevent="submitPost">
-        <div>
-          <label for="title">제목:</label>
-          <input type="text" id="title" v-model="post.title" required>
-        </div>
-        <div>
-          <label for="content">내용:</label>
-          <textarea id="content" v-model="post.content" required></textarea>
-        </div>
-        <button type="submit">게시글 작성</button>
-      </form>
-    </div>
-  </template>
-  
-  <script>
-  import { ref } from 'vue';
-  import { useCommunityStore } from '@/stores/community';
-  
-  export default {
-    setup() {
-      const communityStore = useCommunityStore();
-      const post = ref({
-        title: '',
-        content: ''
-      });
-  
-      const submitPost = async () => {
-        if (post.value.title && post.value.content) {
-          try {
-            await communityStore.addPost(post.value);
-            alert("게시글이 성공적으로 등록되었습니다.");
-            // 폼 초기화
-            post.value.title = '';
-            post.value.content = '';
-          } catch (error) {
-            console.error('게시글 등록 실패:', error);
-            alert("게시글 등록에 실패했습니다.");
-          }
-        }
-      };
-  
-      return {
-        post,
-        submitPost
-      };
-    }
-  };
-  </script>
-  
-  <style scoped>
-  .post-form {
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  <v-app>
+    <v-container class="d-flex align-center justify-center" style="height: 100vh;">
+      <v-row>
+        <v-col cols="12" md="8" lg="6">
+          <v-card class="pa-5">
+            <h1 class="text-center">게시글 작성</h1>
+            <v-form @submit.prevent="createArticle">
+              <v-combobox
+                label="게시판"
+                v-model="category"
+                :items="['자유게시판', '살까 말까?!', '7일 소비생활 챌린지']"
+                outlined
+                dense
+              ></v-combobox>
+              <v-text-field
+                variant="outlined"
+                label="제목"
+                v-model.trim="title"
+                :rules="[v => !!v || '제목을 입력해주세요']"
+                dense
+                class="mt-4"
+              ></v-text-field>
+              <v-textarea
+                variant="outlined"
+                label="내용"
+                v-model.trim="content"
+                :rules="[v => !!v || '내용을 입력해주세요']"
+                dense
+                class="mt-4"
+              ></v-textarea>
+              <v-file-input
+                label="사진 첨부"
+                prepend-icon="mdi-camera"
+                variant="filled"
+                v-model="image"
+                dense
+                class="mt-4"
+              ></v-file-input>
+              <v-btn 
+                block
+                color="primary"
+                type="submit"
+                class="mt-4"
+              >
+                게시물 포스팅
+              </v-btn>
+            </v-form>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app>
+</template>
+
+<script setup>
+import axios from 'axios'
+import { ref } from 'vue'
+import { useCounterStore } from '@/stores/counter'
+import { useRouter } from 'vue-router'
+
+const store = useCounterStore()
+const title = ref(null)
+const content = ref(null)
+const category = ref(null)
+const image = ref(null)
+const router = useRouter()
+
+const createArticle = async () => {
+  const formData = new FormData()
+  formData.append('title', title.value)
+  formData.append('content', content.value)
+  formData.append('category', category.value)
+  if (image.value) {
+    formData.append('image', image.value)
   }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
+
+  try {
+    const response = await axios.post(`${store.API_URL}/community/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Token ${store.token}`
+      }
+    })
+    router.push({ name: 'community' })
+  } catch (error) {
+    console.error(error)
   }
-  
-  input[type="text"], textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  </style>
-  
+}
+</script>
+
+<style>
+</style>

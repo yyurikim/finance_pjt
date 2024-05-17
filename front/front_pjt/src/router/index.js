@@ -10,6 +10,8 @@ import ChangePwdView from '@/views/user/ChangePwdView.vue'
 import ExrateView from '@/views/ExrateView.vue'
 import PostListView from '@/views/community/PostListView.vue'
 import PostCreateView from '@/views/community/PostCreateView.vue'
+import PostDetailView from '@/views/community/PostDetailView.vue'
+import PostUpdateView from '@/views/community/PostUpdateView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,6 +65,16 @@ const router = createRouter({
       path: '/post_create',
       name: 'post_create',
       component : PostCreateView
+    },
+    {
+      path: '/post/:post_id',
+      name: 'post_detail',
+      component : PostDetailView
+    },
+    {
+      path: '/post/:post_id/update',
+      name: 'post_update',
+      component : PostUpdateView
     }
   ]
 })
