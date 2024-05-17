@@ -7,7 +7,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import ExrateCalculator from '../../components/ExrateCalculator.vue';
+import ExrateCalculator from '../components/ExrateCalculator.vue';
 
 </script>
 

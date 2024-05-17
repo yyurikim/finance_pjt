@@ -2,6 +2,7 @@
   <div>
     <header>
       <nav>
+        <RouterLink :to="{name:'test'}">Test</RouterLink> |
         <RouterLink :to="{name:'home'}">Home</RouterLink> |
         <RouterLink :to="{name:'map'}">BankMap</RouterLink> |
         <RouterLink :to="{name:'signup'}">Signup</RouterLink> |

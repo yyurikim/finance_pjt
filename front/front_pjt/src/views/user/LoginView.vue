@@ -7,14 +7,14 @@
                 <RouterLink to="/signup" class="login-link">회원가입</RouterLink>
             </p>
         </div>
-        <form class="form">
+        <form @submit.prevent="logIn" class="form">
             <div class="form-group">
-                <label for="email">이메일</label>
-                <input id="email" placeholder="ex) maengkkong@gmail.com" />
+                <label for="username">아이디</label>
+                <input v-model.trim="username" id="username" placeholder="ex) maengkkong@gmail.com" />
             </div>
             <div class="form-group">
                 <label for="password">비밀번호</label>
-                <input id="password" type="password" placeholder="비밀번호를 입력해주세요." />
+                <input v-model.trim="password" id="password" type="password" placeholder="비밀번호를 입력해주세요." />
                 <p>최소 8자부터 최대 16자까지 입력하세요.</p>
             </div>
 
@@ -28,7 +28,21 @@
 </template>
 
 <script setup>
+import {ref} from 'vue'
+import { useCounterStore } from '@/stores/counter'
 import { RouterLink } from 'vue-router'
+
+const username = ref(null)
+const password = ref(null)
+const store = useCounterStore()
+
+const logIn = function(){
+  const payload = {
+    username: username.value,
+    password : password.value
+  }
+  store.logIn(payload)
+}
 </script>
 
 
