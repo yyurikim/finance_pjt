@@ -20,12 +20,12 @@
         <div class="form-group">
             <label for="password1">비밀번호</label>
             <input id="password1" v-model.trim="password1" type="password" placeholder="비밀번호를 입력해주세요.">
-            <p>최소 8자부터 최대 16자까지 입력하세요.</p>
+            <p>비밀번호는 최소 8자 이상이어야 합니다.</p>
         </div>
         <div class="form-group">
             <label for="password2">비밀번호 확인</label>
             <input id="password2" v-model.trim="password2" type="password" placeholder="비밀번호를 다시 입력해주세요.">
-            <p>최소 8자부터 최대 16자까지 입력하세요.</p>
+            <p>비밀번호는 최소 8자 이상이어야 합니다.</p>
         </div>
     <!-- <div class="button-group">
         <button type="button">카카오계정으로 로그인</button>
@@ -36,31 +36,62 @@
 </div>
 </template>
 
-<script setup>
+<script>
 import { RouterLink } from 'vue-router'
 
 import { ref } from 'vue'
 import { useCounterStore } from '@/stores/counter'
 
-const username = ref(null)
-const email = ref(null)
-const password1 = ref(null)
-const password2 = ref(null)
-const store = useCounterStore()
 
-const signUp = function(){
-if (password1.value !== password2.value) {
-    alert("비밀번호가 일치하지 않습니다.");
-    return;
+export default {
+  setup() {
+    const username = ref('')
+    const email = ref('')
+    const password1 = ref('')
+    const password2 = ref('')
+    const store = useCounterStore()
+
+     const validateUsername = (username) => {
+      const regex = /^[a-zA-Z0-9_]+$/
+      return regex.test(username) && username.length >= 2 && username.length <= 10
+    }
+
+    const validatePassword = (password) => {
+      return password.length >= 8
+    }
+
+    const signUp = () => {
+      if (password1.value !== password2.value) {
+        alert("비밀번호가 일치하지 않습니다.")
+        return
+      }
+      if (!validateUsername(username.value)) {
+        alert("사용자 이름은 2자 이상 10자 이하이며, 특수문자를 포함할 수 없습니다.")
+        return
+      }
+      if (!validatePassword(password1.value)) {
+        alert("비밀번호는 최소 8자 이상이어야 합니다.")
+        return
+      }
+
+      const payload = {
+        username: username.value,
+        email: email.value,
+        password1: password1.value,
+        password2: password2.value
+      }
+      console.log(payload)
+      store.signUp(payload)
+    }
+
+    return {
+      username,
+      email,
+      password1,
+      password2,
+      signUp
+    }
   }
-  const payload = {
-    username: username.value,
-    email : email.value,
-    password1 : password1.value,
-    password2 : password2.value
-  }
-  console.log(payload)
-  store.signUp(payload)
 }
 
 </script>
