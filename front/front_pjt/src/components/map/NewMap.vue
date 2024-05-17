@@ -40,6 +40,7 @@
   
   <style>
   .kmap {
-    height: 600px;
+    height: 500px;
+    width: 600px;
   }
   </style>
