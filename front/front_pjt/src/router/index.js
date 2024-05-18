@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useCounterStore } from '@/stores/counter'
 import TestView from '@/views/TestView.vue'
 import HomeView from '@/views/HomeView.vue'
-import BankMapView2 from '@/views/BankMapView2.vue'
 import MapView from '@/views/MapView.vue'
 import SignupView from '@/views/user/SignupView.vue'
 import LoginView from '@/views/user/LoginView.vue'
@@ -26,11 +25,6 @@ const router = createRouter({
     {
       path: '/map',
       name: 'map',
-      component: BankMapView2
-    },
-    {
-      path: '/map2',
-      name: 'map2',
       component: MapView
     },
     {

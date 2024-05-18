@@ -32,8 +32,6 @@ const vuetify = createVuetify({
     }
   })
 
-useKakao('021b90905734d34c992a1ca610cde403')
-
 const app = createApp(App)
 
 // Axios 설정
