@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div class="first">
     <h1>은행 상품 목록</h1>
+    <SelectProduct ref="selectProduct" />
 
     <!-- 스위치 컨테이너 -->
     <div class="switch-row">
@@ -35,32 +36,58 @@
           <div class="switch-toggle" :style="termToggleStyle"></div>
         </div>
       </div>
+
+      <div>
+        <button @click="openCompareModal">비교하러 가기</button>
+      </div>
+
     </div>
 
     <div v-if="isDeposit">
-      <BankDepositList :selectedTerm="selectedTerm" />
+      <BankDepositList :selectedTerm="selectedTerm" @select-item="handleSelectItem" />
     </div>
     <div v-else>
-      <BankSavingList :selectedTerm="selectedTerm" />
+      <BankSavingList :selectedTerm="selectedTerm" @select-item="handleSelectItem" />
     </div>
+
+    <v-dialog v-model="isCompareModalOpen" max-width="600px">
+      <ProductCompare 
+        :selectedProducts="selectedProducts" 
+        :selectedTerm="selectedTerm" 
+        :userAmount="userAmount"
+        @close="closeCompareModal" 
+      />
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, getCurrentInstance, watch } from 'vue'
 import BankDepositList from '@/components/bank/BankDepositList.vue'
 import BankSavingList from '@/components/bank/BankSavingList.vue'
+import SelectProduct from '@/components/bank/SelectProduct.vue'
+import ProductCompare from '@/components/bank/ProductCompare.vue'
 
 export default defineComponent({
   name: 'BankView',
   components: {
     BankDepositList,
-    BankSavingList
+    BankSavingList,
+    SelectProduct,
+    ProductCompare
   },
   setup() {
+    const { proxy } = getCurrentInstance()
     const isDeposit = ref(true)
     const selectedTerm = ref('all')
     const terms = ['all', 6, 12, 24, 36]
+    const isCompareModalOpen = ref(false)
+    const selectedProducts = ref([])
+    const userAmount = ref(0)
+
+    watch([isDeposit, selectedTerm], () => {
+      selectedProducts.value = []
+    })
 
     const selectProductType = (deposit) => {
       isDeposit.value = deposit
@@ -83,20 +110,46 @@ export default defineComponent({
       }
     })
 
+    const handleSelectItem = (product) => {
+      const selectProductComponent = proxy.$refs.selectProduct
+      if (selectProductComponent) {
+        selectProductComponent.addProduct(product, isDeposit.value, selectedTerm.value)
+        selectedProducts.value = selectProductComponent.selectedProducts
+      }
+    }
+
+    const openCompareModal = () => {
+      isCompareModalOpen.value = true
+    }
+
+    const closeCompareModal = () => {
+      isCompareModalOpen.value = false
+    }
+
     return {
       isDeposit,
       selectedTerm,
       terms,
+      isCompareModalOpen,
+      selectedProducts,
       selectProductType,
+      userAmount,
       selectTerm,
       productToggleStyle,
-      termToggleStyle
+      termToggleStyle,
+      handleSelectItem,
+      openCompareModal,
+      closeCompareModal
     }
   }
 })
 </script>
 
 <style scoped>
+.first {
+  padding: 80px;
+}
+
 .switch-row {
   display: flex;
   justify-content: center;
