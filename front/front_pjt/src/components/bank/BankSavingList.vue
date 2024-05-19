@@ -59,22 +59,22 @@
 import { defineComponent, ref, computed, onMounted, getCurrentInstance } from 'vue';
 
 // 이미지 import
-import nonghyupLogo from '@/assets/nonghyup.png';
-import kookminLogo from '@/assets/kookmin.png';
-import wooriLogo from '@/assets/woori.png';
-import shinhanLogo from '@/assets/shinhan.png';
-import standardLogo from '@/assets/standard.png';
-import daeguLogo from '@/assets/daegu.png';
-import bnkLogo from '@/assets/bnk.png';
-import gwangjuLogo from '@/assets/gwangju.png';
-import jejuLogo from '@/assets/jeju.png';
-import ibkLogo from '@/assets/ibk.png';
-import kdbLogo from '@/assets/kdb.png';
-import kbankLogo from '@/assets/kbank.png';
-import suhyupLogo from '@/assets/suhyup.png';
-import kakaoLogo from '@/assets/kakao.png';
-import hanaLogo from '@/assets/hana.png';
-import tossLogo from '@/assets/toss.png';
+import nonghyupLogo from '@/assets/banklogo/nonghyup.png';
+import kookminLogo from '@/assets/banklogo/kookmin.png';
+import wooriLogo from '@/assets/banklogo/woori.png';
+import shinhanLogo from '@/assets/banklogo/shinhan.png';
+import standardLogo from '@/assets/banklogo/standard.png';
+import daeguLogo from '@/assets/banklogo/daegu.png';
+import bnkLogo from '@/assets/banklogo/bnk.png';
+import gwangjuLogo from '@/assets/banklogo/gwangju.png';
+import jejuLogo from '@/assets/banklogo/jeju.png';
+import ibkLogo from '@/assets/banklogo/ibk.png';
+import kdbLogo from '@/assets/banklogo/kdb.png';
+import kbankLogo from '@/assets/banklogo/kbank.png';
+import suhyupLogo from '@/assets/banklogo/suhyup.png';
+import kakaoLogo from '@/assets/banklogo/kakao.png';
+import hanaLogo from '@/assets/banklogo/hana.png';
+import tossLogo from '@/assets/banklogo/toss.png';
 
 export default defineComponent({
   name: 'BankSavingList',
