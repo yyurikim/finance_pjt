@@ -109,7 +109,8 @@ watch(toCurrency, (newValue) => {
 });
 
 const convertCurrency = () => {
-  const today = new Date().toISOString().split('T')[0];
+  // const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }).split(' ')[0];
   if (search_date.value!== today) {
     isDateMismatch.value = true;
   } else {
