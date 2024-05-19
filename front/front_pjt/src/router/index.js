@@ -8,6 +8,17 @@ import LoginView from '@/views/user/LoginView.vue'
 import ChangePwdView from '@/views/user/ChangePwdView.vue'
 import ExrateView from '@/views/ExrateView.vue'
 import BankView from '@/views/bank/BankView.vue'
+import SurveyView from '@/views/survey/SurveyView.vue'
+import ResultView from '@/views/survey/ResultView.vue'
+import Survey1 from '@/components/survey/Survey1.vue'
+import Survey2 from '@/components/survey/Survey2.vue'
+import Survey3 from '@/components/survey/Survey3.vue'
+import Survey4 from '@/components/survey/Survey4.vue'
+import Survey5 from '@/components/survey/Survey5.vue'
+import Survey6 from '@/components/survey/Survey6.vue'
+import Survey7 from '@/components/survey/Survey7.vue'
+import Survey8 from '@/components/survey/Survey8.vue'
+import Survey9 from '@/components/survey/Survey9.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,6 +63,17 @@ const router = createRouter({
       name: 'bank',
       component : BankView
     },
+    { path: '/survey', name: 'survey', component : SurveyView },
+    { path: '/survey/1', name: 'survey1', component: Survey1 },
+    { path: '/survey/2', name: 'survey2', component: Survey2 },
+    { path: '/survey/3', name: 'survey3', component: Survey3 },
+    { path: '/survey/4', name: 'survey4', component: Survey4 },
+    { path: '/survey/5', name: 'survey5', component: Survey5 },
+    { path: '/survey/6', name: 'survey6', component: Survey6 },
+    { path: '/survey/7', name: 'survey7', component: Survey7 },
+    { path: '/survey/8', name: 'survey8', component: Survey8 },
+    { path: '/survey/9', name: 'survey9', component: Survey9 },
+    { path: '/survey/result', name: 'result', component: ResultView },
   ]
 
 })
