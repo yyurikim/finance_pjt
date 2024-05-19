@@ -27,6 +27,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 EXR_API_KEY=os.environ.get('EXR_API_KEY')
 API_KEY=os.environ.get('API_KEY')
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'accounts',
     'banks',
     'exrates',
+    'communities',
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',

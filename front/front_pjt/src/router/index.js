@@ -7,6 +7,10 @@ import SignupView from '@/views/user/SignupView.vue'
 import LoginView from '@/views/user/LoginView.vue'
 import ChangePwdView from '@/views/user/ChangePwdView.vue'
 import ExrateView from '@/views/ExrateView.vue'
+import PostListView from '@/views/community/PostListView.vue'
+import PostCreateView from '@/views/community/PostCreateView.vue'
+import PostDetailView from '@/views/community/PostDetailView.vue'
+import PostUpdateView from '@/views/community/PostUpdateView.vue'
 import BankView from '@/views/bank/BankView.vue'
 import SurveyView from '@/views/survey/SurveyView.vue'
 import ResultView from '@/views/survey/ResultView.vue'
@@ -57,6 +61,27 @@ const router = createRouter({
       path: '/exchange_rate',
       name: 'exchange_rate',
       component : ExrateView
+    },
+    {
+      path: '/community',
+      name: 'community',
+      component : PostListView
+    },
+    {
+      path: '/post_create',
+      name: 'post_create',
+      component : PostCreateView
+    },
+    {
+      path: '/:boardType/post/:post_id',
+      name: 'post_detail',
+      component: PostDetailView,
+      props: true
+    },
+    {
+      path: '/:boardType/post/:post_id/update',
+      name: 'post_update',
+      component : PostUpdateView
     },
     {
       path: '/bank',
