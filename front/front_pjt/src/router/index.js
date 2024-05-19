@@ -12,6 +12,8 @@ import PostCreateView from '@/views/community/PostCreateView.vue'
 import PostDetailView from '@/views/community/PostDetailView.vue'
 import PostUpdateView from '@/views/community/PostUpdateView.vue'
 import BankView from '@/views/bank/BankView.vue'
+import ChangeInfoView from '@/views/user/ChangeInfoView.vue'
+
 import SurveyView from '@/views/survey/SurveyView.vue'
 import ResultView from '@/views/survey/ResultView.vue'
 import Survey1 from '@/components/survey/Survey1.vue'
@@ -87,6 +89,11 @@ const router = createRouter({
       path: '/bank',
       name: 'bank',
       component : BankView
+    },
+    {
+      path: '/changeinfo',
+      name: 'changeinfo',
+      component : ChangeInfoView
     },
     { path: '/survey', name: 'survey', component : SurveyView },
     { path: '/survey/1', name: 'survey1', component: Survey1 },

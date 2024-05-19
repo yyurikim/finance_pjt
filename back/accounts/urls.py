@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
   path('user_delete/', views.delete_user),
   path('update-user-type/', views.update_user_type),
+  path('update-user-info/', views.update_user_info),
 ]
 
 if settings.DEBUG:
