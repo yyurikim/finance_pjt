@@ -4,6 +4,7 @@
       <nav>
         <RouterLink :to="{name:'test'}">Test</RouterLink> |
         <RouterLink :to="{name:'home'}">Home</RouterLink> |
+        <RouterLink :to="{name:'profile'}">Profile</RouterLink> |
         <RouterLink :to="{name:'map'}">BankMap</RouterLink> |
         <RouterLink :to="{name:'exchange_rate'}">ExchangeRate</RouterLink> |
         <RouterLink :to="{name:'community'}">Community</RouterLink> |
