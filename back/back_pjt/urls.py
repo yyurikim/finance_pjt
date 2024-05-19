@@ -23,7 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('exrates/', include('exrates.urls')),
     path('community/', include('communities.urls')),
-    path('api/v1/accounts/', include('accounts.urls')),
+    path('api/v1/accounts/', include('accounts.urls')), # accounts로 연결
+    path('banks/', include('banks.urls')), # 금감원 api
     path('accounts/', include('dj_rest_auth.urls')), # 추가한 앱 url 생성해 사용
     path('accounts/signup/', include('dj_rest_auth.registration.urls')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

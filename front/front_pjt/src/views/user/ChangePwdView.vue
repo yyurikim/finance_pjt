@@ -6,19 +6,19 @@
                새로운 비밀번호를 입력해주세요.
             </p>
         </div>
-        <form class="form">
+        <form class="form" @submit.prevent="changePassword">
             <div class="form-group">
-                <label for="password">현재 비밀번호</label>
-                <input id="password" placeholder="현재 비밀번호를 입력해주세요." />
+                <label for="currentPassword">현재 비밀번호</label>
+                <input id="currentPassword" v-model.trim="currentPassword" type="password" placeholder="현재 비밀번호를 입력해주세요." />
             </div>
             <div class="form-group">
-                <label for="newpassword">새 비밀번호</label>
-                <input id="newpassword" type="password" placeholder="새 비밀번호를 입력해주세요." />
-                <p>최소 8자부터 최대 16자까지 입력하세요.</p>
+                <label for="newPassword">새 비밀번호</label>
+                <input id="newPassword" v-model.trim="newPassword" type="password" placeholder="새 비밀번호를 입력해주세요." />
+                <p>비밀번호는 최소 8자 이상이어야 합니다.</p>
             </div>
             <div class="form-group">
-                <label for="newpassword">새 비밀번호 확인</label>
-                <input id="newpassword" type="password" placeholder="새 비밀번호를 다시 입력해주세요." />
+                <label for="confirmNewPassword">새 비밀번호 확인</label>
+                <input id="confirmNewPassword" v-model.trim="confirmNewPassword" type="password" placeholder="새 비밀번호를 다시 입력해주세요." />
             </div>
 
             <!-- <div class="button-group">
@@ -30,7 +30,41 @@
     </div>
 </template>
 
-<script setup>
+<script>
+import { ref } from 'vue'
+import { useCounterStore } from '@/stores/counter'
+
+export default {
+  setup() {
+    const currentPassword = ref('')
+    const newPassword = ref('')
+    const confirmNewPassword = ref('')
+    const store = useCounterStore()
+
+    const changePassword = () => {
+      if (newPassword.value !== confirmNewPassword.value) {
+        alert('새 비밀번호가 일치하지 않습니다.')
+        return
+      }
+      if (newPassword.value.length < 8) {
+        alert('새 비밀번호는 최소 8자 이상이어야 합니다.')
+        return
+      }
+      const payload = {
+        currentPassword: currentPassword.value,
+        newPassword: newPassword.value,
+      }
+      store.changePassword(payload)
+    }
+
+    return {
+      currentPassword,
+      newPassword,
+      confirmNewPassword,
+      changePassword,
+    }
+  },
+}
 </script>
 
 

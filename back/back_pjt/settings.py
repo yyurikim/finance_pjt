@@ -25,6 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 EXR_API_KEY=os.environ.get('EXR_API_KEY')
+API_KEY=os.environ.get('API_KEY')
 
 
 # Quick-start development settings - unsuitable for production
@@ -43,6 +44,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'accounts',
+    'banks',
     'exrates',
     'communities',
     'rest_framework',

@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useCounterStore } from '@/stores/counter'
 import TestView from '@/views/TestView.vue'
 import HomeView from '@/views/HomeView.vue'
-import BankMapView2 from '@/views/BankMapView2.vue'
 import MapView from '@/views/MapView.vue'
 import SignupView from '@/views/user/SignupView.vue'
 import LoginView from '@/views/user/LoginView.vue'
@@ -12,6 +11,7 @@ import PostListView from '@/views/community/PostListView.vue'
 import PostCreateView from '@/views/community/PostCreateView.vue'
 import PostDetailView from '@/views/community/PostDetailView.vue'
 import PostUpdateView from '@/views/community/PostUpdateView.vue'
+import BankView from '@/views/bank/BankView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,11 +29,6 @@ const router = createRouter({
     {
       path: '/map',
       name: 'map',
-      component: BankMapView2
-    },
-    {
-      path: '/map2',
-      name: 'map2',
       component: MapView
     },
     {
@@ -76,8 +71,14 @@ const router = createRouter({
       path: '/:boardType/post/:post_id/update',
       name: 'post_update',
       component : PostUpdateView
-    }
+    },
+    {
+      path: '/bank',
+      name: 'bank',
+      component : BankView
+    },
   ]
+
 })
 
 router.beforeEach((to, from) => {
