@@ -67,12 +67,13 @@ const router = createRouter({
       component : PostCreateView
     },
     {
-      path: '/post/:post_id',
+      path: '/:boardType/post/:post_id',
       name: 'post_detail',
-      component : PostDetailView
+      component: PostDetailView,
+      props: true
     },
     {
-      path: '/post/:post_id/update',
+      path: '/:boardType/post/:post_id/update',
       name: 'post_update',
       component : PostUpdateView
     }
