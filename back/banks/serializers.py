@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Deposit, Deposit_options, Saving, Saving_option
+from .models import Deposit, Deposit_options, Saving, Saving_option, UserDeposit, UserSavings
 
 # serializers.ModelSerializer
 # - 모델 필드에 정의된 데이터만 변환
@@ -25,4 +25,16 @@ class SavingSerializers(serializers.ModelSerializer) :
 class SavingOptionsSerializers(serializers.ModelSerializer) :
     class Meta :
         model = Saving_option
+        fields = '__all__'
+
+
+class UserDepositSerializers(serializers.ModelSerializer) :
+    class Meta :
+        model = UserDeposit
+        fields = '__all__'
+
+
+class UserSavingsSerializers(serializers.ModelSerializer) :
+    class Meta :
+        model = UserSavings
         fields = '__all__'
