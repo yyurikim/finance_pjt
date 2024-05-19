@@ -12,6 +12,7 @@ import PostCreateView from '@/views/community/PostCreateView.vue'
 import PostDetailView from '@/views/community/PostDetailView.vue'
 import PostUpdateView from '@/views/community/PostUpdateView.vue'
 import BankView from '@/views/bank/BankView.vue'
+import ProfileView from '@/views/user/ProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -76,6 +77,11 @@ const router = createRouter({
       path: '/bank',
       name: 'bank',
       component : BankView
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component : ProfileView
     },
   ]
 

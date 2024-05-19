@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
   path('user_delete/', views.delete_user),
+  path('profile/', views.profile, name='profile')
 ]
 
 
