@@ -12,7 +12,7 @@ const addAnswer = (answer) => {
 
 const calculateResult = () => {
   let type1 = state.answers.slice(0, 3).filter(a => a).length >= 2 ? 'E' : 'F';
-  let type2 = state.answers.slice(3, 6).filter(a => a).length >= 2 ? 'R' : 'I';
+  let type2 = state.answers.slice(3, 6).filter(a => a).length >= 2 ? 'I' : 'R';
   let type3 = state.answers.slice(6, 9).filter(a => a).length >= 2 ? 'V' : 'G';
   state.result = `${type1}${type2}${type3}`;
 };
