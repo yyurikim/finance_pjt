@@ -9,3 +9,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username')
+
+class UserTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['user_type']
