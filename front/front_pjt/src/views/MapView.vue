@@ -69,7 +69,7 @@
             size="medium"
             @click="searchNearby"
           >
-            <v-icon class="me-1 mt-1">mdi-map-search-outline</v-icon></v-btn>
+          <span class="material-icons"> map </span></v-btn>
         </div>
       </div>
     </div>

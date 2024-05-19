@@ -19,3 +19,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     # def get_profile_img_url(self, obj):
     #     request = self.context.get('request')
     #     return request.build_absolute_uri(obj.profile_img.url)
+
+class UserTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['user_type']
