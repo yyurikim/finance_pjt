@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 import requests
 from django.conf import settings
-from .serializers import DepositSerializers, DepositOptionsSerializers, SavingSerializers, SavingOptionsSerializers, UserDepositSerializers, UserSavingsSerializers
+from .serializers import *
 from .models import Deposit, Deposit_options, Saving, Saving_option, UserDeposit, UserSavings
 from django.db.models import Max
 from rest_framework import status
@@ -213,3 +213,36 @@ def user_savings(request):
     user_savings = UserSavings.objects.filter(user=user)
     serializer = UserSavingsSerializers(user_savings, many=True)
     return Response(serializer.data)
+
+
+def check_meaningout(request):
+    keywords = ['Green', '그린세이브', '탄소', 'ESG', '펫', '해양플라스틱', '맑은하늘']
+    for keyword in keywords:
+        deposits_fin_prdt_nm = Deposit.objects.filter(fin_prdt_nm__contains=keyword)
+        deposits_fin_prdt_nm.update(is_meaningout=True)
+        deposits_spcl_cnd = Deposit.objects.filter(spcl_cnd__contains=keyword)
+        deposits_spcl_cnd.update(is_meaningout=True)
+        savings_fin_prdt_nm = Saving.objects.filter(fin_prdt_nm__contains=keyword)
+        savings_fin_prdt_nm.update(is_meaningout=True)
+        savings_spcl_cnd = Saving.objects.filter(spcl_cnd__contains=keyword)
+        savings_spcl_cnd.update(is_meaningout=True)
+        
+    return JsonResponse({"message": "check_okay!"})
+
+
+
+@api_view(['GET'])
+def recommendation_by_survey(request):
+    # user = request.user
+    # # if user.user_type == 'ERV':
+    saving_options = Saving_option.objects.filter(
+        rsrv_type_nm='자유적립식',
+        saving_product_id__is_meaningout=True
+    ).order_by('-intr_rate')
+
+    savings = [option.saving_product_id for option in saving_options]
+    savings = list(set(savings))
+
+    serializer = RecSavingSerializer(savings, many=True)
+    return Response(serializer.data)
+

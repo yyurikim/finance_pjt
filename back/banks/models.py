@@ -11,6 +11,7 @@ class Deposit(models.Model) :
     join_deny = models.IntegerField(blank=True, null=True)
     join_way = models.TextField(blank=True, null=True)
     etc_note = models.TextField(blank=True, null=True)
+    is_meaningout = models.BooleanField(default = False)
 
 class Deposit_options(models.Model) :
     deposit_option_id = models.AutoField(primary_key=True)
@@ -30,6 +31,8 @@ class Saving(models.Model):
     spcl_cnd = models.TextField(blank=True, null=True)
     join_deny = models.IntegerField(blank=True, null=True)
     etc_note = models.TextField(blank=True, null=True)
+    is_meaningout = models.BooleanField(default = False)
+
 
 class Saving_option(models.Model):
     saving_option_id = models.AutoField(primary_key=True)

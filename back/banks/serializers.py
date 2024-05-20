@@ -38,3 +38,22 @@ class UserSavingsSerializers(serializers.ModelSerializer) :
     class Meta :
         model = UserSavings
         fields = '__all__'
+
+class RecommendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Saving
+        fields = '__all__'
+
+
+
+class RecSavingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Saving
+        fields = '__all__'
+
+class RecSavingOptionSerializer(serializers.ModelSerializer):
+    saving_product = RecSavingSerializer()
+
+    class Meta:
+        model = Saving_option
+        fields = '__all__'
