@@ -16,6 +16,22 @@ export const useCounterStore = defineStore('counter', () => {
       return true
     }
   })
+  const userInfo = ref()
+  const getUserInfo = function (user_id) {
+    axios({
+      method: 'get',
+      url: `${API_URL}api/v1/accounts/${user_id}/info/`,
+      headers: {
+        Authorization: `Token ${token.value}`
+      }
+    })
+      .then((res) => {
+        userInfo.value = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   const userId = ref(null)
 
@@ -125,5 +141,5 @@ export const useCounterStore = defineStore('counter', () => {
     }
   }
 
-  return { API_URL, signUp, logIn, token, isLogin, userId, logOut, deleteUser, changePassword }
+  return { API_URL, signUp, logIn, userInfo, token, isLogin, userId, logOut, deleteUser, changePassword, getUserInfo }
 })

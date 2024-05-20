@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from .models import Bulletin_comment, Bulletin_post, Challenge_comment, Challenge_post, Consumer_comment, Consumer_post
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-from .serializers import BulletinPostSerializer, BulletinCommentSerializer, BulletinPostCreateSerializer, ConsumerCommentSerializer, ConsumerPostCreateSerializer, ConsumerPostSerializer, ChallengeCommentSerializer, ChallengePostCreateSerializer, ChallengePostDetailSerializer, ChallengePostSerializer
+from .serializers import *
 from rest_framework.parsers import MultiPartParser, FormParser
 
 
@@ -116,6 +116,33 @@ def consumer_post_detail(request, post_pk):
     post.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
   
+@api_view(['POST'])
+def consumer_buyit(request, post_pk):
+  post = Consumer_post.objects.get(pk=post_pk)
+  user = request.user
+  if request.user.is_authenticated:
+    if user in post.buyit.all():
+      post.buyit.remove(request.user)
+    else:
+      post.buyit.add(request.user)
+      post.dontbuyit.remove(request.user)  # 다른 투표는 취소
+    serializer = ConsumerVoteSerializer(post)
+  return Response(serializer.data)
+
+@api_view(['POST'])
+def consumer_dontbuyit(request, post_pk):
+  post = Consumer_post.objects.get(pk=post_pk)
+  user = request.user
+  if request.user.is_authenticated:
+    if user in post.dontbuyit.all():
+      post.dontbuyit.remove(request.user)
+    else:
+      post.dontbuyit.add(request.user)
+      post.buyit.remove(request.user)  # 다른 투표는 취소
+    serializer = ConsumerVoteSerializer(post)
+  return Response(serializer.data)
+
+
 @api_view(['POST'])
 def consumer_comment_create(request):
   if request.user.is_authenticated:
