@@ -3,9 +3,9 @@
     <h2>예금 리스트</h2>
     <div v-if="loading">로딩 중...</div>
     <div v-else>
-      <div v-for="(deposit, index) in displayedDeposits" :key="deposit.deposit_id" @click="selectItem(deposit)" class="deposit-item">
+      <div v-for="(deposit, index) in displayedDeposits" :key="deposit.deposit_id" class="deposit-item">
         <img :src="getBankLogo(deposit.kor_co_nm)" :alt="deposit.kor_co_nm" class="bank-logo" />
-        <div class="deposit-details">
+        <div class="deposit-details" @click="selectItem(deposit)">
           <h3>{{ deposit.fin_prdt_nm }}</h3>
           <p>{{ deposit.kor_co_nm }}</p>
         </div>
@@ -13,6 +13,10 @@
           <p>최고 {{ deposit.intr_rate }}%</p>
         </div>
         <div class="action-buttons">
+          <i
+            :class="['fa-heart', deposit.liked ? 'fa-solid' : 'fa-regular']"
+            @click="toggleLike(deposit)"
+          ></i>
           <button @click.stop="viewDetails(deposit.deposit_id)">자세히 보기</button>
           <button @click.stop="openModal(deposit)">옵션 보기</button>
         </div>
@@ -57,6 +61,8 @@
 
 <script>
 import { defineComponent, ref, computed, onMounted, getCurrentInstance } from 'vue';
+import axios from 'axios';  // axios import
+import { useCounterStore } from '@/stores/counter';
 
 // 이미지 import
 import nonghyupLogo from '@/assets/banklogo/nonghyup.png';
@@ -85,6 +91,7 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    const counter = useCounterStore();
     const deposits = ref([]);
     const depositOptions = ref([]);
     const combinedData = ref([]);
@@ -192,6 +199,23 @@ export default defineComponent({
       emit('select-item', { ...deposit, intr_rate: maxInterestRateOption.intr_rate });
     };
 
+    const toggleLike = async (deposit) => {
+      try {
+        const url = `${counter.API_URL}/banks/like-deposit/${deposit.deposit_id}/`;
+        console.log('Token!!!', counter.token);
+        const response = await axios.post(url, {}, {
+          headers: {
+            Authorization: `Token ${counter.token}`
+          }
+        });
+        deposit.liked = response.data.liked; // Update the liked status
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+
     onMounted(async () => {
       await fetchDeposits();
       await fetchDepositOptions();
@@ -212,11 +236,13 @@ export default defineComponent({
       openModal,
       closeModal,
       loadMore,
+      toggleLike,
       displayedDepositsCount
     };
   }
 });
 </script>
+
 
 <style scoped>
 div {
@@ -287,6 +313,16 @@ button {
   margin: 20px auto;
 }
 
+.fa-heart {
+  cursor: pointer;
+}
+.fa-solid {
+  color: red;
+}
+.fa-regular {
+  color: gray;
+}
+
 button {
   margin-left: 10px;
 }
@@ -313,10 +349,5 @@ td {
 
 th {
   background-color: #f2f2f2;
-}
-.action-buttons {
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
 }
 </style>
