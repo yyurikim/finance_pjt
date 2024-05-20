@@ -1,61 +1,86 @@
 <template>
-<div>
-    <div>
-        <h1>Q5. 월급날이 얼마 남지 않아 여유 자금이 없는 당신, 갑자기 가지고 싶었던 물건의 품절이 풀렸습니다 🫨</h1>
-    </div>
-    
-    <div>
+    <div class="container">
+      <img src="@/assets/test/Q5.png" alt="Q5" class="Q">
+      <div class="buttons-container">
         <div 
-            class="button-like" 
-            @click="answer(true)" 
-            tabindex="0" 
-            @keypress.enter="answer(true)"
-            role="button"
-            >
-            <h3>이번 한 번만!</h3>
-            <h3>주변 사람이나 신용카드의 도움을 빌린다</h3>
-        </div>
-        <div 
-            class="button-like" 
-            @click="answer(false)" 
-            tabindex="0" 
-            @keypress.enter="answer(false)"
-            role="button"
+          class="button" 
+          @click="answer(true)" 
+          tabindex="0" 
+          @keypress.enter="answer(true)"
+          role="button"
         >
-        <h3>언젠가 다시 풀리겠지~</h3>
-        <h3>다음을 기약한다</h3>
+          <h3>이번 한 번만!</h3>
+          <h3>주변 사람이나 신용카드의 도움을 빌린다</h3>
         </div>
+        <div 
+          class="button" 
+          @click="answer(false)" 
+          tabindex="0" 
+          @keypress.enter="answer(false)"
+          role="button"
+        >
+          <h3>언젠가 다시 풀리겠지~</h3>
+          <h3>다음을 기약한다</h3>
+        </div>
+      </div>
     </div>
-</div>
-</template>
-
-<script setup>
-import { inject } from 'vue';
-import { useRouter } from 'vue-router';
-
-const { addAnswer } = inject('survey');
-const router = useRouter();
-
-const answer = (response) => {
-addAnswer(response);
-router.push('/survey/6'); // 다음 질문으로 이동
-};
-</script>
-
-<style scoped>
-.button-like {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 10px;
-    border: 1px solid #ccc;
+  </template>
+  
+  <script setup>
+  import { inject } from 'vue';
+  import { useRouter } from 'vue-router';
+  
+  const { addAnswer } = inject('survey');
+  const router = useRouter();
+  
+  const answer = (response) => {
+    addAnswer(response);
+    router.push('/survey/6'); // 다음 질문으로 이동
+  };
+  </script>
+  
+  <style scoped>
+  .container {
+    width: 550px;
+    height: 875px;
+    margin: 10px auto;
+    position: relative;
+  }
+  
+  .container img {
+    width: 100%;
+    vertical-align: middle;
+  }
+  
+  .buttons-container {
+    position: absolute;
+    top: 300px; /* 버튼들의 상단 위치 */
+    left: 50%; /* 중앙 정렬을 위해 left 50% 설정 */
+    transform: translateX(-50%); /* 중앙 정렬을 위해 translateX 사용 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .button {
+    width: 400px;
+    height: 75px;
+    background-color: #fff;
     border-radius: 4px;
-    background-color: #f0f0f0;
     cursor: pointer;
     text-align: center;
     user-select: none;
-}
-.button-like:focus {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 설정 */
+    margin-bottom: 20px; /* 버튼 간격 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .button:focus {
     outline: none;
-    box-shadow: 0 0 3px 2px rgba(21, 156, 228, 0.4);
-}
-</style>
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 포커스 시 그림자 설정 */
+  }
+  </style>
+  
