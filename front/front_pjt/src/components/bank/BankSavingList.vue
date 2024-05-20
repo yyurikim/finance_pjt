@@ -3,9 +3,9 @@
     <h2>적금 리스트</h2>
     <div v-if="loading">로딩 중...</div>
     <div v-else>
-      <div v-for="(saving, index) in displayedSavings" :key="saving.saving_id" @click="selectItem(saving)" class="saving-item">
+      <div v-for="(saving, index) in displayedSavings" :key="saving.saving_id" class="saving-item">
         <img :src="getBankLogo(saving.kor_co_nm)" :alt="saving.kor_co_nm" class="bank-logo" />
-        <div class="saving-details">
+        <div class="saving-details"  @click="selectItem(saving)">
           <h3>{{ saving.fin_prdt_nm }}</h3>
           <p>{{ saving.kor_co_nm }}</p>
         </div>
@@ -13,6 +13,10 @@
           <p>최고 {{ saving.intr_rate }}%</p>
         </div>
         <div class="action-buttons">
+          <i
+            :class="['fa-heart', saving.liked ? 'fa-solid' : 'fa-regular']"
+            @click="toggleLike(saving)"
+          ></i>
           <button @click.stop="viewDetails(saving.saving_id)">자세히 보기</button>
           <button @click.stop="openModal(saving)">옵션 보기</button>
         </div>
@@ -57,6 +61,8 @@
 
 <script>
 import { defineComponent, ref, computed, onMounted, getCurrentInstance } from 'vue';
+import axios from 'axios';  // axios import
+import { useCounterStore} from '@/stores/counter';
 
 // 이미지 import
 import nonghyupLogo from '@/assets/banklogo/nonghyup.png';
@@ -91,6 +97,7 @@ export default defineComponent({
     const loading = ref(true);
     const isModalOpen = ref(false);
     const selectedSaving = ref({});
+    const counter = useCounterStore()
     const displayedSavingsCount = ref(10); // 한번에 보여줄 아이템 개수
     const { proxy } = getCurrentInstance();
 
@@ -192,6 +199,22 @@ export default defineComponent({
       emit('select-item', { ...saving, intr_rate: maxInterestRateOption.intr_rate });
     };
 
+    const toggleLike = async (saving) => {
+      try {
+        const url = `${counter.API_URL}/banks/like-saving/${saving.saving_id}/`;
+        console.log('Token!!!', counter.token);
+        const response = await axios.post(url, {}, {
+          headers: {
+            Authorization: `Token ${counter.token}`
+          }
+        });
+        saving.liked = response.data.liked; // Update the liked status
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     onMounted(async () => {
       await fetchSavings();
       await fetchSavingOptions();
@@ -211,6 +234,7 @@ export default defineComponent({
       openModal,
       closeModal,
       loadMore,
+      toggleLike,
       displayedSavingsCount
     };
   }
@@ -302,5 +326,15 @@ th {
 .load-more {
   text-align: center;
   margin-top: 10px;
+}
+
+.fa-heart {
+  cursor: pointer;
+}
+.fa-solid {
+  color: red;
+}
+.fa-regular {
+  color: gray;
 }
 </style>

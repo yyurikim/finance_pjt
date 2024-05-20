@@ -18,4 +18,6 @@ urlpatterns = [
     path('deposit-product-options/<str:fin_prdt_cd>', views.deposit_products_options),
     path('deposit-products/top_rate/', views.top_rate),
     path('api/', include(router.urls)),
+    path('like-deposit/<int:deposit_id>/', views.like_deposit),
+    path('like-saving/<int:saving_id>/', views.like_saving),
 ]
