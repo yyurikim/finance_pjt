@@ -12,6 +12,8 @@ urlpatterns = [
     path('bulletin/comment/<int:comment_pk>/', views.bulletin_comment_detail),
     path('consumer/', views.consumer_index),
     path('consumer/<int:post_pk>/', views.consumer_post_detail),
+    path('consumer/<int:post_pk>/buyit/', views.consumer_buyit),
+    path('consumer/<int:post_pk>/dontbuyit/', views.consumer_dontbuyit),
     path('consumer/<int:post_pk>/comment/', views.consumer_comment_list),
     path('consumer/comment/', views.consumer_comment_create),
     path('consumer/comment/<int:comment_pk>/', views.consumer_comment_detail),

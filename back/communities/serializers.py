@@ -96,6 +96,18 @@ class ConsumerCommentSerializer(serializers.ModelSerializer):
         read_only_fields = ('user', 'created_at', 'updated_at')
 
 
+class ConsumerVoteSerializer(serializers.ModelSerializer):
+    user_name = serializers.CharField(source='user.username', read_only=True)
+    buyit_users = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    dontbuyit_users = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
+    class Meta:
+        model = Consumer_post
+        fields = '__all__'
+        read_only_fields = ['user', 'created_at', 'updated_at']
+
+
+
 # 챌린지 게시판
 class ChallengePostSerializer(serializers.ModelSerializer):
     user_name = serializers.ReadOnlyField(source='user.username')
