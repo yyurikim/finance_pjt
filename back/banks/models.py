@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 class Deposit(models.Model) :
@@ -39,3 +40,11 @@ class Saving_option(models.Model):
     save_trm = models.CharField(max_length=3)
     intr_rate = models.FloatField(null=True)
     intr_rate2 = models.FloatField(null=True)
+
+class UserDeposit(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    deposit = models.ForeignKey(Deposit, on_delete=models.CASCADE)
+
+class UserSavings(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    saving = models.ForeignKey(Saving, on_delete=models.CASCADE)

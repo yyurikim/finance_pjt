@@ -5,6 +5,7 @@ import router from './router'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { useKakao } from 'vue3-kakao-maps/@utils'
+import survey from './stores/survey'
 
 
 import 'vuetify/styles'
@@ -33,6 +34,8 @@ const vuetify = createVuetify({
   })
 
 const app = createApp(App)
+
+app.provide('survey', survey());
 
 // Axios 설정
 app.config.globalProperties.$http = axios.create({

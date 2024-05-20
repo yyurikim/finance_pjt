@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 import requests
 from django.conf import settings
-from .serializers import DepositSerializers, DepositOptionsSerializers, SavingSerializers, SavingOptionsSerializers
-from .models import Deposit, Deposit_options, Saving, Saving_option
+from .serializers import DepositSerializers, DepositOptionsSerializers, SavingSerializers, SavingOptionsSerializers, UserDepositSerializers, UserSavingsSerializers
+from .models import Deposit, Deposit_options, Saving, Saving_option, UserDeposit, UserSavings
 from django.db.models import Max
 from rest_framework import status
 from rest_framework import viewsets
@@ -198,3 +198,18 @@ class SavingViewSet(viewsets.ModelViewSet):
 class SavingOptionsViewSet(viewsets.ModelViewSet):
     queryset = Saving_option.objects.all()
     serializer_class = SavingOptionsSerializers
+
+
+@api_view(['GET', 'POST', 'DELETE'])
+def user_deposit(request):
+    user = request.user
+    user_deposits = UserDeposit.objects.filter(user=user)
+    serializer = UserDepositSerializers(user_deposits, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET', 'POST', 'DELETE'])
+def user_savings(request):
+    user = request.user
+    user_savings = UserSavings.objects.filter(user=user)
+    serializer = UserSavingsSerializers(user_savings, many=True)
+    return Response(serializer.data)
