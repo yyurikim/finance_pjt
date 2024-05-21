@@ -1,61 +1,85 @@
 <template>
-<div>
-    <div>
-        <h1>Q8. 출근길에 커피를 사가려는 당신☕</h1>
-    </div>
-    
-    <div>
+    <div class="container">
+      <img src="@/assets/test/Q8.png" alt="Q8" class="Q">
+      <div class="buttons-container">
         <div 
-            class="button-like" 
-            @click="answer(true)" 
-            tabindex="0" 
-            @keypress.enter="answer(true)"
-            role="button"
-            >
-            <h3>텀블러를 사용한다</h3>
-            <h3>환경 보호하고 할인도 받아야지!</h3>
+          class="button" 
+          @click="answer(true)" 
+          tabindex="0" 
+          @keypress.enter="answer(true)"
+          role="button"
+        >
+        <h3>텀블러를 사용한다</h3>
+        <h3>환경 보호하고 할인도 받아야지!</h3>
         </div>
         <div 
-            class="button-like" 
-            @click="answer(false)" 
-            tabindex="0" 
-            @keypress.enter="answer(false)"
-            role="button"
+          class="button" 
+          @click="answer(false)" 
+          tabindex="0" 
+          @keypress.enter="answer(false)"
+          role="button"
         >
         <h3>텀블러를 사용하면 좋은 건 알지만..</h3>
         <h3>너무 무겁고 귀찮은 걸?</h3>
         </div>
+      </div>
     </div>
-</div>
-</template>
-
-<script setup>
-import { inject } from 'vue';
-import { useRouter } from 'vue-router';
-
-const { addAnswer } = inject('survey');
-const router = useRouter();
-
-const answer = (response) => {
-addAnswer(response);
-router.push('/survey/9'); // 다음 질문으로 이동
-};
-</script>
-
-<style scoped>
-.button-like {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 10px;
-    border: 1px solid #ccc;
+  </template>
+  
+  <script setup>
+  import { inject } from 'vue';
+  import { useRouter } from 'vue-router';
+  
+  const { addAnswer } = inject('survey');
+  const router = useRouter();
+  
+  const answer = (response) => {
+    addAnswer(response);
+    router.push('/survey/9'); // 다음 질문으로 이동
+  };
+  </script>
+  
+  <style scoped>
+  .container {
+    width: 550px;
+    height: 875px;
+    margin: 10px auto;
+    position: relative;
+  }
+  
+  .container img {
+    width: 100%;
+    vertical-align: middle;
+  }
+  
+  .buttons-container {
+    position: absolute;
+    top: 300px; /* 버튼들의 상단 위치 */
+    left: 50%; /* 중앙 정렬을 위해 left 50% 설정 */
+    transform: translateX(-50%); /* 중앙 정렬을 위해 translateX 사용 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .button {
+    width: 400px;
+    height: 75px;
+    background-color: #fff;
     border-radius: 4px;
-    background-color: #f0f0f0;
     cursor: pointer;
     text-align: center;
     user-select: none;
-}
-.button-like:focus {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 설정 */
+    margin-bottom: 20px; /* 버튼 간격 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .button:focus {
     outline: none;
-    box-shadow: 0 0 3px 2px rgba(21, 156, 228, 0.4);
-}
-</style>
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 포커스 시 그림자 설정 */
+  }
+  </style>

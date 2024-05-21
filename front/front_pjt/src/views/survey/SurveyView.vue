@@ -1,10 +1,10 @@
 <template>
 <div>
     <div>
-        <h1>나의 소비 성향은?</h1>
+        <!-- <img src="@/assets/test/test.png" alt="Q6" class="Q"> -->
     </div>
     <div>
-        <button @click="startSurvey">시작하기</button>
+        <button @click="startSurvey" class="text">나의 소비성향 확인하기 →</button>
     </div>
 </div>
 </template>
@@ -29,3 +29,9 @@ setup() {
 },
 };
 </script>
+
+<style scoped>
+.text{
+    background: #bdffec;;
+}
+</style>

@@ -28,6 +28,8 @@ class Consumer_post(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField()
     image = models.ImageField(blank=True, upload_to='consumer/')
+    buyit = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='buyit', blank=True)
+    dontbuyit = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='dontbuyit', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

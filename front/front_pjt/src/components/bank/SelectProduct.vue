@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <div v-for="(product, index) in selectedProducts" :key="index" class="item" @click="removeProduct(index)">
+    <div v-for="(product, index) in selectedProducts" 
+    :key="index" class="item" 
+    @click="removeProduct(index)">
       <h3>{{ product.fin_prdt_nm }}</h3>
       <h4>최대 {{ product.intr_rate }}%</h4>
     </div>
@@ -67,11 +69,11 @@ export default defineComponent({
   width: 75%;
   margin-bottom: 70px;
   margin-top: 50px;
-  gap: 10px; /* 아이템 간격 조정 */
+  gap: 30px; /* 아이템 간격 조정 */
 }
 
 .item {
-  width: 280px; /* 지정된 가로 너비 */
+  width: 300px; /* 지정된 가로 너비 */
   height: 120px; /* 지정된 세로 너비 */
   border: 1px solid #ccc;
   padding: 30px;

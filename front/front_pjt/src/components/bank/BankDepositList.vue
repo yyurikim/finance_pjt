@@ -3,20 +3,40 @@
     <h2>예금 리스트</h2>
     <div v-if="loading">로딩 중...</div>
     <div v-else>
-      <div v-for="(deposit, index) in displayedDeposits" :key="deposit.deposit_id" @click="selectItem(deposit)" class="deposit-item">
-        <img :src="getBankLogo(deposit.kor_co_nm)" :alt="deposit.kor_co_nm" class="bank-logo" />
-        <div class="deposit-details">
-          <h3>{{ deposit.fin_prdt_nm }}</h3>
-          <p>{{ deposit.kor_co_nm }}</p>
-        </div>
-        <div class="interest-rate">
-          <p>최고 {{ deposit.intr_rate }}%</p>
-        </div>
-        <div class="action-buttons">
-          <button @click.stop="viewDetails(deposit.deposit_id)">자세히 보기</button>
-          <button @click.stop="openModal(deposit)">옵션 보기</button>
-        </div>
-      </div>
+      <v-expansion-panels class="mb-6">
+        <v-expansion-panel v-for="(deposit, index) in displayedDeposits" :key="deposit.deposit_id">
+            <div class="deposit-item">
+              <img :src="getBankLogo(deposit.kor_co_nm)" :alt="deposit.kor_co_nm" class="bank-logo" />
+              <div class="deposit-details" @click="selectItem(deposit)">
+                <h3>{{ deposit.fin_prdt_nm }}</h3>
+                <p>{{ deposit.kor_co_nm }}</p>
+                <p>최고 {{ deposit.intr_rate }}%</p>
+              </div>
+              <div class="action-buttons">
+                <i
+                  :class="['fa-heart', counter.heartStatus[deposit.deposit_id] ? 'fa-solid' : 'fa-regular']"
+                  @click.stop="toggleLike(deposit)"
+                ></i>
+                <button @click.stop="openModal(deposit)">옵션 보기</button>
+                <v-expansion-panel-title>자세히 보기</v-expansion-panel-title>
+              </div>
+            </div>
+          
+          <v-expansion-panel-text>
+            <div>
+              <p>이율: {{ deposit.intr_rate }}%</p>
+              <p>특별 조건: {{ deposit.spcl_cnd }}</p>
+              <p>기타 정보: {{ deposit.etc_note }}</p>
+              <i
+                :class="['fa-solid', counter.joinStatus1[deposit.deposit_id] ? 'fa-check' : 'fa-plus']"
+                @click.stop="depositJoin(deposit)"
+              ></i>
+            </div>
+
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+
       <div v-if="displayedDeposits.length < filteredDeposits.length" class="load-more">
         <button @click="loadMore" class="fa fa-plus load-more-button"></button>
       </div>
@@ -57,6 +77,8 @@
 
 <script>
 import { defineComponent, ref, computed, onMounted, getCurrentInstance } from 'vue';
+import axios from 'axios';  // axios import
+import { useCounterStore } from '@/stores/counter';
 
 // 이미지 import
 import nonghyupLogo from '@/assets/banklogo/nonghyup.png';
@@ -82,9 +104,14 @@ export default defineComponent({
     selectedTerm: {
       type: [Number, String],
       required: true
-    }
+    },
+    searchQuery: {
+      type: String,
+      default: ''
+    },
   },
   setup(props, { emit }) {
+    const counter = useCounterStore();
     const deposits = ref([]);
     const depositOptions = ref([]);
     const combinedData = ref([]);
@@ -93,6 +120,7 @@ export default defineComponent({
     const selectedDeposit = ref({});
     const displayedDepositsCount = ref(10); // 한번에 보여줄 아이템 개수
     const { proxy } = getCurrentInstance();
+    const expanded = ref([]); // 확장 상태를 저장할 배열
 
     // 은행 로고 객체
     const bankLogos = {
@@ -120,6 +148,7 @@ export default defineComponent({
       try {
         const response = await proxy.$http.get('deposits/');
         deposits.value = response.data;
+        expanded.value = new Array(response.data.length).fill(false); // 초기 확장 상태를 false로 설정
       } catch (error) {
         console.error('Failed to fetch deposits:', error);
       }
@@ -140,23 +169,36 @@ export default defineComponent({
         return {
           ...deposit,
           options: options,
-          intr_rate: options.length > 0 ? Math.max(...options.map(option => option.intr_rate)) : null
+          intr_rate: options.length > 0 ? Math.max(...options.map(option => option.intr_rate)) : null,
+          intr_rate_type_nm: options.length > 0 ? options[0].intr_rate_type_nm : '' // 금리 유형 추가
         };
       });
       loading.value = false;
+      console.log('Combined Data:', combinedData.value); // 합쳐진 데이터 로그 출력
     };
 
     const filteredDeposits = computed(() => {
-      if (props.selectedTerm === 'all') {
-        return combinedData.value;
+      let depositsFiltered = combinedData.value;
+      
+      if (props.selectedTerm !== 'all') {
+        depositsFiltered = depositsFiltered.map(deposit => {
+          const filteredOptions = deposit.options.filter(option => option.save_trm == props.selectedTerm);
+          return {
+            ...deposit,
+            options: filteredOptions
+          };
+        }).filter(deposit => deposit.options.length > 0);
       }
-      return combinedData.value.map(deposit => {
-        const filteredOptions = deposit.options.filter(option => option.save_trm == props.selectedTerm);
-        return {
-          ...deposit,
-          options: filteredOptions
-        };
-      }).filter(deposit => deposit.options.length > 0);
+
+      if (props.searchQuery) {
+        const query = props.searchQuery.toLowerCase();
+        depositsFiltered = depositsFiltered.filter(deposit => {
+          return deposit.fin_prdt_nm.toLowerCase().includes(query) || 
+                 deposit.kor_co_nm.toLowerCase().includes(query);
+        });
+      }
+
+      return depositsFiltered;
     });
 
     const displayedDeposits = computed(() => {
@@ -192,6 +234,34 @@ export default defineComponent({
       emit('select-item', { ...deposit, intr_rate: maxInterestRateOption.intr_rate });
     };
 
+    // const toggleLike = async (deposit) => {
+    //   try {
+    //     const url = `${counter.API_URL}/banks/like-deposit/${deposit.deposit_id}/`;
+    //     console.log('Token!!!', counter.token);
+    //     const response = await axios.post(url, {}, {
+    //       headers: {
+    //         Authorization: `Token ${counter.token}`
+    //       }
+    //     });
+    //     deposit.liked = response.data.liked; // Update the liked status
+    //     console.log(response.data);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
+
+    const toggleLike = async (deposit) => {
+      await counter.toggleLike(deposit);
+    };
+    
+    const depositJoin = async (deposit) => {
+      await counter.depositJoin(deposit);
+    };
+
+    const toggleExpansion = (index) => {
+      expanded.value[index] = !expanded.value[index];
+    };
+
     onMounted(async () => {
       await fetchDeposits();
       await fetchDepositOptions();
@@ -199,12 +269,14 @@ export default defineComponent({
     });
 
     return {
+      counter,
       combinedData,
       isModalOpen,
       selectedDeposit,
       filteredDeposits,
       displayedDeposits,
       loading,
+      expanded,
       bankLogos,
       selectItem,
       getBankLogo,
@@ -212,11 +284,16 @@ export default defineComponent({
       openModal,
       closeModal,
       loadMore,
+      toggleLike,
+      depositJoin,
+      toggleExpansion,
       displayedDepositsCount
     };
   }
 });
 </script>
+
+
 
 <style scoped>
 div {
@@ -245,7 +322,6 @@ h3 {
 .deposit-item {
   display: flex;
   align-items: center;
-  border: 1px solid #ddd;
   padding: 10px;
   margin: 10px 0;
   cursor: pointer;
@@ -287,6 +363,16 @@ button {
   margin: 20px auto;
 }
 
+.fa-heart {
+  cursor: pointer;
+}
+.fa-solid {
+  color: red;
+}
+.fa-regular {
+  color: gray;
+}
+
 button {
   margin-left: 10px;
 }
@@ -313,10 +399,5 @@ td {
 
 th {
   background-color: #f2f2f2;
-}
-.action-buttons {
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
 }
 </style>

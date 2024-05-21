@@ -115,8 +115,8 @@
   onMounted(fetchComments)
   
   // watch를 통해 route.params.post_id와 route.params.boardType이 변경될 때마다 fetchComments 호출
-//   watch([() => route.params.post_id, () => route.params.boardType], fetchComments)
-watch(comments, fetchComments) 
+  watch([() => route.params.post_id, () => route.params.boardType], fetchComments)
+// watch(comments, fetchComments) 
  </script>
   
   <style scoped>
