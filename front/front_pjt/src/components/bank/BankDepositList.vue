@@ -3,24 +3,40 @@
     <h2>예금 리스트</h2>
     <div v-if="loading">로딩 중...</div>
     <div v-else>
-      <div v-for="(deposit, index) in displayedDeposits" :key="deposit.deposit_id" class="deposit-item">
-        <img :src="getBankLogo(deposit.kor_co_nm)" :alt="deposit.kor_co_nm" class="bank-logo" />
-        <div class="deposit-details" @click="selectItem(deposit)">
-          <h3>{{ deposit.fin_prdt_nm }}</h3>
-          <p>{{ deposit.kor_co_nm }}</p>
-        </div>
-        <div class="interest-rate">
-          <p>최고 {{ deposit.intr_rate }}%</p>
-        </div>
-        <div class="action-buttons">
-          <i
-            :class="['fa-heart', counter.heartStatus[deposit.deposit_id] ? 'fa-solid' : 'fa-regular']"
-            @click="toggleLike(deposit)"
-          ></i>
-          <button @click.stop="viewDetails(deposit.deposit_id)">자세히 보기</button>
-          <button @click.stop="openModal(deposit)">옵션 보기</button>
-        </div>
-      </div>
+      <v-expansion-panels class="mb-6">
+        <v-expansion-panel v-for="(deposit, index) in displayedDeposits" :key="deposit.deposit_id">
+            <div class="deposit-item">
+              <img :src="getBankLogo(deposit.kor_co_nm)" :alt="deposit.kor_co_nm" class="bank-logo" />
+              <div class="deposit-details" @click="selectItem(deposit)">
+                <h3>{{ deposit.fin_prdt_nm }}</h3>
+                <p>{{ deposit.kor_co_nm }}</p>
+                <p>최고 {{ deposit.intr_rate }}%</p>
+              </div>
+              <div class="action-buttons">
+                <i
+                  :class="['fa-heart', counter.heartStatus[deposit.deposit_id] ? 'fa-solid' : 'fa-regular']"
+                  @click.stop="toggleLike(deposit)"
+                ></i>
+                <button @click.stop="openModal(deposit)">옵션 보기</button>
+                <v-expansion-panel-title>자세히 보기</v-expansion-panel-title>
+              </div>
+            </div>
+          
+          <v-expansion-panel-text>
+            <div>
+              <p>이율: {{ deposit.intr_rate }}%</p>
+              <p>특별 조건: {{ deposit.spcl_cnd }}</p>
+              <p>기타 정보: {{ deposit.etc_note }}</p>
+              <i
+                :class="['fa-solid', counter.joinStatus1[deposit.deposit_id] ? 'fa-check' : 'fa-plus']"
+                @click.stop="depositJoin(deposit)"
+              ></i>
+            </div>
+
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+
       <div v-if="displayedDeposits.length < filteredDeposits.length" class="load-more">
         <button @click="loadMore" class="fa fa-plus load-more-button"></button>
       </div>
@@ -58,6 +74,7 @@
     </v-dialog>
   </div>
 </template>
+
 
 <script>
 import { defineComponent, ref, computed, onMounted, getCurrentInstance } from 'vue';
@@ -100,6 +117,7 @@ export default defineComponent({
     const selectedDeposit = ref({});
     const displayedDepositsCount = ref(10); // 한번에 보여줄 아이템 개수
     const { proxy } = getCurrentInstance();
+    const expanded = ref([]); // 확장 상태를 저장할 배열
 
     // 은행 로고 객체
     const bankLogos = {
@@ -127,6 +145,7 @@ export default defineComponent({
       try {
         const response = await proxy.$http.get('deposits/');
         deposits.value = response.data;
+        expanded.value = new Array(response.data.length).fill(false); // 초기 확장 상태를 false로 설정
       } catch (error) {
         console.error('Failed to fetch deposits:', error);
       }
@@ -218,6 +237,14 @@ export default defineComponent({
     const toggleLike = async (deposit) => {
       await counter.toggleLike(deposit);
     };
+    
+    const depositJoin = async (deposit) => {
+      await counter.depositJoin(deposit);
+    };
+
+    const toggleExpansion = (index) => {
+      expanded.value[index] = !expanded.value[index];
+    };
 
     onMounted(async () => {
       await fetchDeposits();
@@ -233,6 +260,7 @@ export default defineComponent({
       filteredDeposits,
       displayedDeposits,
       loading,
+      expanded,
       bankLogos,
       selectItem,
       getBankLogo,
@@ -241,6 +269,8 @@ export default defineComponent({
       closeModal,
       loadMore,
       toggleLike,
+      depositJoin,
+      toggleExpansion,
       displayedDepositsCount
     };
   }
@@ -275,7 +305,6 @@ h3 {
 .deposit-item {
   display: flex;
   align-items: center;
-  border: 1px solid #ddd;
   padding: 10px;
   margin: 10px 0;
   cursor: pointer;

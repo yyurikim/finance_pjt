@@ -17,6 +17,7 @@ export const useCounterStore = defineStore('counter', () => {
       heartStatus.value = JSON.parse(storedHeartStatus);
     } catch (e) {
       console.error('Failed to parse heartStatus from localStorage:', e);
+      window.alert("로그인 후 이용해주세요.");
     }
   }
 
@@ -46,8 +47,16 @@ export const useCounterStore = defineStore('counter', () => {
       heartStatus.value[deposit.deposit_id] = response.data.liked;
 
       console.log(response.data);
+
+       // 좋아요 상태에 따른 알림 메시지
+    if (response.data.liked) {
+      window.alert(`${deposit.fin_prdt_nm}이 관심 상품으로 등록되었습니다🥰`);
+    } else {
+      window.alert(`${deposit.fin_prdt_nm}이 관심 상품에서 해제되었습니다😢`);
+    }
     } catch (error) {
       console.error(error);
+      window.alert("상품 저장은 로그인 후 이용해주세요.");
     }
   };
 
@@ -80,10 +89,126 @@ export const useCounterStore = defineStore('counter', () => {
       heartStatus1.value[saving.saving_id] = response.data.liked;
 
       console.log(response.data);
+        // 좋아요 상태에 따른 알림 메시지
+    if (response.data.liked) {
+      window.alert(`${saving.fin_prdt_nm}이 관심 상품으로 등록되었습니다🥰`);
+    } else {
+      window.alert(`${saving.fin_prdt_nm}이 관심 상품에서 해제되었습니다😢`);
+    }
     } catch (error) {
       console.error(error);
+      window.alert("상품 저장은 로그인 후 이용해주세요.");
     }
   };
+
+  const joinStatus1 = ref({});
+const storedJoinStatus1 = localStorage.getItem('joinStatus1');
+if (storedJoinStatus1) {
+  try {
+    joinStatus1.value = JSON.parse(storedJoinStatus1);
+  } catch (e) {
+    console.error('Failed to parse joinStatus1 from localStorage:', e);
+  }
+}
+
+// joinStatus 변경 시 로컬 스토리지에 저장
+watch(joinStatus1, (newStatus) => {
+  localStorage.setItem('joinStatus1', JSON.stringify(newStatus));
+}, { deep: true });
+
+const depositJoin = async (deposit) => {
+  // 저장된 상태를 이용해 현재 상태 설정
+  if (joinStatus1.value[deposit.deposit_id] !== undefined) {
+    deposit.joined = joinStatus1.value[deposit.deposit_id];
+  }
+
+  if (!deposit.joined) {
+    const answer = window.confirm(`해당 상품은 ${deposit.kor_co_nm}의 ${deposit.fin_prdt_nm}입니다.\n가입 전 상세 정보를 확인하셨나요?`);
+    if (!answer) {
+      return; // 사용자가 확인하지 않으면 함수 종료
+    }
+  }
+
+  try {
+    const url = `${API_URL}/banks/user-deposit/${deposit.deposit_id}/`;
+    console.log('Token!!!', token.value);
+    const response = await axios.post(url, {}, {
+      headers: {
+        Authorization: `Token ${token.value}`
+      }
+    });
+
+    deposit.joined = response.data.joined;
+    joinStatus1.value[deposit.deposit_id] = response.data.joined;
+
+    console.log(response.data);
+
+    // 상태에 따른 알림 메시지
+    if (response.data.joined) {
+      window.alert(`${deposit.fin_prdt_nm}을 가입해주셔서 감사합니다😀`);
+    } else {
+      window.alert(`${deposit.fin_prdt_nm}이 해지되었습니다😵`);
+    }
+
+  } catch (error) {
+    console.error(error);
+    window.alert("상품 가입은 로그인 후 이용해주세요.");
+  }
+};
+
+
+  const joinStatus2 = ref({});
+  const storedJoinStatus2 = localStorage.getItem('joinStatus2');
+  if (storedJoinStatus2) {
+    try {
+      joinStatus2.value = JSON.parse(storedJoinStatus2);
+    } catch (e) {
+      console.error('Failed to parse joinStatus2 from localStorage:', e);
+    }
+  }
+
+  // joinStatus 변경 시 로컬 스토리지에 저장
+  watch(joinStatus2, (newStatus) => {
+    localStorage.setItem('joinStatus2', JSON.stringify(newStatus));
+  }, { deep: true });
+
+  const savingJoin = async (saving) => {
+    
+       // 저장된 상태를 이용해 현재 상태 설정
+    if (joinStatus2.value[saving.saving_id] !== undefined) {
+      saving.joined = joinStatus2.value[saving.saving_id];
+    }
+      if (!saving.joined) {
+          const answer = window.confirm(`해당 상품은 ${saving.kor_co_nm}의 ${saving.fin_prdt_nm}입니다.\n가입 전 상세 정보를 확인하셨나요?`);
+        if (!answer) {
+          return; // 사용자가 확인하지 않으면 함수 종료
+        }
+      }
+      try {
+      const url = `${API_URL}/banks/user-saving/${saving.saving_id}/`;
+      console.log('Token!!!', token.value);
+      const response = await axios.post(url, {}, {
+        headers: {
+          Authorization: `Token ${token.value}`
+        }
+      });
+
+      saving.joined = response.data.joined;
+      joinStatus2.value[saving.saving_id] = response.data.joined;
+
+      console.log(response.data);
+      if (response.data.joined) {
+        window.alert(`${saving.fin_prdt_nm}을 가입해주셔서 감사합니다😀`);   
+      } else {   
+        window.alert(`${saving.fin_prdt_nm}이 해지되었습니다😵`);
+      }
+        
+    } catch (error) {
+      console.error(error);
+      window.alert("상품 가입은 로그인 후 이용해주세요.");
+    }
+  };
+
 
   const userInfo = ref();
   const getUserInfo = function (user_id) {
@@ -131,7 +256,7 @@ export const useCounterStore = defineStore('counter', () => {
   const logOut = function() {
     token.value = null;
     userId.value = null;
-    localStorage.removeItem('token');
+    localStorage.clear()
     router.push({ name: 'login' });
   };
 
@@ -210,5 +335,8 @@ export const useCounterStore = defineStore('counter', () => {
     }
   };
 
-  return { API_URL, signUp, logIn, userInfo, token, isLogin, userId, logOut, deleteUser, changePassword, getUserInfo, heartStatus, toggleLike, heartStatus1, toggleLike1 };
+  return { API_URL, signUp, logIn, userInfo, token, isLogin, userId, 
+    logOut, deleteUser, changePassword, getUserInfo, 
+    heartStatus, toggleLike, heartStatus1, toggleLike1,
+    depositJoin, joinStatus1, savingJoin, joinStatus2 };
 });

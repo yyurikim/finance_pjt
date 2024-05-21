@@ -20,4 +20,6 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('like-deposit/<int:deposit_id>/', views.like_deposit),
     path('like-saving/<int:saving_id>/', views.like_saving),
+    path('user-deposit/<int:deposit_id>/', views.user_deposit),
+    path('user-saving/<int:saving_id>/', views.user_saving),
 ]
