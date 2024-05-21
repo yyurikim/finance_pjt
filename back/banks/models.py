@@ -11,6 +11,7 @@ class Deposit(models.Model) :
     join_deny = models.IntegerField(blank=True, null=True)
     join_way = models.TextField(blank=True, null=True)
     etc_note = models.TextField(blank=True, null=True)
+    is_meaningout = models.BooleanField(default = False)
     user_deposit = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='user_deposits', blank=True)
     liked_user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_deposits', blank=True)
 
@@ -33,9 +34,10 @@ class Saving(models.Model):
     spcl_cnd = models.TextField(blank=True, null=True)
     join_deny = models.IntegerField(blank=True, null=True)
     etc_note = models.TextField(blank=True, null=True)
+    is_meaningout = models.BooleanField(default = False)
     user_saving = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='user_savings', blank=True)
     liked_user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_savings', blank=True)
-
+    
 class Saving_option(models.Model):
     saving_option_id = models.AutoField(primary_key=True)
     saving_product_id = models.ForeignKey(Saving, on_delete=models.CASCADE)

@@ -7,6 +7,7 @@
           </v-col>
           <v-col cols="12" md="8">
             <!-- <financial-recommendations /> -->
+            <RecommendationSurvey />
           </v-col>
         </v-row>
       </v-container>
@@ -15,6 +16,7 @@
   
   <script setup>
   import UserInfo from '@/components/profile/UserInfo.vue'
+  import RecommendationSurvey from '@/components/bank/RecommendationSurvey.vue'
   </script>
   
   <style scoped>
