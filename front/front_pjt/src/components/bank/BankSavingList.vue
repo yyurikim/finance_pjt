@@ -3,7 +3,9 @@
     <h2>적금 리스트</h2>
     <div v-if="loading">로딩 중...</div>
     <div v-else>
-      <div v-for="(saving, index) in displayedSavings" :key="saving.saving_id" class="saving-item">
+      <v-expansion-panels class="mb-6">
+      <v-expansion-panel v-for="(saving, index) in displayedSavings" :key="saving.saving_id">
+        <div class="saving-item"> 
         <img :src="getBankLogo(saving.kor_co_nm)" :alt="saving.kor_co_nm" class="bank-logo" />
         <div class="saving-details"  @click="selectItem(saving)">
           <h3>{{ saving.fin_prdt_nm }}</h3>
@@ -13,14 +15,32 @@
           <p>최고 {{ saving.intr_rate }}%</p>
         </div>
         <div class="action-buttons">
-          <i
-            :class="['fa-heart', saving.liked ? 'fa-solid' : 'fa-regular']"
+         <i
+            :class="['fa-heart', counter.heartStatus1[saving.saving_id] ? 'fa-solid' : 'fa-regular']"
             @click="toggleLike(saving)"
           ></i>
-          <button @click.stop="viewDetails(saving.saving_id)">자세히 보기</button>
           <button @click.stop="openModal(saving)">옵션 보기</button>
+          <v-expansion-panel-title>자세히 보기</v-expansion-panel-title>
         </div>
-      </div>
+        </div>
+          
+          <v-expansion-panel-text>
+            <div>
+              <p>이율: {{ saving.intr_rate }}%</p>
+              <p>특별 조건: {{ saving.spcl_cnd }}</p>
+              <p>기타 정보: {{ saving.etc_note }}</p>
+              <i
+                :class="['fa-solid', counter.joinStatus2[saving.saving_id] ? 'fa-check' : 'fa-plus']"
+                @click.stop="savingJoin(saving)"
+              ></i>
+            </div>
+
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+
+      
+
       <div v-if="displayedSavings.length < filteredSavings.length" class="load-more">
         <button @click="loadMore" class="fa fa-plus"></button>
       </div>
@@ -199,20 +219,28 @@ export default defineComponent({
       emit('select-item', { ...saving, intr_rate: maxInterestRateOption.intr_rate });
     };
 
+    // const toggleLike = async (saving) => {
+    //   try {
+    //     const url = `${counter.API_URL}/banks/like-saving/${saving.saving_id}/`;
+    //     console.log('Token!!!', counter.token);
+    //     const response = await axios.post(url, {}, {
+    //       headers: {
+    //         Authorization: `Token ${counter.token}`
+    //       }
+    //     });
+    //     saving.liked = response.data.liked; // Update the liked status
+    //     console.log(response.data);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
+
     const toggleLike = async (saving) => {
-      try {
-        const url = `${counter.API_URL}/banks/like-saving/${saving.saving_id}/`;
-        console.log('Token!!!', counter.token);
-        const response = await axios.post(url, {}, {
-          headers: {
-            Authorization: `Token ${counter.token}`
-          }
-        });
-        saving.liked = response.data.liked; // Update the liked status
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
+      await counter.toggleLike1(saving);
+    };
+
+    const savingJoin = async (saving) => {
+      await counter.savingJoin(saving);
     };
 
     onMounted(async () => {
@@ -222,6 +250,7 @@ export default defineComponent({
     });
 
     return {
+      counter,
       combinedData,
       isModalOpen,
       selectedSaving,
@@ -235,6 +264,7 @@ export default defineComponent({
       closeModal,
       loadMore,
       toggleLike,
+      savingJoin,
       displayedSavingsCount
     };
   }
@@ -268,7 +298,6 @@ h3 {
 .saving-item {
   display: flex;
   align-items: center;
-  border: 1px solid #ddd;
   padding: 10px;
   margin: 10px 0;
   cursor: pointer;

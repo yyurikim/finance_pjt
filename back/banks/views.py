@@ -232,3 +232,37 @@ def like_saving(request, saving_id):
         saving.save()
         return JsonResponse({'liked': liked})
     return JsonResponse({'error': 'User not authenticated'}, status=403)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def user_deposit(request, deposit_id):
+    deposit = get_object_or_404(Deposit, pk=deposit_id)
+    user = request.user
+    print(request)
+    if user.is_authenticated:
+        if user in deposit.user_deposit.all():
+            deposit.user_deposit.remove(user)
+            joined = False
+        else:
+            deposit.user_deposit.add(user)
+            joined = True
+        deposit.save()
+        return JsonResponse({'joined': joined})
+    return JsonResponse({'error': 'User not authenticated'}, status=403)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def user_saving(request, saving_id):
+    saving = get_object_or_404(Saving, pk=saving_id)
+    user = request.user
+    if user.is_authenticated:
+        if user in saving.user_saving.all():
+            saving.user_saving.remove(user)
+            joined = False
+        else:
+            saving.user_saving.add(user)
+            joined = True
+        saving.save()
+        return JsonResponse({'joined': joined})
+    return JsonResponse({'error': 'User not authenticated'}, status=403)
