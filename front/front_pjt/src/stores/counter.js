@@ -256,7 +256,7 @@ const depositJoin = async (deposit) => {
   const logOut = function() {
     token.value = null;
     userId.value = null;
-    localStorage.clear()
+    localStorage.clear();
     router.push({ name: 'login' });
   };
 
