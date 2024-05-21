@@ -14,7 +14,7 @@
         </div>
         <div class="action-buttons">
           <i
-            :class="['fa-heart', deposit.liked ? 'fa-solid' : 'fa-regular']"
+            :class="['fa-heart', counter.heartStatus[deposit.deposit_id] ? 'fa-solid' : 'fa-regular']"
             @click="toggleLike(deposit)"
           ></i>
           <button @click.stop="viewDetails(deposit.deposit_id)">자세히 보기</button>
@@ -199,22 +199,25 @@ export default defineComponent({
       emit('select-item', { ...deposit, intr_rate: maxInterestRateOption.intr_rate });
     };
 
-    const toggleLike = async (deposit) => {
-      try {
-        const url = `${counter.API_URL}/banks/like-deposit/${deposit.deposit_id}/`;
-        console.log('Token!!!', counter.token);
-        const response = await axios.post(url, {}, {
-          headers: {
-            Authorization: `Token ${counter.token}`
-          }
-        });
-        deposit.liked = response.data.liked; // Update the liked status
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    // const toggleLike = async (deposit) => {
+    //   try {
+    //     const url = `${counter.API_URL}/banks/like-deposit/${deposit.deposit_id}/`;
+    //     console.log('Token!!!', counter.token);
+    //     const response = await axios.post(url, {}, {
+    //       headers: {
+    //         Authorization: `Token ${counter.token}`
+    //       }
+    //     });
+    //     deposit.liked = response.data.liked; // Update the liked status
+    //     console.log(response.data);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
 
+    const toggleLike = async (deposit) => {
+      await counter.toggleLike(deposit);
+    };
 
     onMounted(async () => {
       await fetchDeposits();
@@ -223,6 +226,7 @@ export default defineComponent({
     });
 
     return {
+      counter,
       combinedData,
       isModalOpen,
       selectedDeposit,

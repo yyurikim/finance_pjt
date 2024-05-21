@@ -13,8 +13,8 @@
           <p>최고 {{ saving.intr_rate }}%</p>
         </div>
         <div class="action-buttons">
-          <i
-            :class="['fa-heart', saving.liked ? 'fa-solid' : 'fa-regular']"
+         <i
+            :class="['fa-heart', counter.heartStatus1[saving.saving_id] ? 'fa-solid' : 'fa-regular']"
             @click="toggleLike(saving)"
           ></i>
           <button @click.stop="viewDetails(saving.saving_id)">자세히 보기</button>
@@ -199,20 +199,24 @@ export default defineComponent({
       emit('select-item', { ...saving, intr_rate: maxInterestRateOption.intr_rate });
     };
 
+    // const toggleLike = async (saving) => {
+    //   try {
+    //     const url = `${counter.API_URL}/banks/like-saving/${saving.saving_id}/`;
+    //     console.log('Token!!!', counter.token);
+    //     const response = await axios.post(url, {}, {
+    //       headers: {
+    //         Authorization: `Token ${counter.token}`
+    //       }
+    //     });
+    //     saving.liked = response.data.liked; // Update the liked status
+    //     console.log(response.data);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
+
     const toggleLike = async (saving) => {
-      try {
-        const url = `${counter.API_URL}/banks/like-saving/${saving.saving_id}/`;
-        console.log('Token!!!', counter.token);
-        const response = await axios.post(url, {}, {
-          headers: {
-            Authorization: `Token ${counter.token}`
-          }
-        });
-        saving.liked = response.data.liked; // Update the liked status
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
+      await counter.toggleLike1(saving);
     };
 
     onMounted(async () => {
@@ -222,6 +226,7 @@ export default defineComponent({
     });
 
     return {
+      counter,
       combinedData,
       isModalOpen,
       selectedSaving,
