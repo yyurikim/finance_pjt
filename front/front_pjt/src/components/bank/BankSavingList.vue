@@ -3,9 +3,11 @@
     <h2>적금 리스트</h2>
     <div v-if="loading">로딩 중...</div>
     <div v-else>
-      <div v-for="(saving, index) in displayedSavings" :key="saving.saving_id" @click="selectItem(saving)" class="saving-item">
+      <v-expansion-panels class="mb-6">
+      <v-expansion-panel v-for="(saving, index) in displayedSavings" :key="saving.saving_id">
+        <div class="saving-item"> 
         <img :src="getBankLogo(saving.kor_co_nm)" :alt="saving.kor_co_nm" class="bank-logo" />
-        <div class="saving-details">
+        <div class="saving-details"  @click="selectItem(saving)" :isDeposit>
           <h3>{{ saving.fin_prdt_nm }}</h3>
           <p>{{ saving.kor_co_nm }}</p>
         </div>
@@ -13,10 +15,32 @@
           <p>최고 {{ saving.intr_rate }}%</p>
         </div>
         <div class="action-buttons">
-          <button @click.stop="viewDetails(saving.saving_id)">자세히 보기</button>
+         <i
+            :class="['fa-heart', counter.heartStatus1[saving.saving_id] ? 'fa-solid' : 'fa-regular']"
+            @click="toggleLike(saving)"
+          ></i>
           <button @click.stop="openModal(saving)">옵션 보기</button>
+          <v-expansion-panel-title>자세히 보기</v-expansion-panel-title>
         </div>
-      </div>
+        </div>
+          
+          <v-expansion-panel-text>
+            <div>
+              <p>이율: {{ saving.intr_rate }}%</p>
+              <p>특별 조건: {{ saving.spcl_cnd }}</p>
+              <p>기타 정보: {{ saving.etc_note }}</p>
+              <i
+                :class="['fa-solid', counter.joinStatus2[saving.saving_id] ? 'fa-check' : 'fa-plus']"
+                @click.stop="savingJoin(saving)"
+              ></i>
+            </div>
+
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+
+      
+
       <div v-if="displayedSavings.length < filteredSavings.length" class="load-more">
         <button @click="loadMore" class="fa fa-plus"></button>
       </div>
@@ -57,6 +81,8 @@
 
 <script>
 import { defineComponent, ref, computed, onMounted, getCurrentInstance } from 'vue';
+import axios from 'axios';  // axios import
+import { useCounterStore} from '@/stores/counter';
 
 // 이미지 import
 import nonghyupLogo from '@/assets/banklogo/nonghyup.png';
@@ -82,6 +108,10 @@ export default defineComponent({
     selectedTerm: {
       type: [Number, String],
       required: true
+    },
+    searchQuery: {
+    type: String,
+    default: ''
     }
   },
   setup(props, { emit }) {
@@ -91,6 +121,7 @@ export default defineComponent({
     const loading = ref(true);
     const isModalOpen = ref(false);
     const selectedSaving = ref({});
+    const counter = useCounterStore()
     const displayedSavingsCount = ref(10); // 한번에 보여줄 아이템 개수
     const { proxy } = getCurrentInstance();
 
@@ -140,24 +171,36 @@ export default defineComponent({
         return {
           ...saving,
           options: options,
-          intr_rate: options.length > 0 ? Math.max(...options.map(option => option.intr_rate)) : null
+          intr_rate: options.length > 0 ? Math.max(...options.map(option => option.intr_rate)) : null,
+          intr_rate_type_nm: options.length > 0 ? options[0].intr_rate_type_nm : '' // 금리 유형 추가
         };
       });
       loading.value = false;
     };
 
     const filteredSavings = computed(() => {
-      if (props.selectedTerm === 'all') {
-        return combinedData.value;
-      }
-      return combinedData.value.map(saving => {
-        const filteredOptions = saving.options.filter(option => option.save_trm == props.selectedTerm);
-        return {
-          ...saving,
-          options: filteredOptions
-        };
-      }).filter(saving => saving.options.length > 0);
+  let savingsFiltered = combinedData.value;
+
+  if (props.selectedTerm !== 'all') {
+    savingsFiltered = savingsFiltered.map(saving => {
+      const filteredOptions = saving.options.filter(option => option.save_trm == props.selectedTerm);
+      return {
+        ...saving,
+        options: filteredOptions
+      };
+    }).filter(saving => saving.options.length > 0);
+  }
+
+  if (props.searchQuery) {
+    const query = props.searchQuery.toLowerCase();
+    savingsFiltered = savingsFiltered.filter(saving => {
+      return saving.fin_prdt_nm.toLowerCase().includes(query) || 
+             saving.kor_co_nm.toLowerCase().includes(query);
     });
+  }
+
+  return savingsFiltered;
+});
 
     const displayedSavings = computed(() => {
       return filteredSavings.value.slice(0, displayedSavingsCount.value);
@@ -192,6 +235,30 @@ export default defineComponent({
       emit('select-item', { ...saving, intr_rate: maxInterestRateOption.intr_rate });
     };
 
+    // const toggleLike = async (saving) => {
+    //   try {
+    //     const url = `${counter.API_URL}/banks/like-saving/${saving.saving_id}/`;
+    //     console.log('Token!!!', counter.token);
+    //     const response = await axios.post(url, {}, {
+    //       headers: {
+    //         Authorization: `Token ${counter.token}`
+    //       }
+    //     });
+    //     saving.liked = response.data.liked; // Update the liked status
+    //     console.log(response.data);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
+
+    const toggleLike = async (saving) => {
+      await counter.toggleLike1(saving);
+    };
+
+    const savingJoin = async (saving) => {
+      await counter.savingJoin(saving);
+    };
+
     onMounted(async () => {
       await fetchSavings();
       await fetchSavingOptions();
@@ -199,6 +266,7 @@ export default defineComponent({
     });
 
     return {
+      counter,
       combinedData,
       isModalOpen,
       selectedSaving,
@@ -211,6 +279,8 @@ export default defineComponent({
       openModal,
       closeModal,
       loadMore,
+      toggleLike,
+      savingJoin,
       displayedSavingsCount
     };
   }
@@ -244,7 +314,6 @@ h3 {
 .saving-item {
   display: flex;
   align-items: center;
-  border: 1px solid #ddd;
   padding: 10px;
   margin: 10px 0;
   cursor: pointer;
@@ -302,5 +371,15 @@ th {
 .load-more {
   text-align: center;
   margin-top: 10px;
+}
+
+.fa-heart {
+  cursor: pointer;
+}
+.fa-solid {
+  color: red;
+}
+.fa-regular {
+  color: gray;
 }
 </style>

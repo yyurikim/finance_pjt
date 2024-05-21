@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import Deposit, Deposit_options, Saving, Saving_option, UserDeposit, UserSavings
-
+from .models import Deposit, Deposit_options, Saving, Saving_option
 # serializers.ModelSerializer
 # - 모델 필드에 정의된 데이터만 변환
 
@@ -103,3 +102,4 @@ class RecDepositSerializer(serializers.ModelSerializer):
         ]
         # Remove any None values from the list
         return [option for option in filtered_options if option is not None]
+        fields = '__all__'

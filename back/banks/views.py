@@ -1,13 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 import requests
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from .serializers import *
-from .models import Deposit, Deposit_options, Saving, Saving_option, UserDeposit, UserSavings
 from django.db.models import Max
+from .models import Deposit, Deposit_options, Saving, Saving_option
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -204,20 +205,72 @@ class SavingOptionsViewSet(viewsets.ModelViewSet):
     serializer_class = SavingOptionsSerializers
 
 
-@api_view(['GET', 'POST', 'DELETE'])
-def user_deposit(request):
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def like_deposit(request, deposit_id):
+    deposit = get_object_or_404(Deposit, pk=deposit_id)
     user = request.user
-    user_deposits = UserDeposit.objects.filter(user=user)
-    serializer = UserDepositSerializers(user_deposits, many=True)
-    return Response(serializer.data)
+    print(request)
+    if user.is_authenticated:
+        if user in deposit.liked_user.all():
+            deposit.liked_user.remove(user)
+            liked = False
+        else:
+            deposit.liked_user.add(user)
+            liked = True
+        deposit.save()
+        return JsonResponse({'liked': liked})
+    return JsonResponse({'error': 'User not authenticated'}, status=403)
 
-@api_view(['GET', 'POST', 'DELETE'])
-def user_savings(request):
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def like_saving(request, saving_id):
+    saving = get_object_or_404(Saving, pk=saving_id)
     user = request.user
-    user_savings = UserSavings.objects.filter(user=user)
-    serializer = UserSavingsSerializers(user_savings, many=True)
-    return Response(serializer.data)
+    if user.is_authenticated:
+        if user in saving.liked_user.all():
+            saving.liked_user.remove(user)
+            liked = False
+        else:
+            saving.liked_user.add(user)
+            liked = True
+        saving.save()
+        return JsonResponse({'liked': liked})
+    return JsonResponse({'error': 'User not authenticated'}, status=403)
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def user_deposit(request, deposit_id):
+    deposit = get_object_or_404(Deposit, pk=deposit_id)
+    user = request.user
+    print(request)
+    if user.is_authenticated:
+        if user in deposit.user_deposit.all():
+            deposit.user_deposit.remove(user)
+            joined = False
+        else:
+            deposit.user_deposit.add(user)
+            joined = True
+        deposit.save()
+        return JsonResponse({'joined': joined})
+    return JsonResponse({'error': 'User not authenticated'}, status=403)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def user_saving(request, saving_id):
+    saving = get_object_or_404(Saving, pk=saving_id)
+    user = request.user
+    if user.is_authenticated:
+        if user in saving.user_saving.all():
+            saving.user_saving.remove(user)
+            joined = False
+        else:
+            saving.user_saving.add(user)
+            joined = True
+        saving.save()
+        return JsonResponse({'joined': joined})
+    return JsonResponse({'error': 'User not authenticated'}, status=403)
 
 def check_meaningout(request):
     keywords = ['Green', '그린세이브', '탄소', 'ESG', '펫', '해양플라스틱', '맑은하늘']

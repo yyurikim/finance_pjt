@@ -20,4 +20,8 @@ urlpatterns = [
     path('deposit-products/top_rate/', views.top_rate),
     path('recommendation_by_survey/', views.recommendation_by_survey, name='recommendation_by_survey'),
     path('api/', include(router.urls)),
+    path('like-deposit/<int:deposit_id>/', views.like_deposit),
+    path('like-saving/<int:saving_id>/', views.like_saving),
+    path('user-deposit/<int:deposit_id>/', views.user_deposit),
+    path('user-saving/<int:saving_id>/', views.user_saving),
 ]
