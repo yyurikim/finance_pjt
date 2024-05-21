@@ -7,6 +7,7 @@
     :selectedProducts="selectedProducts" 
     :selectedTerm="selectedTerm" 
     :userAmount="userAmount"
+    :isDeposit="isDeposit" 
     @update:userAmount="updateUserAmount"
     />
 </div>
@@ -28,6 +29,10 @@ const props = defineProps({
   userAmount: {
     type: Number,
     required: true
+  },
+  isDeposit: {
+    type: Boolean,
+    required:true
   }
 })
 
@@ -49,7 +54,6 @@ position: relative;
 padding: 20px;
 background-color: white; /* 배경을 흰색으로 설정 */
 border-radius: 2%;
-width:700px;
 }
 
 .v-btn {

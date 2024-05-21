@@ -7,7 +7,7 @@
       <v-expansion-panel v-for="(saving, index) in displayedSavings" :key="saving.saving_id">
         <div class="saving-item"> 
         <img :src="getBankLogo(saving.kor_co_nm)" :alt="saving.kor_co_nm" class="bank-logo" />
-        <div class="saving-details"  @click="selectItem(saving)">
+        <div class="saving-details"  @click="selectItem(saving)" :isDeposit>
           <h3>{{ saving.fin_prdt_nm }}</h3>
           <p>{{ saving.kor_co_nm }}</p>
         </div>
@@ -108,6 +108,10 @@ export default defineComponent({
     selectedTerm: {
       type: [Number, String],
       required: true
+    },
+    searchQuery: {
+    type: String,
+    default: ''
     }
   },
   setup(props, { emit }) {
@@ -167,24 +171,36 @@ export default defineComponent({
         return {
           ...saving,
           options: options,
-          intr_rate: options.length > 0 ? Math.max(...options.map(option => option.intr_rate)) : null
+          intr_rate: options.length > 0 ? Math.max(...options.map(option => option.intr_rate)) : null,
+          intr_rate_type_nm: options.length > 0 ? options[0].intr_rate_type_nm : '' // 금리 유형 추가
         };
       });
       loading.value = false;
     };
 
     const filteredSavings = computed(() => {
-      if (props.selectedTerm === 'all') {
-        return combinedData.value;
-      }
-      return combinedData.value.map(saving => {
-        const filteredOptions = saving.options.filter(option => option.save_trm == props.selectedTerm);
-        return {
-          ...saving,
-          options: filteredOptions
-        };
-      }).filter(saving => saving.options.length > 0);
+  let savingsFiltered = combinedData.value;
+
+  if (props.selectedTerm !== 'all') {
+    savingsFiltered = savingsFiltered.map(saving => {
+      const filteredOptions = saving.options.filter(option => option.save_trm == props.selectedTerm);
+      return {
+        ...saving,
+        options: filteredOptions
+      };
+    }).filter(saving => saving.options.length > 0);
+  }
+
+  if (props.searchQuery) {
+    const query = props.searchQuery.toLowerCase();
+    savingsFiltered = savingsFiltered.filter(saving => {
+      return saving.fin_prdt_nm.toLowerCase().includes(query) || 
+             saving.kor_co_nm.toLowerCase().includes(query);
     });
+  }
+
+  return savingsFiltered;
+});
 
     const displayedSavings = computed(() => {
       return filteredSavings.value.slice(0, displayedSavingsCount.value);

@@ -40,21 +40,39 @@
       <div>
         <button @click="openCompareModal">비교하러 가기</button>
       </div>
+    </div>
 
+    <!-- 검색 입력 필드 -->
+    <div class="search-container">
+      <input 
+        v-model="searchQuery" 
+        type="text" 
+        placeholder="검색어를 입력하세요..." 
+        class="search-input" 
+      />
     </div>
 
     <div v-if="isDeposit">
-      <BankDepositList :selectedTerm="selectedTerm" @select-item="handleSelectItem" />
+      <BankDepositList 
+      :selectedTerm="selectedTerm" 
+      :searchQuery="searchQuery" 
+      :isDeposit="isDeposit" 
+      @select-item="handleSelectItem" />
     </div>
     <div v-else>
-      <BankSavingList :selectedTerm="selectedTerm" @select-item="handleSelectItem" />
+      <BankSavingList 
+      :selectedTerm="selectedTerm" 
+      :searchQuery="searchQuery" 
+      :isDeposit="isDeposit" 
+      @select-item="handleSelectItem" />
     </div>
 
-    <v-dialog v-model="isCompareModalOpen" max-width="600px">
+    <v-dialog v-model="isCompareModalOpen" max-width="800px">
       <ProductCompare 
         :selectedProducts="selectedProducts" 
         :selectedTerm="selectedTerm" 
         :userAmount="userAmount"
+        :isDeposit="isDeposit"
         @close="closeCompareModal" 
       />
     </v-dialog>
@@ -78,8 +96,9 @@ export default defineComponent({
   },
   setup() {
     const { proxy } = getCurrentInstance()
-    const isDeposit = ref(true)
+    const isDeposit = ref(true); // 예금 상태 초기화
     const selectedTerm = ref('all')
+    const searchQuery = ref('')  // 검색어 상태 추가
     const terms = ['all', 6, 12, 24, 36]
     const isCompareModalOpen = ref(false)
     const selectedProducts = ref([])
@@ -129,6 +148,7 @@ export default defineComponent({
     return {
       isDeposit,
       selectedTerm,
+      searchQuery, // 검색어 상태 리턴에 추가
       terms,
       isCompareModalOpen,
       selectedProducts,
@@ -144,6 +164,19 @@ export default defineComponent({
   }
 })
 </script>
+
+<style>
+.search-container {
+  margin: 20px 0;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+</style>
+
 
 <style scoped>
 .first {

@@ -75,7 +75,6 @@
   </div>
 </template>
 
-
 <script>
 import { defineComponent, ref, computed, onMounted, getCurrentInstance } from 'vue';
 import axios from 'axios';  // axios import
@@ -105,7 +104,11 @@ export default defineComponent({
     selectedTerm: {
       type: [Number, String],
       required: true
-    }
+    },
+    searchQuery: {
+      type: String,
+      default: ''
+    },
   },
   setup(props, { emit }) {
     const counter = useCounterStore();
@@ -166,23 +169,36 @@ export default defineComponent({
         return {
           ...deposit,
           options: options,
-          intr_rate: options.length > 0 ? Math.max(...options.map(option => option.intr_rate)) : null
+          intr_rate: options.length > 0 ? Math.max(...options.map(option => option.intr_rate)) : null,
+          intr_rate_type_nm: options.length > 0 ? options[0].intr_rate_type_nm : '' // 금리 유형 추가
         };
       });
       loading.value = false;
+      console.log('Combined Data:', combinedData.value); // 합쳐진 데이터 로그 출력
     };
 
     const filteredDeposits = computed(() => {
-      if (props.selectedTerm === 'all') {
-        return combinedData.value;
+      let depositsFiltered = combinedData.value;
+      
+      if (props.selectedTerm !== 'all') {
+        depositsFiltered = depositsFiltered.map(deposit => {
+          const filteredOptions = deposit.options.filter(option => option.save_trm == props.selectedTerm);
+          return {
+            ...deposit,
+            options: filteredOptions
+          };
+        }).filter(deposit => deposit.options.length > 0);
       }
-      return combinedData.value.map(deposit => {
-        const filteredOptions = deposit.options.filter(option => option.save_trm == props.selectedTerm);
-        return {
-          ...deposit,
-          options: filteredOptions
-        };
-      }).filter(deposit => deposit.options.length > 0);
+
+      if (props.searchQuery) {
+        const query = props.searchQuery.toLowerCase();
+        depositsFiltered = depositsFiltered.filter(deposit => {
+          return deposit.fin_prdt_nm.toLowerCase().includes(query) || 
+                 deposit.kor_co_nm.toLowerCase().includes(query);
+        });
+      }
+
+      return depositsFiltered;
     });
 
     const displayedDeposits = computed(() => {
@@ -276,6 +292,7 @@ export default defineComponent({
   }
 });
 </script>
+
 
 
 <style scoped>
