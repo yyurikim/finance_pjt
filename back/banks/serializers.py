@@ -57,3 +57,15 @@ class RecSavingOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Saving_option
         fields = '__all__'
+
+class RecDepositSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Deposit
+        fields = '__all__'
+
+class RecDepositOptionSerializer(serializers.ModelSerializer):
+    deposit_product = RecDepositSerializer()
+
+    class Meta:
+        model = Deposit_options
+        fields = '__all__'

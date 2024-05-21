@@ -44,6 +44,22 @@ def update_user_type(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_user_goal(request):
+    saving_amount = request.data.get('saving_amount')
+    deposit_amount = request.data.get('deposit_amount')
+    user_goal = request.data.get('my_goal')
+    
+    user = request.user
+    serializer = UserGoalSerializer(user, data={'saving_amount': saving_amount, 'deposit_amount': deposit_amount, 'my_goal': user_goal})
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def update_user_info(request):

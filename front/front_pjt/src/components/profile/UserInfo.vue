@@ -1,18 +1,20 @@
 <template>
     <div v-if="user">
-      <p>{{ user }}</p>
-      <v-card class="mx-auto my-5 pa-5" max-width="400">
+      <!-- <p>{{ user }}</p> -->
+      <v-card class="mx-auto my-5 pa-5" max-width="400" height="500">
             <v-card-title class="d-flex align-center justify-center">
-                <v-avatar size="80" class="mr-3">
+                <v-avatar size="300" class="mr-3">
                     <v-img :src="user.profile_img" alt="User Avatar" />
                 </v-avatar>
             </v-card-title>
             <!-- <v-card-subtitle class="text-center">{{ user.username }}</v-card-subtitle> -->
             <v-card-text class="text-center">
               <div>
-                <strong>{{ user.username }}</strong>님의 소비 성향은
-                <strong>{{ user.user_type }}</strong>입니다.
+                <h3><strong>{{ user.username }}</strong>님의 소비 성향은</h3>
+                <h3><strong>{{ user.user_type }}</strong>입니다.</h3>
               </div>
+              <br>
+              <button>설명 보기</button>
                 <!-- <div>
                     <strong>User Type:</strong> {{ user.user_type || 'N/A' }}
                 </div>

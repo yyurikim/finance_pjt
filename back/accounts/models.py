@@ -65,3 +65,8 @@ class User(AbstractUser):
   salary = models.CharField(max_length=10, choices=SALARY_CHOICES, blank=True, null=True)
   favorite_bank = models.CharField(max_length=20, choices=BANK_CHOICES, blank=True, null=True)
   user_type = models.CharField(max_length=10, blank=True, null=True)
+  saving_amount = models.IntegerField(blank=True, null=True)
+  deposit_amount = models.IntegerField(blank=True, null=True)
+  my_goal = models.TextField(blank=True, null=True)
+
+

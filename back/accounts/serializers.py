@@ -45,3 +45,9 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     job = serializers.CharField(required=False)
     salary = serializers.CharField(required=False)
     favorite_bank = serializers.CharField(required=False)
+
+
+class UserGoalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['my_goal', 'saving_amount', 'deposit_amount']

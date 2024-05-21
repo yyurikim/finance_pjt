@@ -41,7 +41,7 @@ export default {
       answer(response) {
         addAnswer(response);
         calculateResult();
-        router.push('/survey/result'); // 다음 질문으로 이동
+        router.push('/survey/10'); // 다음 질문으로 이동
       },
     };
   },

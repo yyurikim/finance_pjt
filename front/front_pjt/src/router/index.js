@@ -25,6 +25,7 @@ import Survey6 from '@/components/survey/Survey6.vue'
 import Survey7 from '@/components/survey/Survey7.vue'
 import Survey8 from '@/components/survey/Survey8.vue'
 import Survey9 from '@/components/survey/Survey9.vue'
+import Survey10 from '@/components/survey/Survey10.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -110,6 +111,7 @@ const router = createRouter({
     { path: '/survey/7', name: 'survey7', component: Survey7 },
     { path: '/survey/8', name: 'survey8', component: Survey8 },
     { path: '/survey/9', name: 'survey9', component: Survey9 },
+    { path: '/survey/10', name: 'survey10', component: Survey10 },
     { path: '/survey/result', name: 'result', component: ResultView },
   ]
 

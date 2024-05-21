@@ -1,14 +1,18 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 import requests
+from django.contrib.auth import get_user_model
 from django.conf import settings
 from .serializers import *
 from .models import Deposit, Deposit_options, Saving, Saving_option, UserDeposit, UserSavings
 from django.db.models import Max
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+
+
 
 # Create your views here.
 def index(request) :
@@ -229,20 +233,172 @@ def check_meaningout(request):
         
     return JsonResponse({"message": "check_okay!"})
 
+'''
+1. POST로 요청을 보낸다
+ => data를 통해서 변수를 보낼수있음(GET으로 보내도 상관X -> API 요청 보낼 때 주소 건들여야함)
+2. 변수는 username 아니면 pk값을 보낸다
+3. 로그인 여부는
+@permission_classes([IsAuthenticated]) 이걸로 확인 아니면 프론트에서 beforeenter 가드 이용해서 profile 자체 접근 막기
 
+4. object.get.get_or_404(pk=pk) 이용해서 해당 유저의 정보를 가져온다
+ '''
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def recommendation_by_survey(request):
-    # user = request.user
-    # # if user.user_type == 'ERV':
-    saving_options = Saving_option.objects.filter(
-        rsrv_type_nm='자유적립식',
-        saving_product_id__is_meaningout=True
-    ).order_by('-intr_rate')
+    user = request.user
+    terms = [6, 12, 24, 36]
+    response_data={'user_type': user.user_type}
+    if user.user_type == 'ERV' or user.user_type == 'FRV':
+        for term in terms:
+            saving_options1 = Saving_option.objects.filter(
+                rsrv_type_nm='정액적립식',
+                save_trm=term,
+                saving_product_id__is_meaningout=True
+            ).order_by('-intr_rate')
 
-    savings = [option.saving_product_id for option in saving_options]
-    savings = list(set(savings))
+            savings1 = [option.saving_product_id for option in saving_options1]
+            savings1 = list(set(savings1))
 
-    serializer = RecSavingSerializer(savings, many=True)
-    return Response(serializer.data)
+            saving_options2 = Saving_option.objects.filter(
+                rsrv_type_nm='정액적립식',
+                save_trm=term,
+                saving_product_id__is_meaningout=False
+            ).order_by('-intr_rate')
+
+            savings2 = [option.saving_product_id for option in saving_options2]
+            savings2 = list(set(savings2))
+
+            savings = savings1[:2] + savings2[:3]
+
+            deposit_options1 = Deposit_options.objects.filter(
+                save_trm=term,
+                deposit_product_id__is_meaningout=True
+            ).order_by('-intr_rate')
+
+            deposits1 = [option.deposit_product_id for option in deposit_options1]
+            deposits1 = list(set(deposits1))
+
+            deposit_options2 = Deposit_options.objects.filter(
+                save_trm=term,
+                deposit_product_id__is_meaningout=False
+            ).order_by('-intr_rate')
+
+            deposits2 = [option.deposit_product_id for option in deposit_options2]
+            deposits2 = list(set(deposits2))
+
+            deposits = deposits1[:2] + deposits2[:3]
+
+            serializer = RecSavingSerializer(savings, many=True)
+            serializer2 = RecDepositSerializer(deposits, many=True)
+
+            response_data[f'{term}개월'] = {
+                'savings': serializer.data,
+                'deposits': serializer2.data,
+                }
+
+    elif user.user_type == 'ERG' or user.user_type == 'FRG':
+        for term in terms:
+            saving_options = Saving_option.objects.filter(
+                rsrv_type_nm='정액적립식',
+                save_trm=term,
+                saving_product_id__is_meaningout=False
+            ).order_by('-intr_rate')
+
+            savings = [option.saving_product_id for option in saving_options]
+            savings = list(set(savings))
+
+            deposit_options = Deposit_options.objects.filter(
+                save_trm=term,
+                deposit_product_id__is_meaningout=False
+            ).order_by('-intr_rate')
+
+            deposits = [option.deposit_product_id for option in deposit_options]
+            deposits = list(set(deposits))
+
+            serializer = RecSavingSerializer(savings, many=True)
+            serializer2 = RecDepositSerializer(deposits, many=True)
+
+            response_data[f'{term}개월'] = {
+                'savings': serializer.data,
+                'deposits': serializer2.data,
+                }
+
+
+    elif user.user_type == 'EIV' or user.user_type == 'FIV':
+        for term in terms:
+            saving_options1 = Saving_option.objects.filter(
+                rsrv_type_nm='자유적립식',
+                save_trm=term,
+                saving_product_id__is_meaningout=True
+            ).order_by('-intr_rate')
+
+            savings1 = [option.saving_product_id for option in saving_options1]
+            savings1 = list(set(savings1))
+
+
+            saving_options2 = Saving_option.objects.filter(
+                rsrv_type_nm='자유적립식',
+                save_trm=term,
+                saving_product_id__is_meaningout=False
+            ).order_by('-intr_rate')
+
+            savings2 = [option.saving_product_id for option in saving_options2]
+            savings2 = list(set(savings2))
+
+            savings = savings1[:2] + savings2[:3]
+
+            deposit_options1 = Deposit_options.objects.filter(
+                save_trm=term,
+                deposit_product_id__is_meaningout=True
+            ).order_by('-intr_rate')
+
+            deposits1 = [option.deposit_product_id for option in deposit_options1]
+            deposits1 = list(set(deposits1))
+
+            deposit_options2 = Deposit_options.objects.filter(
+                save_trm=term,
+                deposit_product_id__is_meaningout=False
+            ).order_by('-intr_rate')
+
+            deposits2 = [option.deposit_product_id for option in deposit_options2]
+            deposits2 = list(set(deposits2))
+
+            deposits = deposits1[:2] + deposits2[:3]
+
+            serializer = RecSavingSerializer(savings, many=True)
+            serializer2 = RecDepositSerializer(deposits, many=True)
+
+            response_data[f'{term}개월'] = {
+                'savings': serializer.data,
+                'deposits': serializer2.data,
+                }
+
+    elif user.user_type == 'EIG' or user.user_type == 'FIG':
+        for term in terms:
+            saving_options = Saving_option.objects.filter(
+            rsrv_type_nm='자유적립식',
+            save_trm=term,
+            saving_product_id__is_meaningout=False
+            ).order_by('-intr_rate')
+
+            savings = [option.saving_product_id for option in saving_options]
+            savings = list(set(savings))
+
+            deposit_options = Deposit_options.objects.filter(
+                save_trm=term,
+                deposit_product_id__is_meaningout=False
+            ).order_by('-intr_rate')
+
+            deposits = [option.deposit_product_id for option in deposit_options]
+            deposits = list(set(deposits))
+
+            serializer = RecSavingSerializer(savings, many=True)
+            serializer2 = RecDepositSerializer(deposits, many=True)
+
+            response_data[f'{term}개월'] = {
+                'savings': serializer.data,
+                'deposits': serializer2.data,
+                }
+
+    return Response(response_data)
 

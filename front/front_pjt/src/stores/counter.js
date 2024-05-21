@@ -51,6 +51,9 @@ export const useCounterStore = defineStore('counter', () => {
         token.value = res.data.key
         userId.value = username
         localStorage.setItem('token', res.data.key); // 로그인 성공 시 토큰을 localStorage에 저장
+        localStorage.setItem('user_id', res.data.user_id);
+        localStorage.setItem('username', username);
+        getUserInfo(res.data.user_id)
         router.push({name: 'home'})
       })
       .catch((error) => {
