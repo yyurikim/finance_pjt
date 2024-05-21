@@ -46,7 +46,7 @@ export const useCounterStore = defineStore('counter', () => {
   const logOut = function() {
     token.value = null;
     userId.value = null;
-    localStorage.removeItem('token');
+    localStorage.clear();
     router.push({ name: 'login' });
   };
 
