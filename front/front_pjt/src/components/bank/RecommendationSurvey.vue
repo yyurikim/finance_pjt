@@ -1,5 +1,6 @@
 <template>
   <div v-if="data">
+    {{ data }}
     <v-row>
       <v-tabs v-model="selectedTerm" background-color="white" slider-color="blue">
         <v-tab key="6" @click="setTerm(6)" :class="{'active-tab': selectedTerm === 6}">6개월</v-tab>
@@ -53,6 +54,7 @@
         <v-card-text>
           <p><strong>은행명</strong></p>
           <p>{{ dialogProduct.kor_co_nm }}</p>
+          <p><strong>금리</strong></p>
           <p><strong>우대조건</strong></p>
           <p>{{ dialogProduct.spcl_cnd }}</p>
           <p><strong>기타 유의사항</strong></p>

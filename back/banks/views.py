@@ -246,12 +246,13 @@ def check_meaningout(request):
 @api_view(['GET', 'POST'])
 def recommendation_by_survey(request):
     user = request.user
-    terms = [6, 12, 24, 36]
+    terms = ['6', '12', '24', '36']
     response_data={'user_type': user.user_type}
     if user.user_type == 'ERV' or user.user_type == 'FRV':
+        rsrv_type='정액적립식'
         for term in terms:
             saving_options1 = Saving_option.objects.filter(
-                rsrv_type_nm='정액적립식',
+                rsrv_type_nm=rsrv_type,
                 save_trm=term,
                 saving_product_id__is_meaningout=True
             ).order_by('-intr_rate')
@@ -260,7 +261,7 @@ def recommendation_by_survey(request):
             savings1 = list(set(savings1))
 
             saving_options2 = Saving_option.objects.filter(
-                rsrv_type_nm='정액적립식',
+                rsrv_type_nm=rsrv_type,
                 save_trm=term,
                 saving_product_id__is_meaningout=False
             ).order_by('-intr_rate')
@@ -288,8 +289,9 @@ def recommendation_by_survey(request):
 
             deposits = deposits1[:2] + deposits2[:3]
 
-            serializer = RecSavingSerializer(savings, many=True)
-            serializer2 = RecDepositSerializer(deposits, many=True)
+            context = {'term': term}
+            serializer = RecSavingSerializer(savings, many=True, context=context)
+            serializer2 = RecDepositSerializer(deposits, many=True,  context=context)
 
             response_data[f'{term}개월'] = {
                 'savings': serializer.data,
@@ -297,15 +299,16 @@ def recommendation_by_survey(request):
                 }
 
     elif user.user_type == 'ERG' or user.user_type == 'FRG':
+        rsrv_type='정액적립식'
         for term in terms:
             saving_options = Saving_option.objects.filter(
-                rsrv_type_nm='정액적립식',
+                rsrv_type_nm=rsrv_type,
                 save_trm=term,
                 saving_product_id__is_meaningout=False
             ).order_by('-intr_rate')
 
             savings = [option.saving_product_id for option in saving_options]
-            savings = list(set(savings))
+            savings = list(set(savings))[:5]
 
             deposit_options = Deposit_options.objects.filter(
                 save_trm=term,
@@ -313,10 +316,11 @@ def recommendation_by_survey(request):
             ).order_by('-intr_rate')
 
             deposits = [option.deposit_product_id for option in deposit_options]
-            deposits = list(set(deposits))
+            deposits = list(set(deposits))[:5]
 
-            serializer = RecSavingSerializer(savings, many=True)
-            serializer2 = RecDepositSerializer(deposits, many=True)
+            context = {'term': term}
+            serializer = RecSavingSerializer(savings, many=True, context=context)
+            serializer2 = RecDepositSerializer(deposits, many=True, context=context)
 
             response_data[f'{term}개월'] = {
                 'savings': serializer.data,
@@ -325,9 +329,10 @@ def recommendation_by_survey(request):
 
 
     elif user.user_type == 'EIV' or user.user_type == 'FIV':
+        rsrv_type='자유적립식'
         for term in terms:
             saving_options1 = Saving_option.objects.filter(
-                rsrv_type_nm='자유적립식',
+                rsrv_type_nm=rsrv_type,
                 save_trm=term,
                 saving_product_id__is_meaningout=True
             ).order_by('-intr_rate')
@@ -337,7 +342,7 @@ def recommendation_by_survey(request):
 
 
             saving_options2 = Saving_option.objects.filter(
-                rsrv_type_nm='자유적립식',
+                rsrv_type_nm=rsrv_type,
                 save_trm=term,
                 saving_product_id__is_meaningout=False
             ).order_by('-intr_rate')
@@ -365,8 +370,10 @@ def recommendation_by_survey(request):
 
             deposits = deposits1[:2] + deposits2[:3]
 
-            serializer = RecSavingSerializer(savings, many=True)
-            serializer2 = RecDepositSerializer(deposits, many=True)
+            context = {'term': term}
+
+            serializer = RecSavingSerializer(savings, many=True, context=context)
+            serializer2 = RecDepositSerializer(deposits, many=True, context=context)
 
             response_data[f'{term}개월'] = {
                 'savings': serializer.data,
@@ -374,6 +381,7 @@ def recommendation_by_survey(request):
                 }
 
     elif user.user_type == 'EIG' or user.user_type == 'FIG':
+        rsrv_type='자유적립식'
         for term in terms:
             saving_options = Saving_option.objects.filter(
             rsrv_type_nm='자유적립식',
@@ -382,7 +390,7 @@ def recommendation_by_survey(request):
             ).order_by('-intr_rate')
 
             savings = [option.saving_product_id for option in saving_options]
-            savings = list(set(savings))
+            savings = list(set(savings))[:5]
 
             deposit_options = Deposit_options.objects.filter(
                 save_trm=term,
@@ -390,10 +398,12 @@ def recommendation_by_survey(request):
             ).order_by('-intr_rate')
 
             deposits = [option.deposit_product_id for option in deposit_options]
-            deposits = list(set(deposits))
+            deposits = list(set(deposits))[:5]
 
-            serializer = RecSavingSerializer(savings, many=True)
-            serializer2 = RecDepositSerializer(deposits, many=True)
+            context = {'term': term}
+
+            serializer = RecSavingSerializer(savings, many=True, context=context)
+            serializer2 = RecDepositSerializer(deposits, many=True, context=context)
 
             response_data[f'{term}개월'] = {
                 'savings': serializer.data,
