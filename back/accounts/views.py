@@ -69,3 +69,10 @@ def update_user_info(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def user_goal_view(request):
+    user = request.user
+    serializer = UserGoalSerializer(user)
+    return Response(serializer.data)

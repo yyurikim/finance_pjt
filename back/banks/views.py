@@ -411,4 +411,3 @@ def recommendation_by_survey(request):
                 }
 
     return Response(response_data)
-

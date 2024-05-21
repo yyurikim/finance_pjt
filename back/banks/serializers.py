@@ -103,5 +103,3 @@ class RecDepositSerializer(serializers.ModelSerializer):
         ]
         # Remove any None values from the list
         return [option for option in filtered_options if option is not None]
-
-        

@@ -25,8 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 EXR_API_KEY=os.environ.get('EXR_API_KEY')
-API_KEY=os.environ.get('API_KEY')
-
+# API_KEY=os.environ.get('API_KEY')
+API_KEY='6da42bb787716616ae771e12df93ab90'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/

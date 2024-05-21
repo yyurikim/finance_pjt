@@ -1,6 +1,5 @@
 <template>
-  <div v-if="data">
-    {{ data }}
+  <div v-if="data && userGoal && dialogProduct">
     <v-row>
       <v-tabs v-model="selectedTerm" background-color="white" slider-color="blue">
         <v-tab key="6" @click="setTerm(6)" :class="{'active-tab': selectedTerm === 6}">6개월</v-tab>
@@ -18,6 +17,7 @@
               <v-list-item-content>
                 <v-list-item-title>{{ product.fin_prdt_nm }}</v-list-item-title>
                 <v-list-item-subtitle>{{ product.kor_co_nm }}</v-list-item-subtitle>
+                <v-list-item-subtitle>예상 만기 금액: {{  formatCurrency(product.expectedMaturity) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -31,6 +31,7 @@
               <v-list-item-content>
                 <v-list-item-title>{{ product.fin_prdt_nm }}</v-list-item-title>
                 <v-list-item-subtitle>{{ product.kor_co_nm }}</v-list-item-subtitle>
+                <v-list-item-subtitle>예상 만기 금액: {{  formatCurrency(product.expectedMaturity) }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -72,13 +73,14 @@
 
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useCounterStore } from '@/stores/counter';
 import axios from 'axios';
 
 const store = useCounterStore();
 const URL = `${store.API_URL}/banks/recommendation_by_survey/`;
 const data = ref(null);
+const userGoal = ref(null);
 const savings = ref([]);
 const deposits = ref([]);
 const dialogProduct = ref({});
@@ -90,6 +92,9 @@ const usertype = ref(null);
 const savingType = ref('');
 const meaningoutType = ref('');
 const selectedTerm = ref(6); // 기본값으로 6개월 설정
+const depositAmount = ref(0)
+const savingAmount = ref(0)
+
 
 const setTerm = (term) => {
   selectedTerm.value = term;
@@ -100,7 +105,7 @@ const openDialog = (product) => {
   dialog.value = true;
 };
 
-onMounted(async () => {
+const getRecommendation = async () => {
   try {
     const response = await axios.get(URL, {
       headers: {
@@ -123,6 +128,75 @@ onMounted(async () => {
       error.value = `Request error: ${err.message}`;
     }
   }
+}
+
+const getUsergoal = async () => {
+  try {
+    const response = await axios.get(`${store.API_URL}/api/v1/accounts/user-goal-view/`, {
+      headers: {
+        Authorization: `Token ${store.token}`
+      }
+    })
+    userGoal.value = response.data;
+    savingAmount.value = response.data.saving_amount
+    depositAmount.value = response.data.deposit_amount
+  } catch(err) {
+    console.error(error)
+  }
+}
+
+// 단리 만기 예상 금액 계산 함수
+const calculateSimpleInterestMaturity = (principal, annualRate, months) => {
+  // 월 이율로 환산
+  const monthlyRate = annualRate / 100 / 12;
+  // 단리 계산: 원금 + (원금 * 월 이율 * 기간)
+  return principal + (principal * monthlyRate * months);
+};
+
+const calculateSavingMaturity = (monthlySaving, annualRate, months) => {
+  const monthlyRate = annualRate / 100 / 12;
+  let total = 0;
+  for (let i = 0; i < months; i++) {
+    total += monthlySaving;
+    total += total * monthlyRate;  // 이 부분이 각 달마다 이자가 추가되는 방식을 보여줍니다.
+  }
+  return total;
+};
+
+const enrichProductsWithExpectedReturns = () => {
+  if (!data.value) return;
+  data.value[selectedTerm.value + '개월'].deposits.forEach(product => {
+    const interestRate = product.options.find(option => option.save_trm === selectedTerm.value.toString()).intr_rate;
+    product.expectedMaturity = calculateSimpleInterestMaturity(depositAmount.value, interestRate, selectedTerm.value);
+  });
+  data.value[selectedTerm.value + '개월'].savings.forEach(product => {
+    const interestRate = product.options.find(option => option.save_trm === selectedTerm.value.toString()).intr_rate;
+    product.expectedMaturity = calculateSavingMaturity(savingAmount.value, interestRate, selectedTerm.value);
+  });
+};
+
+const formatCurrency = (value) => {
+  return Number(value).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+};
+
+// onMounted(() => {
+//   getRecommendation();
+//   getUsergoal();
+//   // enrichProductsWithExpectedReturns();
+// });
+// watch 함수 개선
+watch(selectedTerm, () => {
+  getRecommendation().then(() => {
+    enrichProductsWithExpectedReturns();
+  });
+}, { immediate: true });
+// onMounted에서는 enrichProductsWithExpectedReturns 호출이 필요 없을 수도 있습니다.
+onMounted(() => {
+  getRecommendation().then(() => {
+    getUsergoal().then(() => {
+      enrichProductsWithExpectedReturns();  // 초기 로드 완료 후 한번 호출
+    });
+  });
 });
 </script>
 
