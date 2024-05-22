@@ -1,6 +1,6 @@
 <template>
   <header :class="{ hidden: isHomeView, whiteBackground: !isHomeView }">
-    <nav>
+    <nav v-if="user">
       <RouterLink :to="{ name: 'home' }" class="logo">Home</RouterLink>
       <ul>
         <li><RouterLink :to="{ name: 'profile' }">Profile</RouterLink></li>
@@ -8,10 +8,13 @@
         <li><RouterLink :to="{ name: 'map' }">BankMap</RouterLink></li>
         <li><RouterLink :to="{ name: 'exchange_rate' }">ExchangeRate</RouterLink></li>
         <li><RouterLink :to="{ name: 'community' }">Community</RouterLink></li>
-        <li><RouterLink :to="{ name: 'test' }">Test</RouterLink></li>
+        <!-- <li><RouterLink :to="{ name: 'test' }">Test</RouterLink></li> -->
         <li><RouterLink :to="{ name: 'changepwd' }">Changepwd</RouterLink></li>
         <li><RouterLink :to="{ name: 'changeinfo' }">Changeinfo</RouterLink></li>
       </ul>
+      <p class="hellouser">{{ user.username }}님 반가워요!</p>
+
+      <img :src="profileImage" width="50px"><img>
     </nav>
   </header>
 </template>
@@ -23,6 +26,36 @@ const props = defineProps({
     required: true,
   },
 });
+
+import { ref, onMounted, computed } from 'vue';
+import { useCounterStore } from '@/stores/counter';
+import axios from 'axios';
+import defaultProfileImg from '@/assets/user/user.png';
+const store = useCounterStore();
+const user = ref(null)
+
+
+const fetchUserProfile = async () => {
+  try {
+    const response = await axios.get(`${store.API_URL}/api/v1/accounts/profile/`, {
+      headers: {
+        Authorization: `Token ${store.token}`
+      }
+    })
+    user.value = response.data
+    console.log("User data fetched:", user.value); // 데이터 확인
+  } catch (error) {
+    console.error('Error fetching user profile:', error)
+  }
+}
+
+const profileImage = computed(() => {
+  return user.value && user.value.profile_img
+    ? `${store.API_URL}${user.value.profile_img}`
+    : defaultProfileImg;
+});
+
+onMounted(fetchUserProfile)
 </script>
 
 <style scoped>
@@ -80,6 +113,17 @@ nav ul li a:hover {
   color: #007bff;
   background-color: #f0f0f0;
   border-radius: 0.3rem;
+}
+
+nav img {
+  vertical-align: middle; /* 이미지를 텍스트와 중간 정렬 */
+  margin-top: -15px; /* 이미지를 약간 위로 올림 */
+  margin-left: 10px;
+  border-radius: 50%;
+}
+
+.hellouser {
+  margin-bottom: 0px
 }
 
 @media (max-width: 768px) {

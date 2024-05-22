@@ -2,13 +2,30 @@
   <div class="home">
     <div class="nav-container">
       <nav>
-        <ul>
+        <ul v-if="store.isLogin">
           <li><RouterLink :to="{ name: 'profile' }">Profile</RouterLink></li>
-          <li><RouterLink :to="{ name: 'signup' }">Signup</RouterLink></li>
-          <li><RouterLink :to="{ name: 'login' }">Login</RouterLink></li>
-          <li><RouterLink :to="{ name: 'test' }">Test</RouterLink></li>
+          <!-- <li><RouterLink :to="{ name: 'signup' }">Signup</RouterLink></li> -->
+          <!-- <li><RouterLink :to="{ name: 'login' }">Login</RouterLink></li> -->
           <li><RouterLink :to="{ name: 'changepwd' }">Changepwd</RouterLink></li>
           <li><RouterLink :to="{ name: 'changeinfo' }">Changeinfo</RouterLink></li>
+          <li>
+            <form @submit.prevent="store.logOut">
+              <button type="submit" style="color: white; text-decoration: none;">Logout</button>
+            </form>
+          </li>
+          <li>
+            <form @submit.prevent="store.deleteUser">
+              <button type="submit" style="color: white; text-decoration: none;">Delete account</button>
+            </form>
+          </li>
+        </ul>
+        <ul v-else>
+          <!-- <li><RouterLink :to="{ name: 'profile' }">Profile</RouterLink></li> -->
+          <li><RouterLink :to="{ name: 'signup' }">Signup</RouterLink></li>
+          <li><RouterLink :to="{ name: 'login' }">Login</RouterLink></li>
+          <!-- <li><RouterLink :to="{ name: 'test' }">Test</RouterLink></li> -->
+          <!-- <li><RouterLink :to="{ name: 'changepwd' }">Changepwd</RouterLink></li> -->
+          <!-- <li><RouterLink :to="{ name: 'changeinfo' }">Changeinfo</RouterLink></li> -->
         </ul>
       </nav>
     </div>
@@ -64,6 +81,12 @@
 
 <script setup>
 import Carousel from '@/components/main/Carousel.vue';
+import { useCounterStore } from '@/stores/counter';
+import { onMounted } from 'vue';
+
+const store = useCounterStore();
+
+onMounted(store)
 </script>
 
 <style scoped>

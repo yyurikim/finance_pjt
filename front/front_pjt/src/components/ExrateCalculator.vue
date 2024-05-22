@@ -3,9 +3,7 @@
     <v-container>
       <v-row>
         <v-col cols="12">
-          <h2>환율 계산기</h2>
-          <p>기준일자: {{ search_date }}</p>
-          {{ today }}
+          <h3>기준일자: {{ search_date }}</h3>
         </v-col>
       </v-row>
     <v-row align="center">
@@ -32,12 +30,9 @@
       </v-col>
     </v-row>
       <v-col>
-          <v-btn color="primary" @click="convertCurrency" :disabled="!fromCurrency || !toCurrency">Convert</v-btn>
+          <v-btn color="rgb(83, 204, 168)" :style="{ color: 'white' }" @click="convertCurrency" elevation="0" :disabled="!fromCurrency || !toCurrency">환율 계산하기</v-btn>
         </v-col>
-    <!-- <input type="number" v-model.number="amountFrom" placeholder="Enter amount">
-    <button @click="convertCurrency">Convert</button>
-  </div> -->
-  <v-row align="center">
+    <v-row align="center">
       <v-col cols="12" md="6">
         <v-combobox
           id="from-currency"
@@ -65,8 +60,9 @@
           가장 최근 영업일의 환율 정보입니다.
         </v-alert>
       </v-col>
+      <br>
     </v-row>
-    <h2>환율 그래프(KOR-{{ targetCountry }})</h2>
+    <h2 class="subtitle">최근 1개월 환율 그래프({{ targetCountry }}-KRW)</h2>
     <a v-if="targetCountry" :href="`https://finance.naver.com/marketindex/exchangeDetail.naver?marketindexCd=FX_${targetCountry}KRW`">
       <img :src="`https://ssl.pstatic.net/imgfinance/chart/marketindex/area/month/FX_${targetCountry}KRW.png`" alt="exchange graph" height="">
     </a>
@@ -159,3 +155,10 @@ return null;
 
 onMounted(fetchRates);
 </script>
+
+
+<style scoped>
+.subtitle {
+  margin-top: 50px;
+}
+</style>
