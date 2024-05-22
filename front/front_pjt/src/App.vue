@@ -1,27 +1,53 @@
 <template>
-  <div>
-    <header>
-      <nav>
-        <RouterLink :to="{name:'test'}">Test</RouterLink> |
-        <RouterLink :to="{name:'home'}">Home</RouterLink> |
-        <RouterLink :to="{name:'profile'}">Profile</RouterLink> |
-        <RouterLink :to="{name:'map'}">BankMap</RouterLink> |
-        <RouterLink :to="{name:'exchange_rate'}">ExchangeRate</RouterLink> |
-        <RouterLink :to="{name:'community'}">Community</RouterLink> |
-        <RouterLink :to="{name:'signup'}">Signup</RouterLink> |
-        <RouterLink :to="{name:'login'}">Login</RouterLink> |
-        <RouterLink :to="{name:'changepwd'}">Changepwd</RouterLink> |
-        <RouterLink :to="{name:'changeinfo'}">Changeinfo</RouterLink> |
-        <RouterLink :to="{name:'bank'}">bank</RouterLink>
-      </nav>
-    </header>
-    <RouterView/>
+  <div id="app">
+    <Header :isHomeView="isHomeView" />
+    <main class="main-content">
+      <RouterView @route-changed="onRouteChanged" />
+    </main>
+    <Footer />
   </div>
 </template>
 
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { ref, watchEffect } from 'vue';
+import { useRoute, onBeforeRouteUpdate } from 'vue-router';
+import Header from '@/components/main/Header.vue';
+import Footer from '@/components/main/Footer.vue';
+
+const isHomeView = ref(true);
+const route = useRoute();
+
+watchEffect(() => {
+  isHomeView.value = route.name === 'home';
+});
+
+const onRouteChanged = () => {
+  isHomeView.value = route.name === 'home';
+};
 </script>
 
 <style scoped>
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+footer {
+  background-color: #ffffff;
+  text-align: center;
+  width: 100%;
+}
 </style>

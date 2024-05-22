@@ -35,7 +35,7 @@ export default {
 
 <style>
 .kmap {
-  height: 500px;
+  height: 60vh; /* Reduce the height */
   width: 600px;
 }
 </style>

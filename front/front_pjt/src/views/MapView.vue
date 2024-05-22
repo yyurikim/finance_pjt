@@ -1,75 +1,77 @@
 <template>
   <div>
-    <h3>kakao map 검색</h3>
-    <div class="a">
-      <div class="map-container">
-        <div class="controll">
-          <button @click="zoom(-1)">
-            <span class="material-icons"> zoom_in </span>
-          </button>
-          <button @click="zoom(1)">
-            <span class="material-icons"> zoom_out </span>
-          </button>
-        </div>
-        <KakaoMap ref="kmap" class="kmap" :options="mapOption" />
-        <div class="searchbox">
-          <div>
-            <v-text-field
-              label="검색어를 입력하세요"
-              variant="underlined"
-              v-model="search.keyword"
-              @keyup.enter="searchPlace"
-            ></v-text-field>
+    <div class="main-container">
+      <div class="a">
+        <div class="map-container">
+          <div class="controll">
+            <button @click="zoom(-1)">
+              <span class="material-icons"> zoom_in </span>
+            </button>
+            <button @click="zoom(1)">
+              <span class="material-icons"> zoom_out </span>
+            </button>
           </div>
-          <div v-if="noResults" class="no-results">검색 결과가 없습니다.</div>
-          <div class="results">
-            <v-card
-              class="mx-auto"
-              max-width="300"
-              v-for="rs in search.results"
-              :key="rs.id"
-              @click="showPlace(rs)"
+          <KakaoMap ref="kmap" class="kmap" :options="mapOption" />
+          <div class="searchbox">
+            <div>
+              <v-text-field
+                label="검색어를 입력하세요"
+                variant="underlined"
+                v-model="search.keyword"
+                @keyup.enter="searchPlace"
+              ></v-text-field>
+            </div>
+            <div v-if="noResults" class="no-results">검색 결과가 없습니다.</div>
+            <div class="results">
+              <v-card
+                class="mx-auto"
+                max-width="300"
+                v-for="rs in search.results"
+                :key="rs.id"
+                @click="showPlace(rs)"
+              >
+                <v-list>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title>{{ rs.place_name }}</v-list-item-title>
+                      <v-list-item-subtitle>{{ rs.address_name }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-card>
+            </div>
+          </div>
+          <div class="search-controls">
+            <v-select
+              variant="outlined"
+              color="#75D9B1"
+              :items="doName"
+              label="광역시/도"
+              v-model="selectDo"
+            ></v-select>
+            <v-select
+              variant="outlined"
+              color="#75D9B1"
+              :items="cityName"
+              label="시/군/구"
+              v-model="selectCity"
+            ></v-select>
+            <v-select
+              variant="outlined"
+              color="#75D9B1"
+              :items="bankList"
+              label="은행"
+              v-model="selectBank"
+            ></v-select>
+            <v-btn
+              variant="flat"
+              color="#75D9B1"
+              size="medium"
+              @click="searchNearby"
             >
-              <v-list>
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title>{{ rs.place_name }}</v-list-item-title>
-                    <v-list-item-subtitle>{{ rs.address_name }}</v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-card>
+              <span class="material-icons"> map </span>
+            </v-btn>
           </div>
-        </div>
-        <div class="search-controls">
-          <v-select
-            variant="outlined"
-            color="#75D9B1"
-            :items="doName"
-            label="광역시/도"
-            v-model="selectDo"
-          ></v-select>
-          <v-select
-            variant="outlined"
-            color="#75D9B1"
-            :items="cityName"
-            label="시/군/구"
-            v-model="selectCity"
-          ></v-select>
-          <v-select
-            variant="outlined"
-            color="#75D9B1"
-            :items="bankList"
-            label="은행"
-            v-model="selectBank"
-          ></v-select>
-          <v-btn
-            variant="flat"
-            color="#75D9B1"
-            size="medium"
-            @click="searchNearby"
-          >
-          <span class="material-icons"> map </span></v-btn>
         </div>
       </div>
     </div>
@@ -79,7 +81,7 @@
 <script>
 import KakaoMap from "@/components/map/NewMap.vue";
 import MarkerHandler from "@/components/map/marker-handler";
-import { ref, watch, onMounted } from "vue";
+import { ref, watch } from "vue";
 
 export default {
   components: {
@@ -499,16 +501,68 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped>
+header {
+  padding: 1rem;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Shadow at the bottom */
+}
+
+header.whiteBackground {
+  background-color: #fff;
+  box-shadow: 0 4px 6px -6px rgba(0, 0, 0, 0.5); /* Shadow only at the bottom */
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nav .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+  margin-right: 2rem;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center; /* Center align the navigation links */
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  margin: 0 1rem;
+}
+
+nav ul li a {
+  color: #333;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.5rem;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+nav ul li a:hover {
+  color: #007bff;
+  background-color: #f0f0f0;
+  border-radius: 0.3rem;
+}
+
 button {
   border: 1px solid transparent;
   padding: 6px;
   background-color: #efefefdd;
   border-radius: 6px;
-  &:hover {
-    background-color: #ddd;
-    cursor: pointer;
-  }
+}
+
+button:hover {
+  background-color: #ddd;
+  cursor: pointer;
 }
 .a {
   display: flex;
@@ -522,7 +576,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 75vh;
+  height: 70vh; /* Reduce the height */
   margin: 50px;
   position: relative;
 }
