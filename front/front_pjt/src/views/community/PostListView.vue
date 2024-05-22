@@ -12,6 +12,7 @@
             {{ label }}
           </v-btn>
           <v-btn
+            v-if="store.isLogin"
             color="primary"
             class="mb-4"
             @click="goToCreatePost"
@@ -29,6 +30,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCommunityStore } from '@/stores/community';
+import { useCounterStore } from '@/stores/counter';
 import PostList from '@/components/community/PostList.vue';
 
 export default {
@@ -37,6 +39,7 @@ export default {
   },
   setup() {
     const communityStore = useCommunityStore();
+    const store = useCounterStore();
     const router = useRouter();
     const posts = ref([]);
     const currentBoardType = ref('bulletin');
@@ -45,6 +48,7 @@ export default {
       'consumer': '소비게시판',
       'challenge': '7일 소비생활 챌린지'
     };
+
 
     const fetchPosts = async (boardType) => {
       currentBoardType.value = boardType;
@@ -63,7 +67,8 @@ export default {
       boardTypes,
       currentBoardType,
       fetchPosts,
-      goToCreatePost
+      goToCreatePost,
+      store,
     };
   }
 };
