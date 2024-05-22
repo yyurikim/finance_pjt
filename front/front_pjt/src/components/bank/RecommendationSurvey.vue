@@ -1,7 +1,6 @@
 <template>
   <div v-if="data" class="container">
-    {{ data }}
-    <div class="tabs">
+        <div class="tabs">
       <button v-for="term in [6, 12, 24, 36]" :key="term" @click="setTerm(term)" :class="{'active-tab': selectedTerm === term}">
         {{ term }}개월
       </button>

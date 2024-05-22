@@ -29,22 +29,22 @@
               outlined
               dense
             ></v-textarea>
-            <v-btn icon @click="updateComment(comment.id)">
-              <v-icon>mdi-check</v-icon>
+            <v-btn @click="updateComment(comment.id)">
+              수정
             </v-btn>
-            <v-btn icon @click="cancelEdit">
-              <v-icon>mdi-cancel</v-icon>
+            <v-btn @click="cancelEdit">
+              수정 취소
             </v-btn>
           </template>
           <template v-else>
             <v-list-item-title>{{ comment.user_name }}</v-list-item-title>
             <v-list-item-subtitle>{{ comment.content }}</v-list-item-subtitle>
             <v-list-item-subtitle>{{ new Date(comment.created_at).toLocaleString() }}</v-list-item-subtitle>
-            <v-btn icon @click="startEdit(comment)">
-              <v-icon>mdi-pencil</v-icon>
+            <v-btn  @click="startEdit(comment)">
+              수정
             </v-btn>
-            <v-btn icon @click="deleteComment(comment.id)">
-              <v-icon>mdi-delete</v-icon>
+            <v-btn @click="deleteComment(comment.id)">
+              삭제
             </v-btn>
           </template>
         </v-list-item-content>

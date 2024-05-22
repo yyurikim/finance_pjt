@@ -22,7 +22,7 @@ export const useCounterStore = defineStore('counter', () => {
   }
 
   const isLogin = computed(() => {
-    return token.value !== null;
+    return token.value !== null? true : false;
   });
 
   // heartStatus 변경 시 로컬 스토리지에 저장
@@ -229,6 +229,7 @@ const depositJoin = async (deposit) => {
 
   const userId = ref(null);
 
+  const loginstatus = ref(false);
   const logIn = function(payload) {
     const { username, password } = payload;
     axios({
@@ -242,11 +243,13 @@ const depositJoin = async (deposit) => {
         console.log('로그인 성공!');
         console.log(res.data);
         console.log(res.data.key);
+        console.log(isLogin)
         token.value = res.data.key;
         userId.value = username;
         localStorage.setItem('token', res.data.key); // 로그인 성공 시 토큰을 localStorage에 저장
         localStorage.setItem('user_id', res.data.user_id);
         localStorage.setItem('username', username);
+        localStorage.setItem('loginstatus', loginstatus);
         getUserInfo(res.data.user_id)
         router.push({name: 'home'})
       })

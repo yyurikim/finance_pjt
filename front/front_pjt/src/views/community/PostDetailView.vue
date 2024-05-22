@@ -13,7 +13,7 @@
               <div v-if="post.image_url">
                 <v-img :src="post.image_url" alt="Post Image" width="300px" height="300px"></v-img>
               </div>
-              <v-card-actions>
+              <v-card-actions v-if="post.user_name===localUserName">
                 <v-btn color="primary" @click="editPost">수정</v-btn>
                 <v-btn color="error" @click="deletePost">삭제</v-btn>
               </v-card-actions>
@@ -43,6 +43,8 @@ const router = useRouter();
 const post = ref(null);
 const comments = ref([]);
 const currentUserId = ref(store.userInfo);
+const localUserName = localStorage.getItem('username');
+
 
 const fetchPost = async () => {
   try {
