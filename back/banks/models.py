@@ -15,7 +15,6 @@ class Deposit(models.Model) :
     user_deposit = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='user_deposits', blank=True)
     liked_user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_deposits', blank=True)
 
-
 class Deposit_options(models.Model) :
     deposit_option_id = models.AutoField(primary_key=True)
     deposit_product_id = models.ForeignKey(Deposit, on_delete = models.CASCADE)

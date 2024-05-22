@@ -11,7 +11,3 @@ urlpatterns = [
   path('update-user-goal/', views.update_user_goal),
   path('user-goal-view/', views.user_goal_view),
 ]
-
-if settings.DEBUG:
-  urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
