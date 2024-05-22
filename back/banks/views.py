@@ -322,7 +322,7 @@ def recommendation_by_survey(request):
             savings2 = [option.saving_product_id for option in saving_options2]
             savings2 = list(set(savings2))
 
-            savings = savings1[:2] + savings2[:3]
+            savings = savings1[:2] + savings2[:5]
 
             deposit_options1 = Deposit_options.objects.filter(
                 save_trm=term,
@@ -340,11 +340,11 @@ def recommendation_by_survey(request):
             deposits2 = [option.deposit_product_id for option in deposit_options2]
             deposits2 = list(set(deposits2))
 
-            deposits = deposits1[:2] + deposits2[:3]
+            deposits = deposits1[:2] + deposits2[:5]
 
             context = {'term': term}
             serializer = RecSavingSerializer(savings, many=True, context=context)
-            serializer2 = RecDepositSerializer(deposits, many=True,  context=context)
+            serializer2 = RecDepositSerializer(deposits, many=True, context=context)
 
             response_data[f'{term}개월'] = {
                 'savings': serializer.data,
@@ -361,15 +361,14 @@ def recommendation_by_survey(request):
             ).order_by('-intr_rate')
 
             savings = [option.saving_product_id for option in saving_options]
-            savings = list(set(savings))[:5]
-
+            savings = list(set(savings))[:10]
             deposit_options = Deposit_options.objects.filter(
                 save_trm=term,
                 deposit_product_id__is_meaningout=False
             ).order_by('-intr_rate')
 
             deposits = [option.deposit_product_id for option in deposit_options]
-            deposits = list(set(deposits))[:5]
+            deposits = list(set(deposits))[:10]
 
             context = {'term': term}
             serializer = RecSavingSerializer(savings, many=True, context=context)
@@ -403,7 +402,7 @@ def recommendation_by_survey(request):
             savings2 = [option.saving_product_id for option in saving_options2]
             savings2 = list(set(savings2))
 
-            savings = savings1[:2] + savings2[:3]
+            savings = savings1[:2] + savings2[:5]
 
             deposit_options1 = Deposit_options.objects.filter(
                 save_trm=term,
@@ -421,7 +420,7 @@ def recommendation_by_survey(request):
             deposits2 = [option.deposit_product_id for option in deposit_options2]
             deposits2 = list(set(deposits2))
 
-            deposits = deposits1[:2] + deposits2[:3]
+            deposits = deposits1[:2] + deposits2[:5]
 
             context = {'term': term}
 
@@ -443,15 +442,14 @@ def recommendation_by_survey(request):
             ).order_by('-intr_rate')
 
             savings = [option.saving_product_id for option in saving_options]
-            savings = list(set(savings))[:5]
-
+            savings = list(set(savings))[:10]
             deposit_options = Deposit_options.objects.filter(
                 save_trm=term,
                 deposit_product_id__is_meaningout=False
             ).order_by('-intr_rate')
 
             deposits = [option.deposit_product_id for option in deposit_options]
-            deposits = list(set(deposits))[:5]
+            deposits = list(set(deposits))[:10]
 
             context = {'term': term}
 
@@ -464,3 +462,36 @@ def recommendation_by_survey(request):
                 }
 
     return Response(response_data)
+
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_joined(request):
+    user = request.user
+    user_savings = user.user_savings.all()
+    user_deposits = user.user_deposits.all()
+    saving_serializer = SavingSerializers(user_savings, many=True)
+    deposits_serializer = DepositSerializers(user_deposits, many=True)
+
+    return Response({
+       'savings': saving_serializer.data,
+        'deposits': deposits_serializer.data,
+    })
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_liked(request):
+    user = request.user
+    liked_savings = user.liked_savings.all()
+    liked_deposits = user.liked_deposits.all()
+    saving_serializer = SavingSerializers(liked_savings, many=True)
+    deposits_serializer = DepositSerializers(liked_deposits, many=True)
+
+    return Response({
+       'savings': saving_serializer.data,
+        'deposits': deposits_serializer.data,
+    })

@@ -24,4 +24,6 @@ urlpatterns = [
     path('like-saving/<int:saving_id>/', views.like_saving),
     path('user-deposit/<int:deposit_id>/', views.user_deposit),
     path('user-saving/<int:saving_id>/', views.user_saving),
+    path('user-joined/', views.user_joined),
+    path('user-liked/', views.user_liked),
 ]

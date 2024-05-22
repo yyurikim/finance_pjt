@@ -8,6 +8,7 @@
           <v-col cols="12" md="8">
             <!-- <financial-recommendations /> -->
             <RecommendationSurvey />
+            <UserProducts />
           </v-col>
         </v-row>
       </v-container>
@@ -17,6 +18,7 @@
   <script setup>
   import UserInfo from '@/components/profile/UserInfo.vue'
   import RecommendationSurvey from '@/components/bank/RecommendationSurvey.vue'
+  import UserProducts from '@/components/profile/UserProducts.vue';
   </script>
   
   <style scoped>

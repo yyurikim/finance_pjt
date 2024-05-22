@@ -1,29 +1,22 @@
 <template>
     <div v-if="user">
-      <!-- <p>{{ user }}</p> -->
+      {{ user.profile_img }}
       <v-card class="mx-auto my-5 pa-5" max-width="400" height="500">
             <v-card-title class="d-flex align-center justify-center">
                 <v-avatar size="300" class="mr-3">
-                    <v-img :src="user.profile_img" alt="User Avatar" />
-                </v-avatar>
+                    <img :src="user.profile_img" alt="User Avatar" />
+                  </v-avatar>
             </v-card-title>
-            <!-- <v-card-subtitle class="text-center">{{ user.username }}</v-card-subtitle> -->
             <v-card-text class="text-center">
               <div>
+                <p>나의 목표 : {{ user.my_goal }}</p>
+                <p>현재 가진 자산 : {{ user.deposit_amount }}원</p>
+                <p>매달 저축할 금액 : {{ user.saving_amount }}원</p>
+                <br>
                 <h3><strong>{{ user.username }}</strong>님의 소비 성향은</h3>
                 <h3><strong>{{ user.user_type }}</strong>입니다.</h3>
               </div>
-              <br>
               <button>설명 보기</button>
-                <!-- <div>
-                    <strong>User Type:</strong> {{ user.user_type || 'N/A' }}
-                </div>
-                <div>
-                    <strong>Email:</strong> {{ user.email }}
-                </div>
-                <div>
-                    <strong>Joined:</strong> {{ new Date(user.date_joined).toLocaleDateString() }}
-                </div> -->
             </v-card-text>
         </v-card>
     </div>
