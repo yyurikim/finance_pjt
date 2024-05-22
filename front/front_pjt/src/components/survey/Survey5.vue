@@ -9,8 +9,8 @@
           @keypress.enter="answer(true)"
           role="button"
         >
-          <h3>이번 한 번만!</h3>
-          <h3>주변 사람이나 신용카드의 도움을 빌린다</h3>
+          <h5>이번 한 번만!</h5>
+          <h5>주변 사람이나 신용카드의 도움을 빌린다</h5>
         </div>
         <div 
           class="button" 
@@ -19,8 +19,8 @@
           @keypress.enter="answer(false)"
           role="button"
         >
-          <h3>언젠가 다시 풀리겠지~</h3>
-          <h3>다음을 기약한다</h3>
+          <h5>언젠가 다시 풀리겠지~</h5>
+          <h5>다음을 기약한다</h5>
         </div>
       </div>
     </div>
@@ -40,47 +40,46 @@
   </script>
   
   <style scoped>
-  .container {
-    width: 550px;
-    height: 875px;
-    margin: 10px auto;
-    position: relative;
-  }
-  
-  .container img {
-    width: 100%;
-    vertical-align: middle;
-  }
-  
-  .buttons-container {
-    position: absolute;
-    top: 300px; /* 버튼들의 상단 위치 */
-    left: 50%; /* 중앙 정렬을 위해 left 50% 설정 */
-    transform: translateX(-50%); /* 중앙 정렬을 위해 translateX 사용 */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .button {
-    width: 400px;
-    height: 75px;
-    background-color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-    user-select: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 설정 */
-    margin-bottom: 20px; /* 버튼 간격 */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .button:focus {
-    outline: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 포커스 시 그림자 설정 */
-  }
-  </style>
-  
+.container {
+  width: 400px;
+  margin: 10px auto;
+  position: relative;
+}
+
+.container img {
+  width: 100%;
+  vertical-align: middle;
+}
+
+.buttons-container {
+  position: absolute;
+  top: 216px; /* 버튼들의 상단 위치 */
+  left: 50%; /* 중앙 정렬을 위해 left 50% 설정 */
+  transform: translateX(-50%); /* 중앙 정렬을 위해 translateX 사용 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  width: 250px;
+  height: 60px;
+  background-color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  user-select: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 설정 */
+  margin-bottom: 10px; /* 버튼 간격 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 포커스 시 그림자 설정 */
+}
+</style>
