@@ -27,16 +27,16 @@ class SavingOptionsSerializers(serializers.ModelSerializer) :
         fields = '__all__'
 
 
-class UserDepositSerializers(serializers.ModelSerializer) :
-    class Meta :
-        model = UserDeposit
-        fields = '__all__'
+# class UserDepositSerializers(serializers.ModelSerializer) :
+#     class Meta :
+#         model = UserDeposit
+#         fields = '__all__'
 
 
-class UserSavingsSerializers(serializers.ModelSerializer) :
-    class Meta :
-        model = UserSavings
-        fields = '__all__'
+# class UserSavingsSerializers(serializers.ModelSerializer) :
+#     class Meta :
+#         model = UserSavings
+#         fields = '__all__'
 
 class RecommendSerializer(serializers.ModelSerializer):
     class Meta:
