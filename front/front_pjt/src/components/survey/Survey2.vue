@@ -9,8 +9,8 @@
         @keypress.enter="answer(true)"
         role="button"
       >
-      <h3>온라인에서 가격 비교 후 구매한다</h3>
-      <h5>ex) 무신사</h5>
+      <h5>온라인에서 가격 비교 후 구매한다</h5>
+      <h6>ex) 무신사</h6>
       </div>
       <div 
         class="button" 
@@ -19,7 +19,7 @@
         @keypress.enter="answer(false)"
         role="button"
       >
-      <h3>지금이 바로 기회! 당장 구매한다</h3>
+      <h5>지금이 바로 기회! 당장 구매한다</h5>
       </div>
     </div>
   </div>
@@ -40,8 +40,7 @@ const answer = (response) => {
 
 <style scoped>
 .container {
-  width: 550px;
-  height: 875px;
+  width: 400px;
   margin: 10px auto;
   position: relative;
 }
@@ -53,7 +52,7 @@ const answer = (response) => {
 
 .buttons-container {
   position: absolute;
-  top: 300px; /* 버튼들의 상단 위치 */
+  top: 216px; /* 버튼들의 상단 위치 */
   left: 50%; /* 중앙 정렬을 위해 left 50% 설정 */
   transform: translateX(-50%); /* 중앙 정렬을 위해 translateX 사용 */
   display: flex;
@@ -62,19 +61,20 @@ const answer = (response) => {
 }
 
 .button {
-  width: 400px;
-  height: 75px;
+  width: 250px;
+  height: 60px;
   background-color: #fff;
   border-radius: 4px;
   cursor: pointer;
   text-align: center;
   user-select: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 설정 */
-  margin-bottom: 20px; /* 버튼 간격 */
+  margin-bottom: 10px; /* 버튼 간격 */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-weight: bold;
 }
 
 .button:focus {

@@ -25,14 +25,18 @@
         </div>
           
           <v-expansion-panel-text>
-            <div>
+            <div style="text-align: left; font-size: 1.1rem">
               <p>이율: {{ saving.intr_rate }}%</p>
               <p>특별 조건: {{ saving.spcl_cnd }}</p>
               <p>기타 정보: {{ saving.etc_note }}</p>
+              <div style="text-align: right;">
+              <span v-if="counter.joinStatus2[saving.saving_id]">가입 완료 </span>
+              <span span v-else>가입하기 </span>
               <i
                 :class="['fa-solid', counter.joinStatus2[saving.saving_id] ? 'fa-check' : 'fa-plus']"
                 @click.stop="savingJoin(saving)"
               ></i>
+            </div>
             </div>
 
           </v-expansion-panel-text>
@@ -321,6 +325,7 @@ h3 {
 
 .saving-details {
   flex: 1;
+  text-align: left;
 }
 
 .interest-rate {
@@ -373,13 +378,14 @@ th {
   margin-top: 10px;
 }
 
-.fa-heart {
-  cursor: pointer;
-}
-.fa-solid {
-  color: red;
-}
 .fa-regular {
   color: gray;
+}
+.fa-heart {
+  cursor: pointer;
+  color: red;
+}
+.fa-check .fa-plus {
+  color:#2d5792
 }
 </style>

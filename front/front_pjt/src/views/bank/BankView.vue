@@ -3,9 +3,7 @@
     <h1>은행 상품 목록</h1>
     <SelectProduct ref="selectProduct" />
 
-    <!-- 스위치 컨테이너 -->
     <div class="switch-row">
-      <!-- 예금/적금 스위치 -->
       <div class="switch-container product-switch">
         <div class="switch">
           <div class="switch-options">
@@ -22,7 +20,6 @@
         </div>
       </div>
 
-      <!-- 기간 스위치 -->
       <div class="switch-container term-switch">
         <div class="switch">
           <div class="switch-options">
@@ -42,7 +39,6 @@
       </div>
     </div>
 
-    <!-- 검색 입력 필드 -->
     <div class="search-container">
       <input 
         v-model="searchQuery" 
@@ -54,17 +50,17 @@
 
     <div v-if="isDeposit">
       <BankDepositList 
-      :selectedTerm="selectedTerm" 
-      :searchQuery="searchQuery" 
-      :isDeposit="isDeposit" 
-      @select-item="handleSelectItem" />
+        :selectedTerm="selectedTerm" 
+        :searchQuery="searchQuery" 
+        :isDeposit="isDeposit" 
+        @select-item="handleSelectItem" />
     </div>
     <div v-else>
       <BankSavingList 
-      :selectedTerm="selectedTerm" 
-      :searchQuery="searchQuery" 
-      :isDeposit="isDeposit" 
-      @select-item="handleSelectItem" />
+        :selectedTerm="selectedTerm" 
+        :searchQuery="searchQuery" 
+        :isDeposit="isDeposit" 
+        @select-item="handleSelectItem" />
     </div>
 
     <v-dialog v-model="isCompareModalOpen" max-width="800px">
@@ -165,19 +161,6 @@ export default defineComponent({
 })
 </script>
 
-<style>
-.search-container {
-  margin: 20px 0;
-}
-
-.search-input {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-}
-</style>
-
-
 <style scoped>
 .first {
   padding: 80px;
@@ -257,5 +240,15 @@ export default defineComponent({
   border-radius: 20px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
+}
+
+.search-container {
+  margin: 20px 0;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
 }
 </style>

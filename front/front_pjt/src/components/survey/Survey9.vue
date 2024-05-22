@@ -9,8 +9,8 @@
         @keypress.enter="answer(true)"
         role="button"
       >
-      <h3>더 비싸긴 하지만 비슷한 디자인이라면</h3>
-      <h3>사회적 기업에서 만든 물건을 구매한다</h3>
+      <h5>더 비싸긴 하지만 비슷한 디자인이라면</h5>
+      <h5>사회적 기업에서 만든 물건을 구매한다</h5>
       </div>
       <div 
         class="button" 
@@ -19,7 +19,7 @@
         @keypress.enter="answer(false)"
         role="button"
       >
-      <h3>조금이라도 더 저렴한 물건을 구매한다</h3>
+      <h5>조금이라도 더 저렴한 물건을 구매한다</h5>
       </div>
     </div>
   </div>
@@ -47,8 +47,7 @@ export default {
 
 <style scoped>
 .container {
-  width: 550px;
-  height: 875px;
+  width: 400px;
   margin: 10px auto;
   position: relative;
 }
@@ -60,7 +59,7 @@ export default {
 
 .buttons-container {
   position: absolute;
-  top: 300px; /* 버튼들의 상단 위치 */
+  top: 216px; /* 버튼들의 상단 위치 */
   left: 50%; /* 중앙 정렬을 위해 left 50% 설정 */
   transform: translateX(-50%); /* 중앙 정렬을 위해 translateX 사용 */
   display: flex;
@@ -69,19 +68,20 @@ export default {
 }
 
 .button {
-  width: 400px;
-  height: 75px;
+  width: 250px;
+  height: 60px;
   background-color: #fff;
   border-radius: 4px;
   cursor: pointer;
   text-align: center;
   user-select: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 설정 */
-  margin-bottom: 20px; /* 버튼 간격 */
+  margin-bottom: 10px; /* 버튼 간격 */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-weight: bold;
 }
 
 .button:focus {

@@ -21,7 +21,7 @@
           <v-btn :to="{ name: 'survey' }" class="btn" outlined>
             <template v-slot:prepend>
             </template>
-            나의 소비성향 확인하기😁
+            <h4>나의 소비성향 확인하기😁</h4>
             <template v-slot:append>
             </template>
           </v-btn>
