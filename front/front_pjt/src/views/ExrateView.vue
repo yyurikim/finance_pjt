@@ -1,6 +1,6 @@
 <template>
   <div>
-<h1>Exchange Rate Information</h1>
+<h1 class="title">환율 계산기</h1>
     <ExrateCalculator />
   </div>
 </template>
@@ -11,5 +11,8 @@ import ExrateCalculator from '../components/ExrateCalculator.vue';
 </script>
 
 <style scoped>
+.title {
+  margin-top: 50px;
+}
 
 </style>

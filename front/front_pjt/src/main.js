@@ -6,6 +6,7 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { useKakao } from 'vue3-kakao-maps/@utils'
 import survey from './stores/survey'
+import './assets/css/global.css'
 
 
 import 'vuetify/styles'
