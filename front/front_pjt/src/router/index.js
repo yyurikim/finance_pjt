@@ -121,7 +121,7 @@ router.beforeEach((to, from) => {
   const store = useCounterStore()
 
   // 인증되지 않은 사용자는 비밀번호 변경 페이지에 접근할 수 없음
-  if (to.name === 'changepwd' && !store.isLogin) {
+  if ((to.name === 'changepwd' && !store.isLogin) || (to.name === 'changeinfo' &&!store.isLogin) || (to.name === 'profile' &&!store.isLogin)) {
     window.alert('로그인이 필요해요!!')
     return { name: 'login' }
   }
