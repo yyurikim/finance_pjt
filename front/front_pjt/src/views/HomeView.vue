@@ -55,7 +55,7 @@
       </section>
 
       <section class="content-section">
-        <img src="@/assets/text1.png" alt="" class="img1">
+        <img src="@/assets/test1.png" alt="" class="img1">
       </section>
 
       <section>
@@ -136,11 +136,12 @@ onMounted(() => {
 }
 
 .title {
-  background: url('@/assets/test.jpg') no-repeat center center;
-  /* background: url('@/assets/busan.png') no-repeat center center; */
+  /* background: url('@/assets/test.jpg') no-repeat center center; */
+  background: url('@/assets/busan.png') no-repeat center center;
   background-size: cover;
   text-align: center;
   padding: 2rem;
+  margin-top: 25px;
   color: white;
   position: relative;
   height: 70vh; /* Adjust the height as needed */

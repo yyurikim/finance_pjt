@@ -13,7 +13,9 @@
         <li><RouterLink :to="{ name: 'changeinfo' }">Changeinfo</RouterLink></li>
       </ul>
       <p v-if="user" class="hellouser">{{ user.username }}님 반가워요!</p>
-      <img v-if="user" :src="profileImage" width="50px"><img>
+      <RouterLink :to="{ name: 'profile' }">
+      <img v-if="user" :src="profileImage" width="50px" height="50px"><img>
+      </RouterLink>
     </nav>
   </header>
 </template>

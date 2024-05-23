@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main-container">
-      <h1 class="title">근처 은행 찾기</h1>
+      <h1 class="title12">근처 은행 찾기</h1>
       <div class="a">
         <div class="map-container">
           <div class="controll">
@@ -504,9 +504,9 @@ export default {
 
 <style lang="scss">
 
-.title {
+.title12 {
   margin-top: 50px;
-  margin-bottom : -30px;
+  margin-bottom : -60px;
 }
 
 header {

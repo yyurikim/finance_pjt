@@ -228,8 +228,8 @@ const depositJoin = async (deposit) => {
   };
 
   const userId = ref(null);
+
   const loginstatus = ref(false);
-  
   const logIn = function(payload) {
     const { username, password } = payload;
     axios({
