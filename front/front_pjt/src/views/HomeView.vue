@@ -27,8 +27,12 @@
     <section class="title">
       <div class="centered-container">
         <div class="centered">
-          <h1>어쩌구저쩌구</h1>
-          <h1>우리의 서비스</h1>
+          <h1>예적금 비교는 Mingle에게 맡기세요.</h1>
+          <br>
+          <h1>번거로운 절차 없이</h1>
+          <!-- <br>
+          <br> -->
+          <h1>한 번에 비교하고 모두와 공유해요 😉</h1>
           <!-- <v-btn :to="{ name: 'survey' }" class="btn" outlined>
             <template v-slot:prepend></template>
             <h4>나의 소비성향 확인하기😁</h4>
@@ -136,8 +140,8 @@ onMounted(() => {
 }
 
 .title {
-  /* background: url('@/assets/test.jpg') no-repeat center center; */
-  background: url('@/assets/busan.png') no-repeat center center;
+  background: url('@/assets/team1.jpg') no-repeat center center;
+  /* background: url('@/assets/busan.png') no-repeat center center; */
   background-size: cover;
   text-align: center;
   padding: 2rem;
