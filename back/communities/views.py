@@ -131,20 +131,23 @@ def consumer_buyit(request, post_pk):
         post.buyit.add(request.user)
         post.dontbuyit.remove(request.user)  # 다른 투표는 취소
       serializer = ConsumerVoteSerializer(post)
-    print('POST')
     return Response(serializer.data)
 
-@api_view(['POST'])
+@api_view(['GET','POST'])
 def consumer_dontbuyit(request, post_pk):
   post = Consumer_post.objects.get(pk=post_pk)
-  user = request.user
-  if request.user.is_authenticated:
-    if user in post.dontbuyit.all():
-      post.dontbuyit.remove(request.user)
-    else:
-      post.dontbuyit.add(request.user)
-      post.buyit.remove(request.user)  # 다른 투표는 취소
+  if request.method == 'GET':
     serializer = ConsumerVoteSerializer(post)
+    return Response(serializer.data)
+  else:
+    user = request.user
+    if request.user.is_authenticated:
+      if user in post.dontbuyit.all():
+        post.dontbuyit.remove(request.user)
+      else:
+        post.dontbuyit.add(request.user)
+        post.buyit.remove(request.user)  # 다른 투표는 취소
+      serializer = ConsumerVoteSerializer(post)
   return Response(serializer.data)
 
 

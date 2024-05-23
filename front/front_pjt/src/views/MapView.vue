@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="main-container">
+      <h1 class="title">근처 은행 찾기</h1>
       <div class="a">
         <div class="map-container">
           <div class="controll">
@@ -502,6 +503,12 @@ export default {
 </script>
 
 <style lang="scss">
+
+.title {
+  margin-top: 50px;
+  margin-bottom : -30px;
+}
+
 header {
   padding: 1rem;
   transition: background-color 0.3s, box-shadow 0.3s;

@@ -1,7 +1,7 @@
 <template>
   <div v-if="user" class="profile-card-container">
     <div class="avatar-container">
-      <img :src="profileImage" width="250px"><img>
+      <img :src="profileImage" class="user-avatar" width="250px"><img>
     </div>
     
     <div class="user-info">
@@ -11,17 +11,31 @@
       <h3><strong>{{ user.username }}</strong>님의 소비 성향은</h3>
       <h3><strong>{{ user.user_type }}</strong>입니다.</h3>
     </div>
-
-    <!-- 버튼 -->
-    <button>설명 보기</button>
+  
+    <button @click="showPopup">알아보기</button>
+    <div v-if="showPopupFlag" class="popup">
+    <div class="popup-content">
+      <h3>당신의 성향은! 🤔 </h3>
+      <img v-if="user.user_type==='EIV'" src='@/assets/result/EIV.png' alt="결과 이미지">
+      <img v-else-if="user.user_type==='FIV'" src='@/assets/result/FIV.png' alt="결과 이미지">
+      <img v-else-if="user.user_type==='ERV'" src='@/assets/result/ERV.png' alt="결과 이미지">
+      <img v-else-if="user.user_type==='FRV'" src='@/assets/result/FRV.png' alt="결과 이미지">
+      <img v-else-if="user.user_type==='EIG'" src='@/assets/result/EIG.png' alt="결과 이미지">
+      <img v-else-if="user.user_type==='FIG'" src='@/assets/result/FIG.png' alt="결과 이미지">
+      <img v-else-if="user.user_type==='ERG'" src='@/assets/result/EFG.png' alt="결과 이미지">
+      <img v-else-if="user.user_type==='FRG'" src='@/assets/result/FRG.png' alt="결과 이미지">
+      <button @click="closePopup">닫기</button>
+    </div>
   </div>
+</div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useCounterStore } from '@/stores/counter'
 import axios from 'axios'
-import defaultProfileImg from '@/assets/user/user.png';
+import defaultProfileImg from '@/assets/user/user.png'
+const showPopupFlag = ref(false)
 
 
 const store = useCounterStore()
@@ -51,7 +65,26 @@ const formatNumber = (number) => {
   return number.toLocaleString()
 }
 
-onMounted(fetchUserProfile)
+
+
+
+
+
+// 팝업을 표시하는 함수
+const showPopup = () => {
+  showPopupFlag.value = true;
+}
+
+// 팝업을 닫는 함수
+const closePopup = () => {
+  showPopupFlag.value = false;
+}
+
+
+
+onMounted(() => {
+  fetchUserProfile()
+})
 </script>
 
 <style scoped>
@@ -75,8 +108,31 @@ onMounted(fetchUserProfile)
 .user-avatar {
   width: 250px;
   height: 250px;
-  border-radius: 50%; /* 원형 이미지 */
+  border-radius: 70%; /* 원형 이미지 */
 }
+
+
+.popup {
+  position: fixed; /* 팝업 위치를 고정 */
+  top: 0;
+  left: 0;
+  width: 100%; /* 전체 화면을 덮도록 설정 */
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* 배경을 반투명하게 설정 */
+  z-index: 1000; /* 다른 요소들 위에 표시 */
+}
+
+.popup-content {
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1001;
+}
+
 
 .user-info {
   text-align: center;

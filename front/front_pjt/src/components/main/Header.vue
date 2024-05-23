@@ -1,6 +1,6 @@
 <template>
   <header :class="{ hidden: isHomeView, whiteBackground: !isHomeView }">
-    <nav v-if="user">
+    <nav>
       <RouterLink :to="{ name: 'home' }" class="logo">Home</RouterLink>
       <ul>
         <li><RouterLink :to="{ name: 'profile' }">Profile</RouterLink></li>
@@ -12,9 +12,8 @@
         <li><RouterLink :to="{ name: 'changepwd' }">Changepwd</RouterLink></li>
         <li><RouterLink :to="{ name: 'changeinfo' }">Changeinfo</RouterLink></li>
       </ul>
-      <p class="hellouser">{{ user.username }}님 반가워요!</p>
-
-      <img :src="profileImage" width="50px"><img>
+      <p v-if="user" class="hellouser">{{ user.username }}님 반가워요!</p>
+      <img v-if="user" :src="profileImage" width="50px"><img>
     </nav>
   </header>
 </template>

@@ -3,7 +3,7 @@
     <div class="card">
       <h3>내가 가입한 상품</h3>
       <br>
-      <div class="list">
+      <div v-if="userJoined" class="list">
         <div 
           class="list-item" 
           v-for="product in userJoined.savings" 
@@ -23,13 +23,16 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="card">
-      <h3>내가 관심있는 상품</h3>
-      <br>
-      <div class="list">
-        <div 
+      <div v-if="userJoined.savings.length === 0 && userJoined.deposits.length === 0">
+        <p>가입한 상품이 없습니다.</p>
+      </div>
+      </div>
+      
+      <div class="card">
+        <h3>내가 관심있는 상품</h3>
+        <br>
+        <div v-if="userLiked" class="list">
+          <div 
           class="list-item" 
           v-for="product in userLiked.savings" 
           :key="product.id">
@@ -39,17 +42,20 @@
           </div>
         </div>
         <div 
-          class="list-item" 
-          v-for="product in userLiked.deposits" 
-          :key="product.id">
-          <div class="list-item-content">
-            <div class="list-item-title">{{ product.fin_prdt_nm }}</div>
-            <div class="list-item-subtitle">{{ product.kor_co_nm }}</div>
-          </div>
+        class="list-item" 
+        v-for="product in userLiked.deposits" 
+        :key="product.id">
+        <div class="list-item-content">
+          <div class="list-item-title">{{ product.fin_prdt_nm }}</div>
+          <div class="list-item-subtitle">{{ product.kor_co_nm }}</div>
         </div>
       </div>
     </div>
+    <div v-if="userLiked.savings.length === 0 && userLiked.deposits.length === 0">
+      <p>관심있는 상품이 없습니다.</p>
+    </div>
   </div>
+</div>
 </template>
 
 
@@ -59,8 +65,8 @@ import { ref, onMounted } from 'vue'
 import { useCounterStore } from '@/stores/counter'
 import axios from 'axios'
 
-const userJoined = ref({})
-const userLiked = ref({})
+const userJoined = ref({ savings: [], deposits: [] })
+const userLiked = ref({ savings: [], deposits: [] })
 const store = useCounterStore()
 
 const getUserJoined = async () => {

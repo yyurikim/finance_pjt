@@ -74,18 +74,20 @@ export default {
 .list-item-title {
   font-size: 1.2rem;
   font-weight: bold;
-  margin: 0;
   text-align: left; /* 왼쪽 정렬 */
+  margin-left: 3px
 }
 
 .list-item-subtitle {
-  margin: 10px 0;
+  margin-top: 1px;
+  margin-left: 3px;
   color: #666;
   text-align: left; /* 왼쪽 정렬 */
 }
 
 .list-item-author {
-  margin: 0;
+  margin-top: 1px;
+  margin-left: 3px;
   color: #999;
   text-align: left; /* 왼쪽 정렬 */
 }
