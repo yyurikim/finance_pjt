@@ -1,31 +1,24 @@
 <template>
   <div class="carousel-container">
-    <i class="fa-solid fa-arrow-left nav-button left" @click="prevSlide"></i>
-    <Carousel
-      ref="carousel"
-      :items-to-show="8"
-      :items-to-scroll="1"
-      :autoplay-interval="3000"
-      :transition-speed="500"
-      :loop="true"
-      :pause-on-hover="true"
-    >
-      <Slide v-for="(image, index) in images" :key="index">
+    <div class="carousel">
+      <div 
+        v-for="(image, index) in images" 
+        :key="index" 
+        class="carousel-item"
+        @mouseover="handleMouseOver(index)"
+        @mouseleave="handleMouseLeave"
+      >
         <a :href="image.link" target="_blank" rel="noopener noreferrer">
           <img :src="image.src" :alt="image.alt" class="carousel-image" />
         </a>
-      </Slide>
-    </Carousel>
-    <i class="fa-solid fa-arrow-right nav-button right" @click="nextSlide"></i>
+      </div>
+    </div>
   </div>
 </template>
 
+
 <script setup>
 import { ref } from 'vue';
-import { Carousel, Slide } from 'vue3-carousel';
-import 'vue3-carousel/dist/carousel.css';
-
-const carousel = ref(null);
 
 const images = ref([
   { src: new URL('@/assets/banklogo/bnk.png', import.meta.url).href, alt: 'BNK', link: 'https://www.busanbank.co.kr/ib20/mnu/BHP00001' },
@@ -46,61 +39,59 @@ const images = ref([
   { src: new URL('@/assets/banklogo/toss.png', import.meta.url).href, alt: 'Toss', link: 'https://www.tossbank.com/' },
 ]);
 
-const prevSlide = () => {
-  carousel.value.prev();
+const activeIndex = ref(null);
+
+const handleMouseOver = (index) => {
+  activeIndex.value = index;
 };
 
-const nextSlide = () => {
-  carousel.value.next();
+const handleMouseLeave = () => {
+  activeIndex.value = null;
 };
 </script>
+
 
 <style scoped>
 .carousel-container {
   display: flex;
-  align-items: center;
   justify-content: center;
-  position: relative;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  overflow: hidden; /* Prevent overflow */
-  padding: 20px; /* Add padding to match other sections */
+  overflow: hidden;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Add this line to center items horizontally */
+  width: 100%;
+  position: relative;
+  margin-bottom: 4rem;
+}
+
+.carousel-item {
+  position: relative;
+  transition: transform 0.3s ease, z-index 0.3s ease;
+  margin-right: -30px; /* Negative margin to overlap items */
+}
+
+.carousel-item:hover {
+  z-index: 10; /* Bring hovered item to the front */
 }
 
 .carousel-image {
-  width: 80px; /* Adjust the size as needed */
-  height: 80px; /* Adjust the size as needed */
+  width: 100px;
+  height: 100px;
   cursor: pointer;
-  object-fit: contain; /* Ensures the image fits within the specified dimensions */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow to the images */
-  border-radius: 12px; /* Optional: Adds rounded corners */
-  margin: 0 10px; /* Adds margin between images */
-}
-
-.nav-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  z-index: 10;
-  padding: 0.3rem;
-  border-radius: 50%;
+  object-fit: contain;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  background-color: white;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
 }
 
-.nav-button.left {
-  left: 10px;
-}
-
-.nav-button.right {
-  right: 10px;
-}
-
-.slide-transition {
-  transition: transform 1s ease;
+.carousel-item:hover .carousel-image {
+  transform: scale(1.2); /* Scale up the image on hover */
+  margin-right: 0; /* Remove margin on hover */
 }
 </style>

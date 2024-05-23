@@ -164,6 +164,7 @@ export default defineComponent({
 <style scoped>
 .first {
   padding: 80px;
+  width:80%
 }
 
 .switch-row {

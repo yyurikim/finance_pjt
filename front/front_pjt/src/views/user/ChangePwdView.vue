@@ -78,12 +78,13 @@ padding: 24px;
 
 .title-block {
 text-align: center;
+margin-top: 5rem;
 }
 
 .form {
 width: 100%;
-max-width: 500px; /* 최대 너비 설정 */
-margin-top: 16px;
+max-width: 1000px; /* 최대 너비 설정 */
+margin-top: 2rem;
 display: flex;
 flex-direction: column; /* 모든 자식 요소를 세로로 정렬 */
 align-items: center;
@@ -91,7 +92,7 @@ align-items: center;
 
 .form-group {
   width: 100%; /* 부모 요소의 너비를 전부 채우도록 설정 */
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
 }
 
 .form-group label {
@@ -116,7 +117,7 @@ align-items: center;
   width: calc(100% - 16px); /* 입력 필드와 같은 너비를 갖도록 조정 */
   background-color: #4a5568;
   color: white;
-  margin-left: 15px; /*중앙 정렬 안 맞는 거 */
+  margin-left: 3px; /*중앙 정렬 안 맞는 거 */
   padding: 12px;
   border-radius: 4px;
   border: none;
@@ -126,5 +127,6 @@ align-items: center;
 
 .login-prompt {
   font-size: 16px;
+  margin-top: 0.7rem;
 }
 </style>

@@ -2,46 +2,38 @@
   <div class="home">
     <div class="nav-container">
       <nav>
-        <ul v-if="store.isLogin">
-          <li><RouterLink :to="{ name: 'profile' }">Profile</RouterLink></li>
-          <!-- <li><RouterLink :to="{ name: 'signup' }">Signup</RouterLink></li> -->
-          <!-- <li><RouterLink :to="{ name: 'login' }">Login</RouterLink></li> -->
-          <li><RouterLink :to="{ name: 'changepwd' }">Changepwd</RouterLink></li>
-          <li><RouterLink :to="{ name: 'changeinfo' }">Changeinfo</RouterLink></li>
-          <li>
-            <form @submit.prevent="store.logOut">
-              <button type="submit" style="color: white; text-decoration: none;">Logout</button>
+        <ul v-if="isLogin">
+          <li class="bar"><RouterLink :to="{ name: 'profile' }">프로필</RouterLink></li>
+          <li class="bar"><RouterLink :to="{ name: 'changepwd' }">비밀번호 변경</RouterLink></li>
+          <li class="bar"><RouterLink :to="{ name: 'changeinfo' }">회원정보 수정</RouterLink></li>
+          <li class="bar">
+            <form @submit.prevent="logOut">
+              <button type="submit" class="nav-button">로그아웃</button>
             </form>
           </li>
-          <li>
-            <form @submit.prevent="store.deleteUser">
-              <button type="submit" style="color: white; text-decoration: none;">Delete account</button>
+          <li class="bar">
+            <form @submit.prevent="deleteUser">
+              <button type="submit" class="nav-button">회원탈퇴</button>
             </form>
           </li>
         </ul>
         <ul v-else>
-          <!-- <li><RouterLink :to="{ name: 'profile' }">Profile</RouterLink></li> -->
-          <li><RouterLink :to="{ name: 'signup' }">Signup</RouterLink></li>
-          <li><RouterLink :to="{ name: 'login' }">Login</RouterLink></li>
-          <!-- <li><RouterLink :to="{ name: 'test' }">Test</RouterLink></li> -->
-          <!-- <li><RouterLink :to="{ name: 'changepwd' }">Changepwd</RouterLink></li> -->
-          <!-- <li><RouterLink :to="{ name: 'changeinfo' }">Changeinfo</RouterLink></li> -->
+          <li class="bar"><RouterLink :to="{ name: 'signup' }">회원가입</RouterLink></li>
+          <li class="bar"><RouterLink :to="{ name: 'login' }">로그인</RouterLink></li>
         </ul>
       </nav>
     </div>
-    
+
     <section class="title">
       <div class="centered-container">
         <div class="centered">
           <h1>어쩌구저쩌구</h1>
           <h1>우리의 서비스</h1>
-          <v-btn :to="{ name: 'survey' }" class="btn" outlined>
-            <template v-slot:prepend>
-            </template>
+          <!-- <v-btn :to="{ name: 'survey' }" class="btn" outlined>
+            <template v-slot:prepend></template>
             <h4>나의 소비성향 확인하기😁</h4>
-            <template v-slot:append>
-            </template>
-          </v-btn>
+            <template v-slot:append></template>
+          </v-btn> -->
         </div>
       </div>
     </section>
@@ -49,25 +41,21 @@
     <div class="test">
       <section class="link">
         <RouterLink :to="{ name: 'profile' }" class="link-item"><img src="@/assets/icon/profile-icon.png" alt="Profile" />
-        <span>Profile</span></RouterLink>
+        <span>프로필</span></RouterLink>
         <RouterLink :to="{ name: 'map' }" class="link-item"><img src="@/assets/icon/map-icon.png" alt="BankMap" />
-        <span>Map</span></RouterLink>
+        <span>근처 은행</span></RouterLink>
+        <RouterLink :to="{ name: 'bank' }" class="link-item"><img src="@/assets/icon/bankbook.png" alt="Bank" />
+        <span>예적금 상품</span></RouterLink>
         <RouterLink :to="{ name: 'exchange_rate' }" class="link-item"><img src="@/assets/icon/exchange-icon.png" alt="ExchangeRate" />
-        <span>Exchange</span></RouterLink>
+        <span>환율</span></RouterLink>
         <RouterLink :to="{ name: 'community' }" class="link-item"><img src="@/assets/icon/community-icon.png" alt="Community" />
-        <span>Community</span></RouterLink>
+        <span>커뮤니티</span></RouterLink>
+        <RouterLink :to="{ name: 'survey' }" class="link-item"><img src="@/assets/icon/mang1.png" alt="Community" />
+        <span>테스트 바로가기👽</span></RouterLink>
       </section>
 
       <section class="content-section">
-        <div class="service1">
-          <h3>서비스1</h3>
-          <p>전세계 00개국 환율을 한 눈에 확인하기 어쩌구!! 계산해보세요 어쩌구</p>
-        </div>
-
-        <div class="service2">
-          <h3>서비스2</h3>
-          <p>모든 은행의 예적금 상품 비교를 한 눈에 어쩌구</p>
-        </div>
+        <img src="@/assets/text1.png" alt="" class="img1">
       </section>
 
       <section>
@@ -85,13 +73,16 @@ import { useCounterStore } from '@/stores/counter';
 import { onMounted } from 'vue';
 
 const store = useCounterStore();
+const { isLogin, logOut, deleteUser } = store;
 
-onMounted(store)
+onMounted(() => {
+  // Perform any setup if needed
+});
 </script>
 
 <style scoped>
 .home {
-  width: 100%;
+  width: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -100,30 +91,44 @@ onMounted(store)
 .nav-container {
   position: absolute;
   top: 0;
-  width: 100%;
+  width: 78%;
   z-index: 3; /* Ensure the nav is on top */
   display: flex;
   justify-content: center; /* Center the nav container */
   margin-top: 3rem;
   font-size: 1.2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
 }
 
 .nav-container nav ul {
   list-style: none;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  justify-content: center; /* Center the nav items */
   padding: 0;
   margin: 0;
 }
 
 .nav-container nav ul li {
-  margin: 0 1rem;
+  margin: 0 1.6rem;
+  margin-top: 8px;
 }
 
-.nav-container nav ul li a {
+.bar {
+  margin: 0 1.5rem; /* Adjust the margin to align items */
+}
+.nav-button{
+  color: white;
+  margin-top: -7px;
+}
+.nav-container nav ul li a,
+.nav-container nav ul li .nav-link {
   color: white; /* Change the color to white */
   text-decoration: none;
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
 }
 
 .title, .link, .content-section, .carousel {
@@ -131,13 +136,15 @@ onMounted(store)
 }
 
 .title {
-  background: url('@/assets/busan.png') no-repeat center center;
+  background: url('@/assets/test.jpg') no-repeat center center;
+  /* background: url('@/assets/busan.png') no-repeat center center; */
   background-size: cover;
   text-align: center;
   padding: 2rem;
   color: white;
   position: relative;
-  height: 60vh; /* Adjust the height as needed */
+  height: 70vh; /* Adjust the height as needed */
+  /* width: 130vh; */
   z-index: 1; /* Ensure title section is above other content */
 }
 
@@ -188,7 +195,7 @@ onMounted(store)
 .link {
   display: flex;
   justify-content: space-around;
-  padding: 1rem 0;
+  padding: 2.5rem 0;
 }
 
 .link-item {
@@ -199,8 +206,8 @@ onMounted(store)
 }
 
 .link img {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
 }
 
 .link span {
@@ -235,5 +242,10 @@ onMounted(store)
 
 img {
   margin: 30px;
+}
+
+.img1 {
+  width: 100%;
+  margin: 0px;
 }
 </style>
