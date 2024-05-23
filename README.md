@@ -144,7 +144,13 @@
 <br>
 
 4) 커뮤니티 페이지
+![커뮤니티1](https://github.com/yyurikim/finance_pjt/assets/156268560/f97a0c5f-2563-43ac-a33a-1880f9d24ac6)
+![커뮤니티3](https://github.com/yyurikim/finance_pjt/assets/156268560/0e3852b0-ec10-4b2d-8dce-50545a42d5ac)
+
+
+
 5) 환율 계산 페이지
+![image](https://github.com/yyurikim/finance_pjt/assets/156268560/d8d2f1fd-6ac3-4666-8483-b466b74e4757)
 
 <br>
 
@@ -155,6 +161,9 @@
 
 <br>
 7) 프로필 페이지
+
+![image](https://github.com/yyurikim/finance_pjt/assets/156268560/81d6e7f0-7f8c-4afa-87bd-ed08f5d6eed1)
+
 
 
 
