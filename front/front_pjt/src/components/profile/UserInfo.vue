@@ -70,12 +70,12 @@ const formatNumber = (number) => {
 
 
 
-// 팝업을 표시하는 함수
+
 const showPopup = () => {
   showPopupFlag.value = true;
 }
 
-// 팝업을 닫는 함수
+
 const closePopup = () => {
   showPopupFlag.value = false;
 }
@@ -91,11 +91,11 @@ onMounted(() => {
 
 .profile-card-container {
   width: 300px;
-  /* margin-top: 80px; */
+
   padding: 20px;
-  /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */
+
   border-radius: 10px;
-  background-color: #fff; /* 배경색 추가 */
+  background-color: #fff; 
   margin-right: 30px;
 }
 
@@ -108,21 +108,21 @@ onMounted(() => {
 .user-avatar {
   width: 250px;
   height: 250px;
-  border-radius: 70%; /* 원형 이미지 */
+  border-radius: 70%; 
 }
 
 
 .popup {
-  position: fixed; /* 팝업 위치를 고정 */
+  position: fixed; 
   top: 0;
   left: 0;
-  width: 100%; /* 전체 화면을 덮도록 설정 */
+  width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5); /* 배경을 반투명하게 설정 */
-  z-index: 1000; /* 다른 요소들 위에 표시 */
+  background-color: rgba(0, 0, 0, 0.5); 
+  z-index: 1000; 
 }
 
 .popup-content {
@@ -152,8 +152,8 @@ button {
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  margin-top: 20px; /* 버튼 상단 여백 추가 */
-  margin-left: 25%; /* 버튼 중앙 정렬 */
+  margin-top: 20px; 
+  margin-left: 25%; 
 }
 
 button:hover {

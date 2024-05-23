@@ -33,9 +33,7 @@ def get_exchange_rates(request):
   }
   serializer = ExchangeRatesSerializer(data=context['exchange_rates'], many=True)
   if serializer.is_valid():
-    # Delete existing data
     ExchangeRates.objects.all().delete()
-    # Save new data
     serializer.save()
 
     return Response({'exchange_rates':serializer.data,

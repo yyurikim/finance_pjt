@@ -3,14 +3,14 @@
         <div class="title-block">
         <h1>로그인</h1>
             <p class="login-prompt">
-                아직 맹꽁이의 회원이 아니신가요?
+                아직 Mingle의 회원이 아니신가요?
                 <RouterLink to="/signup" class="login-link">회원가입</RouterLink>
             </p>
         </div>
         <form @submit.prevent="logIn" class="form">
             <div class="form-group">
                 <label for="username">아이디</label>
-                <input v-model.trim="username" id="username" placeholder="ex) maengkkong@gmail.com" />
+                <input v-model.trim="username" id="username" placeholder="아이디를 입력해주세요." />
             </div>
             <div class="form-group">
                 <label for="password">비밀번호</label>
@@ -52,6 +52,7 @@ display: flex;
 flex-direction: column;
 align-items: center;
 padding: 24px;
+margin-top:30px;
 }
 
 .title-block {
@@ -60,7 +61,7 @@ text-align: center;
 
 .form {
 width: 100%;
-max-width: 500px; /* 최대 너비 설정 */
+max-width: 800px; /* 최대 너비 설정 */
 margin-top: 16px;
 display: flex;
 flex-direction: column; /* 모든 자식 요소를 세로로 정렬 */
@@ -92,7 +93,7 @@ align-items: center;
 
 .submit-button {
   width: calc(100% - 16px); /* 입력 필드와 같은 너비를 갖도록 조정 */
-  background-color: #4a5568;
+  background-color: rgb(83, 204, 168);
   color: white;
   margin-left: 15px; /*중앙 정렬 안 맞는 거 */
   padding: 12px;

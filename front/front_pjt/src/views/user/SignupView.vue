@@ -3,7 +3,7 @@
     <div class="title-block">
     <h1>회원가입</h1>
     <p class="login-prompt">
-        맹꽁이의 회원이신가요?
+        Mingle의 회원이신가요?
         <RouterLink to="/login" class="login-link">로그인</RouterLink>
     </p>
     </div>
@@ -15,7 +15,7 @@
         </div>
         <div class="form-group">
             <label for="email">이메일</label>
-            <input id="email" v-model.trim="email" type="email" placeholder="ex) maengkkong@gmail.com">
+            <input id="email" v-model.trim="email" type="email" placeholder="ex) mingle@gmail.com">
         </div>
         <div class="form-group">
             <label for="password1">비밀번호</label>
@@ -102,6 +102,7 @@ display: flex;
 flex-direction: column;
 align-items: center;
 padding: 24px;
+margin-top: 30px
 }
 
 .title-block {
@@ -119,8 +120,8 @@ color: #4a5568;
 }
 
 .form {
-width: 100%;
-max-width: 500px;
+width: 300px;
+max-width: 800px;
 margin-top: 16px;
 }
 
@@ -154,7 +155,7 @@ gap: 12px;
 
 .submit-button {
 width: 100%;
-background-color: #4a5568;
+background-color: rgb(83, 204, 168);
 color: white;
 padding: 12px;
 border-radius: 4px;

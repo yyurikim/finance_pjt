@@ -1,7 +1,9 @@
 <template>
   <header :class="{ hidden: isHomeView, whiteBackground: !isHomeView }">
     <nav>
-      <RouterLink :to="{ name: 'home' }" class="logo">Home</RouterLink>
+      <RouterLink :to="{ name: 'home' }" class="logo">
+        <img src="@/assets/minglelogo.png" width="130px">
+      </RouterLink>
       <ul>
         <li><RouterLink :to="{ name: 'profile' }">Profile</RouterLink></li>
         <li><RouterLink :to="{ name: 'bank' }">Bank</RouterLink></li>

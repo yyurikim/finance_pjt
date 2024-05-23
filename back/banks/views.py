@@ -78,9 +78,7 @@ def save_deposit_products(request) :
         }
 
         serializer = DepositOptionsSerializers(data=save_data)
-        # 유효성 검증
         if serializer.is_valid(raise_exception=True):
-            # 유효하다면 저장
             serializer.save()
 
     return JsonResponse({"message": "save_okay!"})
@@ -113,9 +111,7 @@ def save_saving_products(request) :
         }
         
         serializer = SavingSerializers(data=save_data)
-        # 유효성 검증
         if serializer.is_valid(raise_exception=True) :
-            # 유효하다면 저장
             serializer.save()
         
 
@@ -131,7 +127,7 @@ def save_saving_products(request) :
         product = get_object_or_404(Saving, fin_prdt_cd=fin_prdt_cd)
 
         save_data = {
-            'saving_product_id': product.pk,  # 외래 키 필드에는 객체를 직접 할당
+            'saving_product_id': product.pk,  
             'fin_prdt_cd': fin_prdt_cd,
             'intr_rate_type_nm': intr_rate_type_nm,
             'save_trm': save_trm,
@@ -141,9 +137,7 @@ def save_saving_products(request) :
         }
 
         serializer = SavingOptionsSerializers(data=save_data)
-        # 유효성 검증
         if serializer.is_valid(raise_exception=True):
-            # 유효하다면 저장
             serializer.save()
 
     return JsonResponse({"message": "save_okay!"})
@@ -286,15 +280,6 @@ def check_meaningout(request):
         
     return JsonResponse({"message": "check_okay!"})
 
-'''
-1. POST로 요청을 보낸다
- => data를 통해서 변수를 보낼수있음(GET으로 보내도 상관X -> API 요청 보낼 때 주소 건들여야함)
-2. 변수는 username 아니면 pk값을 보낸다
-3. 로그인 여부는
-@permission_classes([IsAuthenticated]) 이걸로 확인 아니면 프론트에서 beforeenter 가드 이용해서 profile 자체 접근 막기
-
-4. object.get.get_or_404(pk=pk) 이용해서 해당 유저의 정보를 가져온다
- '''
 
 @api_view(['GET', 'POST'])
 def recommendation_by_survey(request):
@@ -322,7 +307,7 @@ def recommendation_by_survey(request):
             savings2 = [option.saving_product_id for option in saving_options2]
             savings2 = list(set(savings2))
 
-            savings = savings1[:2] + savings2[:5]
+            savings = savings1[:2] + savings2[:3]
 
             deposit_options1 = Deposit_options.objects.filter(
                 save_trm=term,
@@ -340,7 +325,7 @@ def recommendation_by_survey(request):
             deposits2 = [option.deposit_product_id for option in deposit_options2]
             deposits2 = list(set(deposits2))
 
-            deposits = deposits1[:2] + deposits2[:5]
+            deposits = deposits1[:2] + deposits2[:3]
 
             context = {'term': term}
             serializer = RecSavingSerializer(savings, many=True, context=context)
@@ -361,14 +346,14 @@ def recommendation_by_survey(request):
             ).order_by('-intr_rate')
 
             savings = [option.saving_product_id for option in saving_options]
-            savings = list(set(savings))[:10]
+            savings = list(set(savings))[:5]
             deposit_options = Deposit_options.objects.filter(
                 save_trm=term,
                 deposit_product_id__is_meaningout=False
             ).order_by('-intr_rate')
 
             deposits = [option.deposit_product_id for option in deposit_options]
-            deposits = list(set(deposits))[:10]
+            deposits = list(set(deposits))[:5]
 
             context = {'term': term}
             serializer = RecSavingSerializer(savings, many=True, context=context)
@@ -402,7 +387,7 @@ def recommendation_by_survey(request):
             savings2 = [option.saving_product_id for option in saving_options2]
             savings2 = list(set(savings2))
 
-            savings = savings1[:2] + savings2[:5]
+            savings = savings1[:2] + savings2[:3]
 
             deposit_options1 = Deposit_options.objects.filter(
                 save_trm=term,
@@ -420,7 +405,7 @@ def recommendation_by_survey(request):
             deposits2 = [option.deposit_product_id for option in deposit_options2]
             deposits2 = list(set(deposits2))
 
-            deposits = deposits1[:2] + deposits2[:5]
+            deposits = deposits1[:2] + deposits2[:3]
 
             context = {'term': term}
 
@@ -442,14 +427,14 @@ def recommendation_by_survey(request):
             ).order_by('-intr_rate')
 
             savings = [option.saving_product_id for option in saving_options]
-            savings = list(set(savings))[:10]
+            savings = list(set(savings))[:5]
             deposit_options = Deposit_options.objects.filter(
                 save_trm=term,
                 deposit_product_id__is_meaningout=False
             ).order_by('-intr_rate')
 
             deposits = [option.deposit_product_id for option in deposit_options]
-            deposits = list(set(deposits))[:10]
+            deposits = list(set(deposits))[:5]
 
             context = {'term': term}
 

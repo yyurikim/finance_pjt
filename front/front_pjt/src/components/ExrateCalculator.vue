@@ -76,29 +76,6 @@ import { ref, onMounted, computed, watch } from 'vue';
 import axios from 'axios';
 
 
-import AED from '@/assets/country/AED.jpg';
-import AUD from '@/assets/country/AUD.jpg';
-import BHD from '@/assets/country/BHD.jpg';
-import BND from '@/assets/country/BND.jpg';
-import CAD from '@/assets/country/CAD.jpg';
-import CHF from '@/assets/country/CHF.jpg';
-import CNH from '@/assets/country/CNH.jpg';
-import DKK from '@/assets/country/DKK.jpg';
-import EUR from '@/assets/country/EUR.jpg';
-import GBP from '@/assets/country/GBP.jpg';
-import HKD from '@/assets/country/HKD.jpg';
-import IDR from '@/assets/country/IDR(100).jpg';
-import JPY from '@/assets/country/JPY(100).jpg';
-import KRW from '@/assets/country/KRW.jpg';
-import KWD from '@/assets/country/KWD.jpg';
-import MYR from '@/assets/country/MYR.jpg';
-import NOK from '@/assets/country/NOK.jpg';
-import NZD from '@/assets/country/NZD.jpg';
-import SAR from '@/assets/country/SAR.jpg';
-import SEK from '@/assets/country/SEK.jpg';
-import SGD from '@/assets/country/SGD.jpg';
-import THB from '@/assets/country/THB.jpg';
-import USD from '@/assets/country/USD.jpg';
 
 
 
@@ -181,34 +158,7 @@ if (exchangeAmount.value != null) {
 return null;
 });
 
-const getCountryImage = (cur_unit) => {
-  switch (cur_unit) {
-    case 'AED': return AED;
-    case 'AUD': return AUD;
-    case 'BHD': return BHD;
-    case 'BND': return BND;
-    case 'CAD': return CAD;
-    case 'CHF': return CHF;
-    case 'CNH': return CNH;
-    case 'DKK': return DKK;
-    case 'EUR': return EUR;
-    case 'GBP': return GBP;
-    case 'HKD': return HKD;
-    case 'IDR(100)': return IDR;
-    case 'JPY(100)': return JPY;
-    case 'KRW': return KRW;
-    case 'KWD': return KWD;
-    case 'MYR': return MYR;
-    case 'NOK': return NOK;
-    case 'NZD': return NZD;
-    case 'SAR': return SAR;
-    case 'SEK': return SEK;
-    case 'SGD': return SGD;
-    case 'THB': return THB;
-    case 'USD': return USD;
-    default: return '/path/to/default/image.jpg';  // 기본 이미지
-  }
-}
+
 
 
 onMounted(fetchRates);

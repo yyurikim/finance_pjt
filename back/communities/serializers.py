@@ -46,10 +46,7 @@ class BulletinCommentSerializer(serializers.ModelSerializer):
         model = Bulletin_comment
         fields = '__all__'
         read_only_fields = ('user', 'created_at', 'updated_at')
-    # def update(self, instance, validated_data):
-    #     instance.content = validated_data.get('content', instance.content)
-    #     instance.save()
-    #     return instance
+
 
 # 소비 게시판
 class ConsumerPostSerializer(serializers.ModelSerializer):
