@@ -69,7 +69,6 @@
 ## 데이터베이스 모델링 및 컴포넌트 구조
 
 <img src="https://github.com/yyurikim/finance_pjt/assets/156268560/5ff97c85-fd52-44af-9a00-fe62f03df8a7.png" width="600"/>
-...![erd drawio](https://github.com/yyurikim/finance_pjt/assets/156268560/5ff97c85-fd52-44af-9a00-fe62f03df8a7)
 
 
 ## 개발 일지 및 이슈 관리
@@ -115,15 +114,15 @@
 
 ## 서비스 소개
 
-1. 메인 페이지
+### 1) 메인 페이지
 <img src="https://github.com/yyurikim/finance_pjt/assets/152594481/abfb7d8b-7794-488b-bd8a-af6c83ff2cce.png" width="600"/>
 
 - 로그인 전/후 헤더 구성 변화
 - Carousel : 은행 페이지 바로가기
-
 <br>
+
   
-2) 예적금 비교 페이지
+### 2) 예적금 비교 페이지
 <img src="https://github.com/yyurikim/finance_pjt/assets/152594481/bc26624f-fd51-4948-ba51-c26350616a00.png" width="600"/>
 <img src="https://github.com/yyurikim/finance_pjt/assets/152594481/4bf8466b-9368-41de-842e-756ffe2e4dab.png" width="600"/>
 
@@ -133,7 +132,7 @@
 
 <br>
 
-3) 지도 페이지
+### 3) 지도 페이지
 <img src="https://github.com/yyurikim/finance_pjt/assets/152594481/b1af0e7c-91f5-4672-a473-c67eb9044194.png" width="600"/>
 <img src="https://github.com/yyurikim/finance_pjt/assets/152594481/95f41314-7fbc-4b05-badf-e8b25312946c.png" width="600"/>
 
@@ -143,14 +142,21 @@
 
 <br>
 
-4) 커뮤니티 페이지
-![커뮤니티1](https://github.com/yyurikim/finance_pjt/assets/156268560/f97a0c5f-2563-43ac-a33a-1880f9d24ac6)
-![커뮤니티3](https://github.com/yyurikim/finance_pjt/assets/156268560/0e3852b0-ec10-4b2d-8dce-50545a42d5ac)
+### 4) 커뮤니티 페이지
+<img src="https://github.com/yyurikim/finance_pjt/assets/156268560/f97a0c5f-2563-43ac-a33a-1880f9d24ac6" width="600"/>
+<img src="https://github.com/yyurikim/finance_pjt/assets/156268560/0e3852b0-ec10-4b2d-8dce-50545a42d5ac" width="600"/>
 
+- 자유게시판, 소비게시판, 7일 소비습관 챌린지 게시판에서 글(이미지 포함), 댓글 작성 가능
+- 사세요 / 사지 마세요 버튼(좋아요 기능과 유사)으로 사용자 참여 유도
+- 로그인 한 사용자만 게시글 및 댓글 작성 가능, 게시글 및 댓글 작성자만 수정 및 삭제 가능
 
+<br>
 
 5) 환율 계산 페이지
-![image](https://github.com/yyurikim/finance_pjt/assets/156268560/d8d2f1fd-6ac3-4666-8483-b466b74e4757)
+<img src="https://github.com/yyurikim/finance_pjt/assets/156268560/d8d2f1fd-6ac3-4666-8483-b466b74e4757" width="600"/>
+- 원화에서 다른 통화로, 혹은 다른 통화에서 원화로 양방향 계산 구현
+- 환율 정보는 실시간 반영, 만약 영업일이 아니거나 오전 10시 이전일 경우 이전 영업일 환율 데이터 활용
+- 사용자가 선택한 통화와 원화 간 환율 그래프 제공
 
 <br>
 
@@ -160,15 +166,21 @@
 - 테스트 결과 통해 예적금 상품 추천
 
 <br>
+
 7) 프로필 페이지
+<img src="https://github.com/yyurikim/finance_pjt/assets/156268560/81d6e7f0-7f8c-4afa-87bd-ed08f5d6eed1" width="600"/>
+- 고객 프로필 사진 및 정보 제공
+- 고객 소비 성향에 따른 맞춤 예적금 상품 추천 및 추천에 대한 설명
+- 고객이 가입한 상품, 관심 있는 상품 조회
 
-![image](https://github.com/yyurikim/finance_pjt/assets/156268560/81d6e7f0-7f8c-4afa-87bd-ed08f5d6eed1)
-
-
+<br>
 
 
 ...
 
 ## 소감
+🌴김유리 : 
+
+🎧문자영 : 
 
 ...
