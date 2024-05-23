@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <p>Copyright 2024©mangkkong</p> 
+    <p>Copyright 2024©Mingle</p> 
     <p>All Right Reserved.</p>
   </div>
 </template>

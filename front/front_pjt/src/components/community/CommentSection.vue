@@ -68,9 +68,9 @@ const localUserName = localStorage.getItem('username');
 const fetchComments = async () => {
   try {
     const response = await axios.get(`${store.API_URL}/community/${route.params.boardType}/${route.params.post_id}/comment/`, {
-      headers: {
-        Authorization: `Token ${store.token}`
-      }
+      // headers: {
+      //   Authorization: `Token ${store.token}`
+      // }
     })
     comments.value = response.data
   } catch (error) {

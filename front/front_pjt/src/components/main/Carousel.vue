@@ -64,7 +64,7 @@ const handleMouseLeave = () => {
 .carousel {
   display: flex;
   align-items: center;
-  justify-content: center; /* Add this line to center items horizontally */
+  justify-content: center; 
   width: 100%;
   position: relative;
   margin-bottom: 4rem;
@@ -73,11 +73,11 @@ const handleMouseLeave = () => {
 .carousel-item {
   position: relative;
   transition: transform 0.3s ease, z-index 0.3s ease;
-  margin-right: -30px; /* Negative margin to overlap items */
+  margin-right: -30px; 
 }
 
 .carousel-item:hover {
-  z-index: 10; /* Bring hovered item to the front */
+  z-index: 10; 
 }
 
 .carousel-image {
@@ -91,7 +91,7 @@ const handleMouseLeave = () => {
 }
 
 .carousel-item:hover .carousel-image {
-  transform: scale(1.2); /* Scale up the image on hover */
-  margin-right: 0; /* Remove margin on hover */
+  transform: scale(1.2); 
+  margin-right: 0
 }
 </style>

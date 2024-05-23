@@ -1,28 +1,3 @@
-// import { ref, computed } from 'vue'
-// import { defineStore } from 'pinia'
-// import axios from 'axios'
-// import { useRouter } from 'vue-router'
-// import { useCounterStore } from '@/stores/counter'
-
-// export const useCommunityStore = defineStore('community', () => {
-//     const posts = ref([])
-    
-//     const getPosts = function() {
-//         const counterStore = useCounterStore()
-//         const url = `${useCounterStore.API_URL}/community/`
-//         axios({
-//             method: 'get',
-//             url: url,
-//         }).then((response) => {
-//             posts.value = response.data
-//         }).catch((error) => {
-//             console.error(error)
-//         })
-//     }
-//     return { posts, getPosts}
-// })
-
-// stores/community.js
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import { useCounterStore } from '@/stores/counter';

@@ -27,17 +27,6 @@ class SavingOptionsSerializers(serializers.ModelSerializer) :
         fields = '__all__'
 
 
-# class UserDepositSerializers(serializers.ModelSerializer) :
-#     class Meta :
-#         model = UserDeposit
-#         fields = '__all__'
-
-
-# class UserSavingsSerializers(serializers.ModelSerializer) :
-#     class Meta :
-#         model = UserSavings
-#         fields = '__all__'
-
 class RecommendSerializer(serializers.ModelSerializer):
     class Meta:
         model = Saving
@@ -56,7 +45,7 @@ class RecSavingOptionSerializer(serializers.ModelSerializer):
         return None
 
 class RecSavingSerializer(serializers.ModelSerializer):
-    options = serializers.SerializerMethodField()  # ForeignKey 관계가 saving_option_set으로 설정되어 있다고 가정
+    options = serializers.SerializerMethodField() 
 
     class Meta:
         model = Saving
@@ -64,15 +53,11 @@ class RecSavingSerializer(serializers.ModelSerializer):
 
     def get_options(self, obj):
         term = self.context['term']
-        # term = self.context.get('term', None) # term 값을 context에서 추출
-        # options = obj.saving_option_set.filter(save_trm=term) if term else obj.saving_option_set.all()
-        # return RecSavingOptionSerializer(options, many=True).data
         options = obj.saving_option_set.all()
         filtered_options = [
             RecSavingOptionSerializer(option, context=self.context).data
             for option in options if str(option.save_trm) == term
         ]
-        # Remove any None values from the list
         return [option for option in filtered_options if option is not None]
 
 class RecDepositOptionSerializer(serializers.ModelSerializer):
@@ -82,7 +67,6 @@ class RecDepositOptionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def to_representation(self, instance):
-        # Filter options by term provided in context
         if 'term' in self.context and str(instance.save_trm) == self.context['term']:
             return super().to_representation(instance)
         return None
@@ -100,6 +84,6 @@ class RecDepositSerializer(serializers.ModelSerializer):
             RecDepositOptionSerializer(option, context=self.context).data
             for option in options if str(option.save_trm) == self.context['term']
         ]
-        # Remove any None values from the list
+
         return [option for option in filtered_options if option is not None]
         fields = '__all__'
