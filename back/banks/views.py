@@ -307,7 +307,7 @@ def recommendation_by_survey(request):
             savings2 = [option.saving_product_id for option in saving_options2]
             savings2 = list(set(savings2))
 
-            savings = savings1[:2] + savings2[:3]
+            savings = savings1[:2] + savings2[:5]
 
             deposit_options1 = Deposit_options.objects.filter(
                 save_trm=term,
@@ -325,7 +325,7 @@ def recommendation_by_survey(request):
             deposits2 = [option.deposit_product_id for option in deposit_options2]
             deposits2 = list(set(deposits2))
 
-            deposits = deposits1[:2] + deposits2[:3]
+            deposits = deposits1[:2] + deposits2[:5]
 
             context = {'term': term}
             serializer = RecSavingSerializer(savings, many=True, context=context)
@@ -346,14 +346,14 @@ def recommendation_by_survey(request):
             ).order_by('-intr_rate')
 
             savings = [option.saving_product_id for option in saving_options]
-            savings = list(set(savings))[:5]
+            savings = list(set(savings))[:7]
             deposit_options = Deposit_options.objects.filter(
                 save_trm=term,
                 deposit_product_id__is_meaningout=False
             ).order_by('-intr_rate')
 
             deposits = [option.deposit_product_id for option in deposit_options]
-            deposits = list(set(deposits))[:5]
+            deposits = list(set(deposits))[:7]
 
             context = {'term': term}
             serializer = RecSavingSerializer(savings, many=True, context=context)
@@ -387,7 +387,7 @@ def recommendation_by_survey(request):
             savings2 = [option.saving_product_id for option in saving_options2]
             savings2 = list(set(savings2))
 
-            savings = savings1[:2] + savings2[:3]
+            savings = savings1[:2] + savings2[:5]
 
             deposit_options1 = Deposit_options.objects.filter(
                 save_trm=term,
@@ -405,7 +405,7 @@ def recommendation_by_survey(request):
             deposits2 = [option.deposit_product_id for option in deposit_options2]
             deposits2 = list(set(deposits2))
 
-            deposits = deposits1[:2] + deposits2[:3]
+            deposits = deposits1[:2] + deposits2[:5]
 
             context = {'term': term}
 
@@ -427,14 +427,14 @@ def recommendation_by_survey(request):
             ).order_by('-intr_rate')
 
             savings = [option.saving_product_id for option in saving_options]
-            savings = list(set(savings))[:5]
+            savings = list(set(savings))[:7]
             deposit_options = Deposit_options.objects.filter(
                 save_trm=term,
                 deposit_product_id__is_meaningout=False
             ).order_by('-intr_rate')
 
             deposits = [option.deposit_product_id for option in deposit_options]
-            deposits = list(set(deposits))[:5]
+            deposits = list(set(deposits))[:7]
 
             context = {'term': term}
 
