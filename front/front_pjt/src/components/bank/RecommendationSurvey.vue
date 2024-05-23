@@ -130,7 +130,7 @@ const calculateSimpleInterestMaturity = (principal, annualRate, months) => {
   // 월 이율로 환산
   const monthlyRate = annualRate / 100 / 12;
   // 단리 계산: 원금 + (원금 * 월 이율 * 기간)
-  return principal + (principal * monthlyRate * months);
+  return principal + (principal * monthlyRate * months) * (1-0.154);
 };
 
 const calculateSavingMaturity = (monthlySaving, annualRate, months) => {
@@ -138,7 +138,7 @@ const calculateSavingMaturity = (monthlySaving, annualRate, months) => {
   let total = 0;
   for (let i = 0; i < months; i++) {
     total += monthlySaving;
-    total += total * monthlyRate;  // 이 부분이 각 달마다 이자가 추가되는 방식을 보여줍니다.
+    total += total * monthlyRate * (1-0.154);  // 이 부분이 각 달마다 이자가 추가되는 방식을 보여줍니다.
   }
   return total;
 };
