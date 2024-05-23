@@ -2,7 +2,7 @@
   <div class="app">
     <div class="container">
       <div class="form-group">
-        <label for="comment">댓글 작성</label>
+        <label for="comment" class="left-label">댓글 작성</label>
         <textarea
           id="comment"
           v-model.trim="content"
@@ -11,7 +11,7 @@
           placeholder="댓글을 입력하세요"
           required
         ></textarea>
-        <button @click="createComment" class="btn-sm mt-2">댓글 달기</button>
+        <button @click="createComment" class="btn-sm mt-m1 right-btn">댓글 달기</button>
       </div>
       <div class="comment-list">
         <div v-for="comment in comments" :key="comment.id" class="list-item">
@@ -26,11 +26,15 @@
               <button @click="cancelEdit" class="btn btn-secondary">수정 취소</button>
             </template>
             <template v-else>
-              <h4>{{ comment.user_name }}</h4>
-              <p>{{ comment.content }}</p>
-              <p>{{ new Date(comment.created_at).toLocaleString() }}</p>
-              <button @click="startEdit(comment)" class="btn btn-primary">수정</button>
-              <button @click="deleteComment(comment.id)" class="btn btn-error">삭제</button>
+              <div class="comment-header">
+                <h4>{{ comment.user_name }}</h4>
+                <span class="comment-date">{{ new Date(comment.created_at).toLocaleString() }}</span>
+              </div>
+              <p style="text-align: start;">{{ comment.content }}</p>
+              <div class="comment-actions" v-if="comment.user_name === localUserName">
+                <button @click="startEdit(comment)" class="btn btn-primary">수정</button>
+                <button @click="deleteComment(comment.id)" class="btn btn-error">삭제</button>
+              </div>
             </template>
           </div>
         </div>
@@ -45,6 +49,7 @@
 </template>
 
 
+
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -57,6 +62,8 @@ const comments = ref([])
 const content = ref('')
 const editingCommentId = ref(null)
 const editingCommentContent = ref('')
+const localUserName = localStorage.getItem('username');
+
 
 const fetchComments = async () => {
   try {
@@ -149,8 +156,24 @@ watch([() => route.params.post_id, () => route.params.boardType], fetchComments)
   margin: 0 auto;
 }
 
+.mt-m1{
+  margin-top: -0.5rem;
+}
 .form-group {
   margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.left-label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.right-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .input {
@@ -164,7 +187,7 @@ watch([() => route.params.post_id, () => route.params.boardType], fetchComments)
 
 .btn {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 5px 10px;
   background-color: rgb(83, 204, 168);
   color: white;
   border: none;
@@ -172,7 +195,7 @@ watch([() => route.params.post_id, () => route.params.boardType], fetchComments)
   cursor: pointer;
   text-align: center;
   font-size: 16px;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .btn-sm {
@@ -183,7 +206,7 @@ watch([() => route.params.post_id, () => route.params.boardType], fetchComments)
 }
 
 .btn-primary {
-  background-color: rgb(83, 204, 168);
+  background-color: rgb(93, 135, 212);
   color: white;
 }
 
@@ -222,5 +245,23 @@ watch([() => route.params.post_id, () => route.params.boardType], fetchComments)
 
 .list-item p {
   margin: 0 0 10px;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-date {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.comment-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
 }
 </style>

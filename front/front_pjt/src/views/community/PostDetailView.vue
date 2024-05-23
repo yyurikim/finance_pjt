@@ -1,37 +1,35 @@
 <template>
   <div class="app">
     <div class="container">
-      <div class="row align-center justify-center" style="height: 100vh;">
-        <div class="column col-12">
-          <div class="button-group">
-            <button class="btn" @click="goToPostList">목록으로 돌아가기</button>
-            </div>          
-            <div class="card pa-5">
-            <div v-if="post">
-              <h2 class="card-title">{{ post.title }}</h2>
-              <p class="card-subtitle">작성자: {{ post.user_name }}</p>
-              <p class="card-subtitle">작성 시간: {{ new Date(post.created_at).toLocaleString() }}</p>
-              <p class="card-text">{{ post.content }}</p>
-              <div v-if="post.image_url" class="card-image">
-                <img :src="post.image_url" alt="Post Image" width="300px" height="300px">
-              </div>
-              <div class="card-actions" v-if="post.user_name === localUserName">
-                <button class="btn btn-primary" @click="editPost">수정</button>
-                <button class="btn btn-error" @click="deletePost">삭제</button>
-              </div>
-              <div v-if="route.params.boardType === 'consumer' && post">
-                <VoteButtons :post="post" :postId="route.params.post_id" :boardType="route.params.boardType" @updatePost="handlePostUpdate" />
-              </div>
-            </div>
+      <div class="button-group">
+        <button class="btn" @click="goToPostList">목록으로 돌아가기</button>
+      </div>
+      <div class="card pa-5">
+        <div v-if="post">
+            <h2 class="card-title">{{ post.title }}</h2>
+            <p class="card-subtitle">작성자: {{ post.user_name }}</p>
+            <p class="card-subtitle">작성 시간: {{ new Date(post.created_at).toLocaleString() }}</p>
+            <br>
+            <hr>
+            <br>
+
+          <p class="card-text">{{ post.content }}</p>
+          <div v-if="post.image_url" class="card-image">
+            <img :src="post.image_url" alt="Post Image" width="300px" height="300px">
           </div>
-          <CommentSection :comments="comments" @commentCreated="handleCommentCreated" />
+          <div class="card-actions" v-if="post.user_name === localUserName">
+            <button class="btn btn-primary" @click="editPost">수정</button>
+            <button class="btn btn-error" @click="deletePost">삭제</button>
+          </div>
+          <div v-if="route.params.boardType === 'consumer' && post">
+            <VoteButtons :post="post" :postId="route.params.post_id" :boardType="route.params.boardType" @updatePost="handlePostUpdate" />
+          </div>
         </div>
       </div>
+      <CommentSection :comments="comments" @commentCreated="handleCommentCreated" />
     </div>
   </div>
 </template>
-
-
 
 <script setup>
 import { ref, onMounted } from 'vue';
@@ -49,7 +47,6 @@ const comments = ref([]);
 const currentUserId = ref(store.userInfo);
 const localUserName = localStorage.getItem('username');
 
-
 const fetchPost = async () => {
   try {
     const response = await axios.get(`${store.API_URL}/community/${route.params.boardType}/${route.params.post_id}/`);
@@ -58,15 +55,10 @@ const fetchPost = async () => {
     data.buyit = data.buyit;
     data.dontbuyit = data.dontbuyit;
     post.value = data;
-
-    console.log(data)
-    // 추가된 코드
+    console.log(data);
     if (post.value) {
-      // 값이 제대로 나올 때까지 기다리는 동안 로딩 상태를 표시
       post.value.loading = true;
     }
-
-    // 초기화 후, post 데이터가 설정된 후에 userVote를 설정
     if (data.user_vote) {
       post.value.user_vote = data.user_vote;
     }
@@ -116,7 +108,15 @@ onMounted(async () => {
   await fetchComments();
 });
 </script>
+
 <style scoped>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+
 .app {
   padding: 20px;
 }
@@ -152,15 +152,21 @@ onMounted(async () => {
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 10px;
+  text-align : start;
+  margin-left : 10px
 }
 
 .card-subtitle {
   color: #666;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  text-align: start;
+  margin-left: 10px;
 }
 
 .card-text {
   margin-bottom: 10px;
+  text-align: start;
+  margin-left: 10px;
 }
 
 .card-image img {
@@ -171,8 +177,8 @@ onMounted(async () => {
 
 .card-actions {
   display: flex;
-  justify-content: flex-end; /* 버튼들을 오른쪽으로 정렬 */
-  gap: 10px; /* 버튼 간격 추가 */
+  justify-content: flex-end;
+  gap: 10px;
   margin-top: 10px;
 }
 
@@ -208,7 +214,7 @@ onMounted(async () => {
 
 .button-group {
   display: flex;
-  justify-content: flex-start; /* 왼쪽 정렬 */
+  justify-content: flex-start;
   margin-bottom: 20px;
 }
 </style>

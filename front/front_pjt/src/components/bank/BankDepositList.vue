@@ -23,15 +23,19 @@
             </div>
           
           <v-expansion-panel-text>
-            <div>
+            <div style="text-align: left; font-size: 1.1rem">
               <p>이율: {{ deposit.intr_rate }}%</p>
               <p>특별 조건: {{ deposit.spcl_cnd }}</p>
               <p>기타 정보: {{ deposit.etc_note }}</p>
+              <div style="text-align: right;">
+                <span v-if="counter.joinStatus1[deposit.deposit_id]">가입 완료 </span>
+              <span span v-else>가입하기 </span>
               <i
                 :class="['fa-solid', counter.joinStatus1[deposit.deposit_id] ? 'fa-check' : 'fa-plus']"
                 @click.stop="depositJoin(deposit)"
               ></i>
             </div>
+          </div>
 
           </v-expansion-panel-text>
         </v-expansion-panel>
@@ -329,6 +333,7 @@ h3 {
 
 .deposit-details {
   flex: 1;
+  text-align: left;
 }
 
 .interest-rate {
@@ -362,15 +367,16 @@ button {
   align-items: center;
   margin: 20px auto;
 }
+.fa-regular {
+  color: gray;
+}
 
 .fa-heart {
   cursor: pointer;
-}
-.fa-solid {
   color: red;
 }
-.fa-regular {
-  color: gray;
+.fa-check .fa-plus {
+  color:#2d5792
 }
 
 button {
