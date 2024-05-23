@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <div class="container">
-      <div class="form-group">
+      <div v-if="store.isLogin" class="form-group">
         <label for="comment" class="left-label">댓글 작성</label>
         <textarea
           id="comment"
