@@ -10,6 +10,8 @@
               <div class="deposit-details" @click="selectItem(deposit)">
                 <h3>{{ deposit.fin_prdt_nm }}</h3>
                 <p>{{ deposit.kor_co_nm }}</p>
+                </div>
+                <div class="interest-rate">
                 <p>최고 {{ deposit.intr_rate }}%</p>
               </div>
               <div class="action-buttons">

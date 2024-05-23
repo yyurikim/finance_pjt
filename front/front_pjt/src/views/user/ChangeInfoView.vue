@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title-block">
       <h1>Edit Profile</h1>
-      <p class="login-prompt">프로필 수정 페이지입니다🫡</p>
+      <p class="login-prompt">프로필 수정 페이지입니다😀</p>
     </div>
     <form class="form" @submit.prevent="saveChanges">
       <div class="form-group">
@@ -49,6 +49,7 @@
     </form>
   </div>
 </template>
+
 
 <script>
 import { ref, onMounted } from 'vue'
@@ -164,20 +165,21 @@ export default {
 
 .title-block {
   text-align: center;
+  margin-top: 5rem;
 }
 
 .form {
   width: 100%;
   max-width: 500px; /* 최대 너비 설정 */
   margin-top: 16px;
-  display: flex;
-  flex-direction: column; /* 모든 자식 요소를 세로로 정렬 */
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2개의 열을 생성 */
+  grid-gap: 16px; /* 각 아이템 간격 */
 }
 
 .form-group {
   width: 100%; /* 부모 요소의 너비를 전부 채우도록 설정 */
-  margin-bottom: 24px;
+  margin-bottom: 0.7rem;
 }
 
 .form-group label {
@@ -195,10 +197,9 @@ export default {
 }
 
 .submit-button {
-  width: calc(100% - 16px); /* 입력 필드와 같은 너비를 갖도록 조정 */
+  grid-column: span 2; /* 버튼을 두 개의 열을 모두 차지하도록 설정 */
   background-color: #4a5568;
   color: white;
-  margin-left: 15px; /*중앙 정렬 안 맞는 거 */
   padding: 12px;
   border-radius: 4px;
   border: none;
@@ -208,5 +209,7 @@ export default {
 
 .login-prompt {
   font-size: 16px;
+  margin-top: 0.7rem;
+  margin-bottom: 1rem;
 }
 </style>
