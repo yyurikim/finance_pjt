@@ -1,3 +1,8 @@
+DEBUG=TRUE
+API_KEY=0491a49701086f91c8d061b5d3ac2ccb
+EXR_API_KEY=ju30rWSTYJlFvOI87uL68kfv8BMN9f5V
+
+
 ## 금융 관통 프로젝트
 ## Mingle(밍글)
 
