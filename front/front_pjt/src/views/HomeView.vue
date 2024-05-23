@@ -29,10 +29,15 @@
         <div class="centered">
           <h1>예적금 비교는 Mingle에게 맡기세요.</h1>
           <br>
-          <h1>번거로운 절차 없이</h1>
+          <h2>번거로운 절차 없이,</h2>
           <!-- <br>
           <br> -->
-          <h1>한 번에 비교하고 모두와 공유해요 😉</h1>
+          <div>
+          <h1 class="kang" style="display: inline;">한 번</h1>  
+          <h2 style="display: inline;">에 비교하고  </h2> 
+          <h1 class="kang" style="display: inline;">모두</h1>
+          <h2 style="display: inline;">와 공유해요 😉</h2>
+        </div>
           <!-- <v-btn :to="{ name: 'survey' }" class="btn" outlined>
             <template v-slot:prepend></template>
             <h4>나의 소비성향 확인하기😁</h4>
@@ -184,7 +189,9 @@ onMounted(() => {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Add some shadow for effect */
   border-radius: 10px; /* Optional: Add rounded corners */
 }
-
+.kang{
+  font-size: 30px;
+}
 .btn {
   color: black;
   background-color: #fff;
@@ -218,7 +225,7 @@ onMounted(() => {
 .link span {
   margin-top: -1rem;
   color: black; /* Adjust the color as needed */
-  font-size: 0.9rem; /* Adjust the font size as needed */
+  font-size: 0.9rem; /*Adjust the font size as needed*/
   text-align: center;
 }
 
