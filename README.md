@@ -76,6 +76,11 @@ EXR_API_KEY=ju30rWSTYJlFvOI87uL68kfv8BMN9f5V
 
 <img src="https://github.com/yyurikim/finance_pjt/assets/156268560/5ff97c85-fd52-44af-9a00-fe62f03df8a7.png" width="600"/>
 
+## API 명세서
+
+> 클릭 시 확대 가능
+> 
+<img src="https://github.com/yyurikim/finance_pjt/assets/152594481/4597fba0-eea9-428d-a42d-907f100114f3.png" height="400"/>
 
 ## 개발 일지 및 이슈 관리
 
@@ -183,7 +188,6 @@ EXR_API_KEY=ju30rWSTYJlFvOI87uL68kfv8BMN9f5V
 - 고객이 가입한 상품, 관심 있는 상품 조회
 
 <br>
-
 
 ...
 
